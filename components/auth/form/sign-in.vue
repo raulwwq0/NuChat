@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 const supabase = useSupabaseClient();
-const loading = ref(false);
+const isSendingLink = ref(false);
 const email = ref("");
 const handleLogin = async () => {
     try {
-        loading.value = true;
+        isSendingLink.value = true;
         const { error } = await supabase.auth.signInWithOtp({
             email: email.value,
             options: {
@@ -16,22 +16,56 @@ const handleLogin = async () => {
     } catch (error: any) {
         alert(error.error_description || error.message);
     } finally {
-        loading.value = false;
+        isSendingLink.value = false;
     }
 };
 </script>
 
 <template>
     <form @submit.prevent="handleLogin">
-        <h1>Register</h1>
-        <input type="email" placeholder="Email" v-model="email" />
+        <h1>Sign In</h1>
+        <input type="email" placeholder="Your Email" v-model="email" />
         <input
             type="submit"
-            class="button block"
-            :value="loading ? 'Loading' : 'Send magic link'"
-            :disabled="loading"
+            class="button"
+            :value="isSendingLink ? 'Sending...' : 'Send Magic Link'"
+            :disabled="isSendingLink"
         />
     </form>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #fefefe;
+    padding: 3rem;
+    width: 30%;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(13px);
+    h1 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-family: $title-font;
+    }
+    input {
+        width: 100%;
+        max-width: 500px;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+
+        &.button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}
+</style>
