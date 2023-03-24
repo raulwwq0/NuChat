@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-definePageMeta({
-  middleware: ["empty-profile"],
-})
+setTimeout(() => {
+  navigateTo('/chats');
+}, 3000);
 </script>
 
 <template>
   <div>
-    Page: Processing
+    Processing
   </div>
 </template>
 
