@@ -1,17 +1,7 @@
 @import "~/node_modules/reset-css/sass/reset";
 
-@font-face {
-    font-family: 'Alkatra';
-    src: url('~/assets/fonts/Alkatra-VariableFont_wght.ttf');
-}
-
-@font-face {
-    font-family: 'Rubik';
-    src: url('~/assets/fonts/Rubik-Regular.ttf');
-}
-
 * {
-    font-family: 'Rubik', sans-serif;
+    font-family: $body-font;
 }
 
 body {
