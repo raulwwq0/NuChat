@@ -4,14 +4,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const { data } = await supabase
         .from("profiles")
-        .select(`username, website, avatar_url`)
+        .select(`username, full_name`)
         .eq("id", user.value!.id)
         .single();
 
-    if (!data?.username || !data?.website || !data?.avatar_url) {
-        console.log(data);
-        //return navigateTo("/profile/new");
+    const { username, full_name: fullName } = data!;
+
+    if (!username || !fullName) {
+        return navigateTo("/profile/new");
     }
 
-    return navigateTo("/profile");
+    return navigateTo("/chats");
 });
