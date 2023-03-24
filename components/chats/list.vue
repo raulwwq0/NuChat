@@ -34,6 +34,9 @@ onMounted(async () => {
 
 <template>
   <aside>
+    <section>
+      <AuthLogout />
+    </section>
     <section v-if="!areChatsLoaded">
         <ChatsCard v-for="chat in chats" :key="chat.id" :profile="chat.users[0].profile" />
     </section>
