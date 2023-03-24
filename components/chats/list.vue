@@ -34,13 +34,29 @@ onMounted(async () => {
 
 <template>
   <aside>
-    <ul v-if="!areChatsLoaded">
-      <li v-for="chat in chats" :key="chat.id">
-        <ChatsCard :profile="chat.users[0].profile" />
-      </li>
-    </ul>
-    <p v-else>Loading...</p>
+    <section v-if="!areChatsLoaded">
+        <ChatsCard v-for="chat in chats" :key="chat.id" :profile="chat.users[0].profile" />
+    </section>
+    <span v-else>Loading...</span>
   </aside>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+aside {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: 100vh;
+  width: 30%;
+  background-color: $primary;
+
+  section {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+  }
+}
+</style>
