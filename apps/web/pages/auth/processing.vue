@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-setTimeout(() => {
-  navigateTo('/chats');
-}, 3000);
+navigateTo("/chats");
 </script>
 
 <template>
