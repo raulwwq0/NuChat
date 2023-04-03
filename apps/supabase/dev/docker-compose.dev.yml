@@ -17,8 +17,8 @@ services:
       - '1100:1100' # POP3
   auth:
     environment:
-      - GOTRUE_SMTP_USER=
-      - GOTRUE_SMTP_PASS=
+      - GOTRUE_SMTP_USER=ag21raul@gmail.com
+      - GOTRUE_SMTP_PASS=lsnluabymmmzlsmc
   meta:
     ports:
       - 5555:8080
