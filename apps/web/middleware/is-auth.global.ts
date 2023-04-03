@@ -2,6 +2,7 @@ const notAuthenticatedRoutes = [
     '/', 
     '/auth/sign-in',
     '/auth/processing',
+    '/profile/new',
 ];
 
 export default defineNuxtRouteMiddleware((to, from) => {
