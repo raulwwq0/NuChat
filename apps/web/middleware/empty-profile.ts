@@ -8,6 +8,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         .eq("id", user.value!.id)
         .single();
 
+    if (!data) {
+        return navigateTo("/profile/new");
+    }
+
     const { username, full_name: fullName } = data!;
 
     if (!username || !fullName) {
