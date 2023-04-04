@@ -1,12 +1,12 @@
 {
-  "name": "sonarqube_docker",
+  "name": "@proyecto-integrado/sonarqube",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "npm run sonar:up",
+    "dev": "npm run docker:up && npm run sonar:scan",
     "sonar:scan": "sonar-scanner",
-    "sonar:up": "./prepare-volumes.sh && docker compose up -d --build",
-    "sonar:down": "docker compose down"
+    "docker:up": "./prepare-volumes.sh && docker compose up -d --build",
+    "docker:down": "docker compose down"
   },
   "devDependencies": {
     "sonarqube-scanner": "^3.0.1"
