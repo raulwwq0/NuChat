@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "npm run docker:up && npm run sonar:scan",
+    "dev": "npm run docker:up",
     "sonar:scan": "sonar-scanner",
     "docker:up": "./prepare-volumes.sh && docker compose up -d --build",
     "docker:down": "docker compose down"
