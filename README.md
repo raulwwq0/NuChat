@@ -25,3 +25,14 @@ npm run dev
 ## Usage
 
 `WIP`
+
+---
+
+## Port List
+
+These are the ports where each sub-project is exposed:
+
+- Web (Nuxt): `3000`
+- Supabase (Studio): `3100`
+- Supabase (API): `3200`
+- SonarQube: `3300`
