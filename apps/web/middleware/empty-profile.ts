@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware(async () => {
         return navigateTo('/profile/new')
     }
 
-    const { username, full_name: fullName } = data!
+    const { username, full_name: fullName } = data
 
     if (!username || !fullName) {
         return navigateTo('/profile/new')

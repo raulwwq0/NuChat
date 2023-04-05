@@ -9,5 +9,3 @@
         <AuthFormSignIn />
     </NuxtLayout>
 </template>
-
-<style scoped></style>

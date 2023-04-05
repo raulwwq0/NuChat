@@ -5,5 +5,3 @@
 <template>
     <div>Processing</div>
 </template>
-
-<style scoped></style>

@@ -8,5 +8,3 @@
         {{ user }}
     </div>
 </template>
-
-<style scoped></style>

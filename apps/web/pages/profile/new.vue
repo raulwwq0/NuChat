@@ -3,5 +3,3 @@
 <template>
     <div>Page: COMPLETE YOUR PROFILE</div>
 </template>
-
-<style scoped></style>
