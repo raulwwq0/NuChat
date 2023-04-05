@@ -1,4 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+sonarqubeContainers=`docker ps | grep sonarqube | wc -l`
+
+if (($sonarqubeContainers > 0)); then
+    echo "SonarQube is running. Running scanner."
+    npm run sonar:scan
+else
+    echo "SonarQube is not running. Unable to perform a scan."
+fi
 
