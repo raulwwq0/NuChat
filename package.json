@@ -10,7 +10,6 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "sonar:scan": "cd apps/sonarqube && npm run sonar:scan"
   },
