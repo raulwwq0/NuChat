@@ -1,0 +1,4 @@
+docker
+sonar-project.properties
+node_modules
+package-lock.json

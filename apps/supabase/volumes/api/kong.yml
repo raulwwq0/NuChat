@@ -1,8 +1,8 @@
 _format_version: "1.1"
 
-###
-### Consumers / Users
-###
+#
+# Consumers / Users
+#
 consumers:
   - username: anon
     keyauth_credentials:
@@ -11,20 +11,20 @@ consumers:
     keyauth_credentials:
       - key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q
 
-###
-### Access Control List
-###
+#
+# Access Control List
+#
 acls:
   - consumer: anon
     group: anon
   - consumer: service_role
     group: admin
 
-###
-### API Routes
-###
+#
+# API Routes
+#
 services:
-  ## Open Auth routes
+  # Open Auth routes
   - name: auth-v1-open
     url: http://auth:9999/verify
     routes:
@@ -53,7 +53,7 @@ services:
     plugins:
       - name: cors
 
-  ## Secure Auth routes
+  # Secure Auth routes
   - name: auth-v1
     _comment: "GoTrue: /auth/v1/* -> http://auth:9999/*"
     url: http://auth:9999/
@@ -74,7 +74,7 @@ services:
             - admin
             - anon
 
-  ## Secure REST routes
+  # Secure REST routes
   - name: rest-v1
     _comment: "PostgREST: /rest/v1/* -> http://rest:3000/*"
     url: http://rest:3000/
@@ -95,7 +95,7 @@ services:
             - admin
             - anon
 
-  ## Secure GraphQL routes
+  # Secure GraphQL routes
   - name: graphql-v1
     _comment: "PostgREST: /graphql/v1/* -> http://rest:3000/rpc/graphql"
     url: http://rest:3000/rpc/graphql
@@ -111,7 +111,7 @@ services:
           hide_credentials: true
       - name: request-transformer
         config:
-          add: 
+          add:
             headers:
               - Content-Profile:graphql_public
       - name: acl
@@ -121,7 +121,7 @@ services:
             - admin
             - anon
 
-  ## Secure Realtime routes
+  # Secure Realtime routes
   - name: realtime-v1
     _comment: "Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*"
     url: http://realtime-dev.supabase-realtime:4000/socket/
@@ -142,7 +142,7 @@ services:
             - admin
             - anon
 
-  ## Storage routes: the storage server manages its own auth
+  # Storage routes: the storage server manages its own auth
   - name: storage-v1
     _comment: "Storage: /storage/v1/* -> http://storage:5000/*"
     url: http://storage:5000/
@@ -154,7 +154,7 @@ services:
     plugins:
       - name: cors
 
-  ## Secure Database routes
+  # Secure Database routes
   - name: meta
     _comment: "pg-meta: /pg/* -> http://pg-meta:8080/*"
     url: http://meta:8080/

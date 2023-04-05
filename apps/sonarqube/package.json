@@ -6,7 +6,10 @@
     "dev": "npm run docker:up",
     "sonar:scan": "sonar-scanner",
     "docker:up": "./prepare-volumes.sh && docker compose up -d --build",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "lint": "npm run lintfix:yml && npm run lint:yml",
+    "lint:yml": "eslint --ext .yml .",
+    "lintfix:yml": "prettier '!./docker' --write --list-different . && npm run lint:yml --fix"
   },
   "devDependencies": {
     "sonarqube-scanner": "^3.0.1"
