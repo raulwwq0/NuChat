@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-navigateTo("/chats");
+    navigateTo('/chats')
 </script>
 
 <template>
-  <div>
-    Processing
-  </div>
+    <div>Processing</div>
 </template>
 
 <style scoped></style>

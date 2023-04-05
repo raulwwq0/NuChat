@@ -1,21 +1,28 @@
 {
-  "name": "@proyecto-integrado/web",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "devDependencies": {
-    "@nuxtjs/supabase": "^0.3.1",
-    "nuxt": "^3.3.2",
-    "sass": "^1.60.0",
-    "sass-loader": "^13.2.2"
-  },
-  "dependencies": {
-    "reset-css": "^5.0.1"
-  }
+    "name": "@proyecto-integrado/web",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "lint": "npm run lintfix && npm run lint:js && npm run lint:prettier",
+        "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
+        "lint:prettier": "prettier --check .",
+        "lintfix": "prettier --write --list-different . && npm run lint:js --fix"
+    },
+    "devDependencies": {
+        "@nuxtjs/eslint-config-typescript": "^12.0.0",
+        "@nuxtjs/supabase": "^0.3.1",
+        "@typescript-eslint/parser": "^5.57.1",
+        "nuxt": "^3.3.2",
+        "sass": "^1.60.0",
+        "sass-loader": "^13.2.2",
+        "typescript": "^5.0.3"
+    },
+    "dependencies": {
+        "reset-css": "^5.0.1"
+    }
 }

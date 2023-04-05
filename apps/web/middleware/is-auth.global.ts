@@ -1,23 +1,23 @@
 const notAuthenticatedRoutes = [
-    '/', 
+    '/',
     '/auth/sign-in',
     '/auth/processing',
     '/profile/new',
-];
+]
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(to => {
     // if the route not exists (404)
     if (!to.matched.length) {
-        return;
+        return
     }
 
     if (notAuthenticatedRoutes.includes(to.path)) {
-        return;
+        return
     }
 
-    const user = useSupabaseUser();
+    const user = useSupabaseUser()
 
     if (!user.value) {
-        return '/auth/sign-in';
+        return '/auth/sign-in'
     }
 })
