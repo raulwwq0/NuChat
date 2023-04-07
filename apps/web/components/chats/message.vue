@@ -30,13 +30,11 @@
         display: flex;
         flex-flow: column;
         align-items: flex-end;
-        width: 100%;
         padding: 10px;
         background-color: #000;
         color: #fff;
         border-radius: 10px;
         align-self: flex-start;
-        margin-bottom: 10px;
         max-width: 30%;
         width: auto;
         margin: 10px;

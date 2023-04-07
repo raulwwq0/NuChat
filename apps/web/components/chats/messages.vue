@@ -31,8 +31,8 @@
         if (!messageList.value) return false
         return (
             messageListVerticalScrollPosition.value +
-                messageList.value!.offsetHeight ===
-            messageList.value!.scrollHeight
+                messageList.value.offsetHeight ===
+            messageList.value.scrollHeight
         )
     })
 
