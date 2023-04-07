@@ -23,6 +23,7 @@
         "typescript": "^5.0.3"
     },
     "dependencies": {
+        "date-fns": "^2.29.3",
         "reset-css": "^5.0.1"
     }
 }

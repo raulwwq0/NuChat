@@ -29,5 +29,14 @@
             width: 30%;
             background-color: aliceblue;
         }
+
+        section {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            height: 100%;
+            width: 70%;
+            background-color: antiquewhite;
+        }
     }
 </style>

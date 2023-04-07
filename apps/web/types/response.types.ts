@@ -14,3 +14,11 @@ export type ChatResponse = {
     created_at: string
     users: UserResponse[]
 }
+
+export type MessageResponse = {
+    id: string
+    created_at: string
+    chat_id: string
+    user_id: string
+    content: string
+}
