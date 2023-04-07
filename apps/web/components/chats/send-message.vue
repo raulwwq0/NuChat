@@ -38,6 +38,7 @@
             v-model="messageContent"
             type="text"
             placeholder="Write your message..."
+            @keyup.enter="sendMessage"
         />
         <button
             @click.prevent="sendMessage"
