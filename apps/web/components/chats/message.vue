@@ -13,16 +13,15 @@
         return props.message.user_id === userId
     })
 
-    const formatDate = (timestamp: string) => {
-        const dateObject = new Date(timestamp)
-        return format(dateObject, 'dd-MM-yyyy HH:mm')
-    }
+    const dateFormatted = computed(() => {
+        return format(new Date(props.message.created_at), 'dd/MM/yyyy HH:mm')
+    })
 </script>
 
 <template>
     <article :class="{ 'own-message': isOwnMessage }">
         <div>{{ props.message.content }}</div>
-        <div>{{ formatDate(props.message.created_at) }}</div>
+        <div>{{ dateFormatted }}</div>
     </article>
 </template>
 
