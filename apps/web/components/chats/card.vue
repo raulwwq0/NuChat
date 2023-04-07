@@ -1,12 +1,9 @@
 <script lang="ts" setup>
     import { ProfileResponse } from '~/types/response.types'
 
-    const props = defineProps({
-        profile: {
-            type: Object as PropType<ProfileResponse>,
-            required: true,
-        },
-    })
+    const props = defineProps<{
+        profile: ProfileResponse
+    }>()
 </script>
 
 <template>
