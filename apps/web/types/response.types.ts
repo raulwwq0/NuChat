@@ -16,8 +16,8 @@ export type ChatResponse = {
 }
 
 export type MessageResponse = {
-    id: string
-    created_at: string
+    id?: string
+    created_at?: string
     chat_id: string
     user_id: string
     content: string

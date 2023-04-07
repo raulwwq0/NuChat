@@ -5,6 +5,7 @@
 
     const chatId = useRoute().params.id
     const messages = ref<MessageResponse[]>([])
+    const messagesWatcher = ref()
 
     async function getMessages() {
         return await supabase
@@ -14,9 +15,28 @@
             .order('created_at', { ascending: true })
     }
 
-    onMounted(async () => {
+    async function updateMessages() {
         const { data: messagesResponse } = await getMessages()
         messages.value = messagesResponse!
+    }
+
+    onMounted(async () => {
+        await updateMessages()
+
+        messagesWatcher.value = supabase
+            .channel('custom-all-channel')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'messages' },
+                async () => {
+                    await updateMessages()
+                }
+            )
+            .subscribe()
+    })
+
+    onUnmounted(() => {
+        messagesWatcher.value.unsubscribe()
     })
 </script>
 
@@ -29,6 +49,7 @@
             :message="message"
         />
     </section>
+    <ChatsSendMessage :chat-id="chatId" />
 </template>
 
 <style scoped>
