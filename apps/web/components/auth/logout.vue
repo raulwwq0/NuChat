@@ -19,7 +19,7 @@
         flex-flow: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        height: 50px;
         width: 100%;
         background-color: $primary;
 

@@ -35,21 +35,16 @@
 </script>
 
 <template>
-    <aside>
-        <section>
-            <AuthLogout />
-        </section>
-        <section v-if="!areChatsLoaded">
-            <NuxtLink
-                v-for="chat in chats"
-                :key="chat.id"
-                :to="`/chats/${chat.id}/messages`"
-            >
-                <ChatsCard :profile="chat.users[0].profile" />
-            </NuxtLink>
-        </section>
-        <span v-else>Loading...</span>
-    </aside>
+    <section v-if="!areChatsLoaded">
+        <NuxtLink
+            v-for="chat in chats"
+            :key="chat.id"
+            :to="`/chats/${chat.id}/messages`"
+        >
+            <ChatsCard :profile="chat.users[0].profile" />
+        </NuxtLink>
+    </section>
+    <span v-else>Loading...</span>
 </template>
 
 <style lang="scss" scoped>

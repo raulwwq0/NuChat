@@ -5,9 +5,14 @@
 </script>
 
 <template>
-    <main>
-        <ChatsList />
-    </main>
+    <NuxtLayout name="chats">
+        <template #chatList>
+            <ChatsList />
+        </template>
+        <template #messages>
+            <div>Messages</div>
+        </template>
+    </NuxtLayout>
 </template>
 
 <style lang="scss" scoped>
