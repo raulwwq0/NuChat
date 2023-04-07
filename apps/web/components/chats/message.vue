@@ -14,7 +14,7 @@
     })
 
     const dateFormatted = computed(() => {
-        return format(new Date(props.message.created_at), 'dd/MM/yyyy HH:mm')
+        return format(new Date(props.message.created_at!), 'dd/MM/yyyy HH:mm')
     })
 </script>
 
