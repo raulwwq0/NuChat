@@ -60,7 +60,9 @@
 </script>
 
 <template>
-    <header>Component: chats/messages {{ chatId }}</header>
+    <header>
+        <h1>Chat: {{ chatId }}</h1>
+    </header>
     <section ref="messageList">
         <ChatsMessage
             v-for="message in messages"
@@ -80,8 +82,19 @@
         font-size: 1.5rem;
         font-weight: 600;
         height: 50px;
-        background-color: #fff;
+        background-color: $primary;
         width: 100%;
+        border-radius: 10px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin: 0;
+            padding: 10px;
+            color: #fff;
+        }
     }
 
     section {
@@ -90,7 +103,7 @@
         align-items: center;
         height: 100%;
         width: 100%;
-        background-color: antiquewhite;
+        background-color: #fff;
         overflow-y: scroll;
 
         .down-button {

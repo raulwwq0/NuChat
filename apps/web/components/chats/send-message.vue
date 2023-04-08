@@ -57,7 +57,10 @@
         justify-content: space-evenly;
         height: 75px;
         width: 100%;
-        background-color: aqua;
+        //background-color: aqua;
+        border-top: 1px solid #ccc;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
 
         input {
             height: 50px;
@@ -68,18 +71,25 @@
             font-size: 1.2rem;
         }
 
+        input:focus {
+            outline: none;
+            caret-color: $primary;
+        }
+
         button {
             height: 50px;
             width: 10%;
             border: none;
             border-radius: 5px;
-            background-color: #fff;
+            background-color: $primary;
+            color: #fff;
             font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
 
             &.disabled {
                 background-color: #ccc;
+                color: #000;
                 cursor: not-allowed;
             }
         }

@@ -83,7 +83,9 @@
             align-items: center;
             height: 95%;
             width: 67%;
-            background-color: antiquewhite;
+            //background-color: antiquewhite;
+            border: 1px solid $primary;
+            border-radius: 10px;
         }
     }
 </style>
