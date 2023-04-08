@@ -28,6 +28,7 @@
         "@pinia/nuxt": "^0.4.8",
         "date-fns": "^2.29.3",
         "pinia": "^2.0.34",
-        "reset-css": "^5.0.1"
+        "reset-css": "^5.0.1",
+        "vuetify": "^3.1.13"
     }
 }

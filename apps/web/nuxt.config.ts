@@ -10,6 +10,9 @@ export default defineNuxtConfig({
             },
         ],
     ],
+    build: {
+        transpile: ['vuetify'],
+    },
     css: ['@/assets/style/main.scss'],
     vite: {
         css: {
