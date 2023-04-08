@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-    import { format } from 'date-fns'
-    import { MessageResponse } from '~/types/response.types'
+    import { format } from 'date-fns';
+    import { MessageResponse } from '~/types/response.types';
 
-    const user = useSupabaseUser()
-    const userId = user.value?.id
+    const user = useSupabaseUser();
+    const userId = user.value?.id;
 
     const props = defineProps<{
-        message: MessageResponse
-    }>()
+        message: MessageResponse;
+    }>();
 
     const isOwnMessage = computed(() => {
-        return props.message.user_id === userId
-    })
+        return props.message.user_id === userId;
+    });
 
     const dateFormatted = computed(() => {
-        return format(new Date(props.message.created_at!), 'dd/MM/yyyy HH:mm')
-    })
+        return format(new Date(props.message.created_at!), 'dd/MM/yyyy HH:mm');
+    });
 </script>
 
 <template>

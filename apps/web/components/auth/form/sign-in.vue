@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-    const supabase = useSupabaseClient()
-    const isSendingLink = ref(false)
-    const email = ref('')
+    const supabase = useSupabaseClient();
+    const isSendingLink = ref(false);
+    const email = ref('');
     const handleLogin = async () => {
         try {
-            isSendingLink.value = true
+            isSendingLink.value = true;
             const { error } = await supabase.auth.signInWithOtp({
                 email: email.value,
                 options: {
                     emailRedirectTo: 'http://localhost:3000/auth/processing',
                 },
-            })
-            if (error) throw error
-            alert('Check your email for the login link!')
+            });
+            if (error) throw error;
+            alert('Check your email for the login link!');
         } catch (error: any) {
-            alert(error.error_description || error.message)
+            alert(error.error_description || error.message);
         } finally {
-            isSendingLink.value = false
+            isSendingLink.value = false;
         }
-    }
+    };
 </script>
 
 <template>

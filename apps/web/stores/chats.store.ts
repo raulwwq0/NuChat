@@ -1,1 +1,1 @@
-export const useChatsStore = defineStore('chats', () => {})
+export const useChatsStore = defineStore('chats', () => {});

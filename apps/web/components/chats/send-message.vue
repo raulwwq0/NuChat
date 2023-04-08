@@ -1,34 +1,34 @@
 <script lang="ts" setup>
-    import { MessageResponse } from '~~/types/response.types'
+    import { MessageResponse } from '~~/types/response.types';
 
     const props = defineProps<{
-        chatId: string | string[]
-    }>()
+        chatId: string | string[];
+    }>();
 
-    const supabase = useSupabaseClient()
-    const user = useSupabaseUser()
+    const supabase = useSupabaseClient();
+    const user = useSupabaseUser();
 
-    const userId = computed(() => user.value?.id)
+    const userId = computed(() => user.value?.id);
 
-    const messageContent = ref('')
+    const messageContent = ref('');
 
-    const isMessageEmpty = computed(() => messageContent.value === '')
+    const isMessageEmpty = computed(() => messageContent.value === '');
 
     async function sendMessage() {
-        if (isMessageEmpty.value) return
+        if (isMessageEmpty.value) return;
 
         const message: MessageResponse = {
             chat_id: props.chatId as string,
             user_id: userId.value as string,
             content: messageContent.value,
-        }
+        };
 
         await supabase
             .from('messages')
             .insert([message as never])
-            .single()
+            .single();
 
-        messageContent.value = ''
+        messageContent.value = '';
     }
 </script>
 

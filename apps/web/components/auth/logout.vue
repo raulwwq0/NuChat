@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-    const supabase = useSupabaseClient()
+    const supabase = useSupabaseClient();
 
     const logout = async () => {
-        await supabase.auth.signOut()
-        navigateTo('/auth/sign-in')
-    }
+        await supabase.auth.signOut();
+        navigateTo('/auth/sign-in');
+    };
 </script>
 
 <template>

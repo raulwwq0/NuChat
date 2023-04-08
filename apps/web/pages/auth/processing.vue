@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    navigateTo('/chats')
+    navigateTo('/chats');
 </script>
 
 <template>

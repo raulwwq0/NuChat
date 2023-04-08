@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     definePageMeta({
         title: 'Register Form',
-    })
+    });
 </script>
 
 <template>

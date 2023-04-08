@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-    import { ChatResponse } from '~/types/response.types'
+    import { ChatResponse } from '~/types/response.types';
 
-    const supabase = useSupabaseClient()
-    const user = useSupabaseUser()
+    const supabase = useSupabaseClient();
+    const user = useSupabaseUser();
 
-    const chats = ref<ChatResponse[]>([])
+    const chats = ref<ChatResponse[]>([]);
 
     async function getAllChats() {
         // get all chats where the current user is a member
         const { data: chatIds } = await supabase
             .from('chats')
             .select('id, users:chat_user!inner(user_id)')
-            .eq('users.user_id', user.value!.id)
+            .eq('users.user_id', user.value!.id);
 
         // get all chats with the user profiles without the current user
         return await supabase
@@ -20,18 +20,18 @@
                 '*, users:chat_user!inner(profile:profiles(id, username, full_name, avatar_url))'
             )
             .neq('users.user_id', user.value!.id)
-            .in('id', chatIds?.map(chat => chat.id) || [])
+            .in('id', chatIds?.map(chat => chat.id) || []);
     }
 
-    const areChatsLoaded = computed(() => chats.value.length === 0)
+    const areChatsLoaded = computed(() => chats.value.length === 0);
 
     onMounted(async () => {
-        const { data: chatsData } = await getAllChats()
+        const { data: chatsData } = await getAllChats();
 
         for (const chat of chatsData!) {
-            chats.value.push(chat)
+            chats.value.push(chat);
         }
-    })
+    });
 </script>
 
 <template>

@@ -1,44 +1,44 @@
 <script lang="ts" setup>
-    import { MessageResponse } from '~/types/response.types'
+    import { MessageResponse } from '~/types/response.types';
 
-    const supabase = useSupabaseClient()
+    const supabase = useSupabaseClient();
 
-    const chatId = useRoute().params.id
-    const messages = ref<MessageResponse[]>([])
-    const messagesWatcher = ref()
-    const messageList = ref<HTMLElement>()
-    const { y: messageListVerticalScrollPosition } = useScroll(messageList)
+    const chatId = useRoute().params.id;
+    const messages = ref<MessageResponse[]>([]);
+    const messagesWatcher = ref();
+    const messageList = ref<HTMLElement>();
+    const { y: messageListVerticalScrollPosition } = useScroll(messageList);
 
     async function getMessages() {
         return await supabase
             .from('messages')
             .select('*')
             .eq('chat_id', chatId)
-            .order('created_at', { ascending: true })
+            .order('created_at', { ascending: true });
     }
 
     async function updateMessages() {
-        const { data: messagesResponse } = await getMessages()
-        messages.value = messagesResponse!
+        const { data: messagesResponse } = await getMessages();
+        messages.value = messagesResponse!;
     }
 
     function scrollToBottom() {
         messageListVerticalScrollPosition.value =
-            messageList.value!.scrollHeight
+            messageList.value!.scrollHeight;
     }
 
     const isAtBottom = computed(() => {
-        if (!messageList.value) return false
+        if (!messageList.value) return false;
         return (
             messageListVerticalScrollPosition.value +
                 messageList.value.offsetHeight ===
             messageList.value.scrollHeight
-        )
-    })
+        );
+    });
 
     onMounted(async () => {
-        await updateMessages()
-        scrollToBottom()
+        await updateMessages();
+        scrollToBottom();
 
         messagesWatcher.value = supabase
             .channel('custom-all-channel')
@@ -46,17 +46,17 @@
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'messages' },
                 async () => {
-                    await updateMessages()
-                    if (!isAtBottom.value) return
-                    scrollToBottom()
+                    await updateMessages();
+                    if (!isAtBottom.value) return;
+                    scrollToBottom();
                 }
             )
-            .subscribe()
-    })
+            .subscribe();
+    });
 
     onUnmounted(() => {
-        messagesWatcher.value.unsubscribe()
-    })
+        messagesWatcher.value.unsubscribe();
+    });
 </script>
 
 <template>

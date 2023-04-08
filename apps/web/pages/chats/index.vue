@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     definePageMeta({
         middleware: ['empty-profile'],
-    })
+    });
 </script>
 
 <template>
