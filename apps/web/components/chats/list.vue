@@ -4,6 +4,12 @@
 
     const store = useChatsStore();
     const { chats, areChatsLoaded } = storeToRefs(store);
+    const chatsProfiles = computed(() =>
+        chats.value.map(chat => ({
+            roomId: chat.id,
+            ...chat.users[0].profile,
+        }))
+    );
 
     onMounted(async () => {
         await store.fetchAllUserChats();
@@ -11,15 +17,18 @@
 </script>
 
 <template>
-    <section v-if="!areChatsLoaded">
-        <NuxtLink
-            v-for="chat in chats"
+    <VList lines="one" v-if="!areChatsLoaded">
+        <VListItem
+            v-for="chat in chatsProfiles"
             :key="chat.id"
-            :to="`/chats/${chat.id}/messages`"
+            :title="chat.full_name"
+            :subtitle="`@${chat.username}`"
+            :prepend-avatar="chat.avatar_url"
+            @click="() => navigateTo(`/chats/${chat.roomId}/messages`)"
         >
-            <ChatsCard :profile="chat.users[0].profile" />
-        </NuxtLink>
-    </section>
+            <VDivider />
+        </VListItem>
+    </VList>
     <span v-else>Loading...</span>
 </template>
 
@@ -32,10 +41,7 @@
         width: 30%;
         background-color: $primary;
 
-        section {
-            display: flex;
-            flex-flow: column;
-            align-items: center;
+        .v-list {
             width: 100%;
             height: 100%;
             overflow-y: scroll;
