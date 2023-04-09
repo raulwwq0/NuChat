@@ -41,8 +41,8 @@
             @keyup.enter="sendMessage"
         />
         <button
-            @click.prevent="sendMessage"
             :class="{ disabled: isMessageEmpty }"
+            @click.prevent="sendMessage"
         >
             Send
         </button>

@@ -17,7 +17,7 @@
 </script>
 
 <template>
-    <VList lines="one" v-if="!areChatsLoaded">
+    <VList v-if="!areChatsLoaded" lines="one">
         <VListItem
             v-for="chat in chatsProfiles"
             :key="chat.id"

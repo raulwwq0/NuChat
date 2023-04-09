@@ -70,7 +70,7 @@
             :message="message"
         />
         <span v-if="!messages.length">No messages</span>
-        <button class="down-button" @click="scrollToBottom" v-if="!isAtBottom">
+        <button v-if="!isAtBottom" class="down-button" @click="scrollToBottom">
             Scroll to bottom
         </button>
     </section>

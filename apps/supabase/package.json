@@ -5,8 +5,9 @@
     "dev": "npm run docker:up",
     "docker:up": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml up",
     "docker:down": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml down",
-    "lint": "npm run lintfix:yml && npm run lint:yml",
+    "lint": "npm run lint:yml && npm run lintfix:yml",
     "lint:yml": "eslint --ext .yml .",
-    "lintfix:yml": "prettier '!./volumes/db/data' --write --list-different . && npm run lint:yml --fix"
+    "lint:yml:fix": "eslint --ext .yml . --fix",
+    "lintfix:yml": "prettier '!./volumes/db/data' --write --list-different . && npm run lint:yml"
   }
 }
