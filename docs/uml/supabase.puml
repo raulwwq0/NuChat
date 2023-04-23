@@ -51,10 +51,7 @@ package Authentication {
     Users ||..|| profiles
 }
 
-package Storage {
-    note right of Storage
-        Not used yet...
-    end note
-}
+package Storage {}
+note left of Storage: Not used yet...
 
 @enduml
