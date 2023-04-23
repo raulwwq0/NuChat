@@ -1,4 +1,4 @@
-name: Draw diagrams
+name: Plant UML
 on:
   workflow_dispatch:
   push:
