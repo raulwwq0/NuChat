@@ -4,6 +4,7 @@ export const useChatsStore = defineStore('chats', () => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
     const chats = ref<Chat[]>([]);
+    const chatsWatcher = ref();
     const areChatsLoaded = computed(() => chats.value.length === 0);
 
     async function fetchAllUserChats() {
@@ -23,9 +24,28 @@ export const useChatsStore = defineStore('chats', () => {
         chats.value = [...(chatsResponse || [])];
     }
 
+    function startChatsWatcher() {
+        chatsWatcher.value = supabase
+            .channel('custom-all-channel')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'chat_user' },
+                async () => {
+                    await fetchAllUserChats();
+                }
+            )
+            .subscribe();
+    }
+
+    function stopChatsWatcher() {
+        chatsWatcher.value?.unsubscribe();
+    }
+
     return {
         chats,
         areChatsLoaded,
         fetchAllUserChats,
+        startChatsWatcher,
+        stopChatsWatcher,
     };
 });

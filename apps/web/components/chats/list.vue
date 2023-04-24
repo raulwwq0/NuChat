@@ -7,12 +7,17 @@
     const chatsProfiles = computed(() =>
         chats.value.map(chat => ({
             roomId: chat.id,
-            ...chat.users[0].profile,
+            ...chat.users![0].profile,
         }))
     );
 
     onMounted(async () => {
         await store.fetchAllUserChats();
+        store.startChatsWatcher();
+    });
+
+    onUnmounted(() => {
+        store.stopChatsWatcher();
     });
 </script>
 
