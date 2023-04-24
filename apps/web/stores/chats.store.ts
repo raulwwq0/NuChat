@@ -1,9 +1,9 @@
-import { ChatResponse } from '~/types/response.types';
+import { Chat } from '@/interfaces/chat.interface';
 
 export const useChatsStore = defineStore('chats', () => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
-    const chats = ref<ChatResponse[]>([]);
+    const chats = ref<Chat[]>([]);
     const areChatsLoaded = computed(() => chats.value.length === 0);
 
     async function fetchAllUserChats() {

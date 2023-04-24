@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { MessageResponse } from '~~/types/response.types';
+    import { Message } from '@/interfaces/message.interface';
 
     const props = defineProps<{
         chatId: string | string[];
@@ -17,7 +17,7 @@
     async function sendMessage() {
         if (isMessageEmpty.value) return;
 
-        const message: MessageResponse = {
+        const message: Message = {
             chat_id: props.chatId as string,
             user_id: userId.value as string,
             content: messageContent.value,

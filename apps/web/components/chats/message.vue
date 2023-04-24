@@ -1,12 +1,12 @@
 <script lang="ts" setup>
     import { format } from 'date-fns';
-    import { MessageResponse } from '~/types/response.types';
+    import { Message } from '@/interfaces/message.interface';
 
     const user = useSupabaseUser();
     const userId = user.value?.id;
 
     const props = defineProps<{
-        message: MessageResponse;
+        message: Message;
     }>();
 
     const isOwnMessage = computed(() => {

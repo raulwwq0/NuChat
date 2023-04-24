@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-    import { MessageResponse } from '~/types/response.types';
+    import { Message } from '@/interfaces/message.interface';
 
     const supabase = useSupabaseClient();
 
     const chatId = useRoute().params.id;
-    const messages = ref<MessageResponse[]>([]);
+    const messages = ref<Message[]>([]);
     const messagesWatcher = ref();
     const messageList = ref<HTMLElement>();
     const { y: messageListVerticalScrollPosition } = useScroll(messageList);
