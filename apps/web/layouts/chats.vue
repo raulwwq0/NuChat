@@ -9,7 +9,9 @@
     const menuItems = [
         {
             title: 'New Chat',
-            action: () => {},
+            action: () => {
+                newChatDialog.value = true;
+            },
         },
         {
             title: 'Profile',
@@ -20,6 +22,8 @@
             action: logout,
         },
     ];
+
+    const newChatDialog = ref(false);
 </script>
 
 <template>
@@ -45,6 +49,9 @@
         <section>
             <slot name="messages" />
         </section>
+        <VDialog v-model="newChatDialog">
+            <ChatsFindNew />
+        </VDialog>
     </main>
 </template>
 
