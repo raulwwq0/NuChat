@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+    const config = useRuntimeConfig();
     const supabase = useSupabaseClient();
     const isSendingLink = ref(false);
     const email = ref('');
@@ -8,7 +9,7 @@
             const { error } = await supabase.auth.signInWithOtp({
                 email: email.value,
                 options: {
-                    emailRedirectTo: 'http://localhost:3000/auth/processing',
+                    emailRedirectTo: `${config.public.baseUrl}/auth/processing`,
                 },
             });
             if (error) throw error;

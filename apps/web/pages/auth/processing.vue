@@ -7,7 +7,7 @@
 <template>
     <figure class="loading">
         <img src="@/assets/images/loader.svg" alt="Loading" />
-        <figcaption>Retrieving your chats, please wait...</figcaption>
+        <figcaption>Getting things ready...</figcaption>
     </figure>
 </template>
 
