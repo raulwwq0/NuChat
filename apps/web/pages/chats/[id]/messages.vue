@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     definePageMeta({
-        middleware: ['empty-profile'],
+        middleware: ['authenticated', 'empty-profile'],
     });
 </script>
 
