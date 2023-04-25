@@ -26,7 +26,7 @@ export const useChatsStore = defineStore('chats', () => {
 
     function startChatsWatcher() {
         chatsWatcher.value = supabase
-            .channel('custom-all-channel')
+            .channel('chat-user-channel')
             .on(
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'chat_user' },

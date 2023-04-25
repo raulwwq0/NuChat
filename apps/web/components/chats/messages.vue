@@ -9,8 +9,8 @@
     const messageList = ref<HTMLElement>();
     const { y: messageListVerticalScrollPosition } = useScroll(messageList);
 
-    async function getMessages() {
-        return await supabase
+    function getMessages() {
+        return supabase
             .from('messages')
             .select('*')
             .eq('chat_id', chatId)
@@ -37,25 +37,24 @@
     });
 
     onMounted(async () => {
-        await updateMessages();
-        scrollToBottom();
-
         messagesWatcher.value = supabase
-            .channel('custom-all-channel')
+            .channel('messages-channel')
             .on(
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'messages' },
-                async () => {
-                    await updateMessages();
-                    if (!isAtBottom.value) return;
-                    scrollToBottom();
+                () => {
+                    updateMessages().then(() => {
+                        if (isAtBottom.value) scrollToBottom();
+                    });
                 }
             )
             .subscribe();
+        await updateMessages();
+        scrollToBottom();
     });
 
     onUnmounted(() => {
-        messagesWatcher.value.unsubscribe();
+        messagesWatcher.value!.unsubscribe();
     });
 </script>
 
