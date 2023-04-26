@@ -53,7 +53,7 @@
         scrollToBottom();
     });
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
         messagesWatcher.value!.unsubscribe();
     });
 </script>

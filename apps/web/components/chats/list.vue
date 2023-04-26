@@ -16,7 +16,7 @@
         store.startChatsWatcher();
     });
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
         store.stopChatsWatcher();
     });
 </script>
