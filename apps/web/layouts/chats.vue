@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-    const supabase = useSupabaseClient();
+    const { auth } = useSupabaseClient();
 
     const logout = async () => {
-        await supabase.auth.signOut();
+        await auth.signOut();
         navigateTo('/auth/sign-in');
     };
+
+    const menu = ref(false);
 
     const menuItems = [
         {
@@ -29,9 +31,23 @@
 <template>
     <main>
         <aside>
-            <VMenu>
+            <VMenu v-model="menu">
                 <template #activator="{ props }">
-                    <VBtn color="primary" v-bind="props"> You </VBtn>
+                    <header color="primary" v-bind="props">
+                        <div>You</div>
+                        <div>
+                            <Icon
+                                v-if="!menu"
+                                name="line-md:close-to-menu-alt-transition"
+                                class="menu-icon"
+                            />
+                            <Icon
+                                v-else
+                                name="line-md:menu-to-close-alt-transition"
+                                class="menu-icon"
+                            />
+                        </div>
+                    </header>
                 </template>
                 <VList>
                     <VListItem
@@ -75,12 +91,26 @@
             border: 1px solid $primary;
             border-radius: 10px;
 
-            .v-btn {
+            header {
                 width: 100%;
                 height: 50px;
-                border-radius: 10px;
+                border-radius: 8px;
                 border-bottom-left-radius: 0px;
                 border-bottom-right-radius: 0px;
+                display: flex;
+                flex-flow: row;
+                justify-content: space-between;
+                align-items: center;
+                background-color: $primary;
+                color: #fff;
+
+                div {
+                    margin: 0 20px;
+
+                    .menu-icon {
+                        font-size: 1.2rem;
+                    }
+                }
             }
         }
 
