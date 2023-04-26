@@ -6,7 +6,7 @@
 
 <template>
     <figure class="loading">
-        <img src="@/assets/images/loader.svg" alt="Loading" />
+        <Icon name="svg-spinners:pulse-rings-multiple" class="loading-icon" />
         <figcaption>Getting things ready...</figcaption>
     </figure>
 </template>
@@ -20,8 +20,14 @@
         justify-content: center;
         align-items: center;
 
+        .loading-icon {
+            width: 150px;
+            height: 150px;
+            color: $primary;
+        }
+
         figcaption {
-            margin-top: 1rem;
+            margin-top: 2rem;
             font-size: 1.5rem;
             font-weight: 500;
         }
