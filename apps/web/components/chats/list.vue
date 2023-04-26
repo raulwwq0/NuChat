@@ -34,7 +34,7 @@
             <VDivider />
         </VListItem>
     </VList>
-    <span v-else>Loading...</span>
+    <Icon v-else name="svg-spinners:180-ring" />
 </template>
 
 <style lang="scss" scoped>

@@ -2,6 +2,7 @@
     definePageMeta({
         middleware: ['authenticated', 'empty-profile'],
     });
+    await preloadComponents('ChatsList');
 </script>
 
 <template>

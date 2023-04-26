@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+    preloadRouteComponents('/chats');
     setTimeout(() => {
         navigateTo('/chats');
     }, 500);
