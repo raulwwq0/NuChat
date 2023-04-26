@@ -9,6 +9,7 @@ export default defineNuxtConfig({
                 autoImports: ['defineStore'],
             },
         ],
+        'nuxt-icon',
     ],
     runtimeConfig: {
         public: {

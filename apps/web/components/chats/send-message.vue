@@ -44,7 +44,11 @@
             :class="{ disabled: isMessageEmpty }"
             @click.prevent="sendMessage"
         >
-            Send
+            <Icon
+                v-if="isMessageEmpty"
+                name="ic:baseline-cancel-schedule-send"
+            />
+            <Icon v-else name="ic:baseline-send" />
         </button>
     </section>
 </template>
