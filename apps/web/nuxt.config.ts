@@ -1,3 +1,5 @@
+import vuetify from 'vite-plugin-vuetify';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: [
@@ -10,17 +12,23 @@ export default defineNuxtConfig({
             },
         ],
         'nuxt-icon',
+        (_, nuxt) => {
+            nuxt.hooks.hook('vite:extendConfig', config =>
+                // @ts-ignore
+                config.plugins.push(vuetify())
+            );
+        },
     ],
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
         },
     },
-    build: {
-        transpile: ['vuetify'],
-    },
     css: ['@/assets/style/main.scss'],
     vite: {
+        ssr: {
+            noExternal: ['vuetify'],
+        },
         css: {
             preprocessorOptions: {
                 scss: {
