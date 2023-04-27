@@ -8,6 +8,8 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
+        "docker:up": "docker compose -f docker-compose.yml up -d",
+        "docker:down": "docker compose -f docker-compose.yml down",
         "lint": "npm run lint:js && npm run lint:prettier && npm run lintfix",
         "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
         "lint:js:fix": "eslint --ext \".ts,.vue\" --ignore-path .gitignore . --fix",

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  nuchat:
+    build:
+      context: .
+    image: nuchat_prod
+    container_name: web_nuchat
+    ports:
+      - "3400:8080"
