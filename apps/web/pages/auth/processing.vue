@@ -7,7 +7,11 @@
 
 <template>
     <figure class="loading">
-        <Icon name="svg-spinners:pulse-rings-multiple" class="loading-icon" />
+        <img
+            src="@/assets/images/SvgSpinnersPulseRings3.svg"
+            alt="Loading"
+            class="loading-icon"
+        />
         <figcaption>Getting things ready...</figcaption>
     </figure>
 </template>
@@ -24,7 +28,6 @@
         .loading-icon {
             width: 150px;
             height: 150px;
-            color: $primary;
         }
 
         figcaption {

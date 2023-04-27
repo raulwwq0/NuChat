@@ -34,7 +34,9 @@
             <VDivider />
         </VListItem>
     </VList>
-    <Icon v-else name="svg-spinners:180-ring" />
+    <div v-else>
+        <img src="@/assets/images/SvgSpinnersPulseRings3.svg" alt="Loading" />
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -52,6 +54,12 @@
             overflow-y: scroll;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
         }
     }
 </style>
