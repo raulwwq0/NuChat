@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "npm run docker:up",
-    "prod": "npm run docker:up",
+    "prod": "npm run docker:up -- -d",
     "docker:up": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml up",
     "docker:down": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml down",
     "lint": "npm run lint:yml && npm run lintfix:yml",
