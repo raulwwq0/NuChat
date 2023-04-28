@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17 as build
+FROM node:18-alpine3.17 AS build
 
 RUN apk update && apk upgrade && adduser -D nuchat
 
