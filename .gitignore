@@ -34,6 +34,6 @@ yarn-error.log*
 .turbo
 
 # sonarqube
-sonar-project.properties
+apps/sonarqube/sonar-project.properties
 .sonar
 .scannerwork
