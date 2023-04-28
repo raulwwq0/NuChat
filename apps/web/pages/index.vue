@@ -1,5 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-    <div>Page: Index</div>
+    <main>
+        <h1>NuChat</h1>
+    </main>
 </template>
