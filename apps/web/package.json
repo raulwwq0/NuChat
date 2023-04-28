@@ -8,6 +8,7 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
+        "prod": "npm run build && npm run docker:up",
         "docker:up": "docker compose -f docker-compose.yml up -d",
         "docker:down": "docker compose -f docker-compose.yml down",
         "lint": "npm run lint:js && npm run lint:prettier && npm run lintfix",
