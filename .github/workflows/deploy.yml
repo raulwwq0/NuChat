@@ -18,8 +18,9 @@ jobs:
         key: ${{ secrets.VPS_PRIVATE_KEY }}
         port: ${{ secrets.VPS_PORT }}
         script: |
-          ./nuchat_predeploy.sh
           cd ~/nuchat
           git pull origin main
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh 
           npm ci
           npm run prod
