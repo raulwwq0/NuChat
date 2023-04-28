@@ -7,4 +7,4 @@ services:
     image: nuchat_prod
     container_name: web_nuchat
     ports:
-      - "3400:8080"
+      - "80:8080"
