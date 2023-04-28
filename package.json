@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "prod": "turbo run prod",
+    "prod": "turbo run prod --no-cache --force",
     "lint": "turbo run lint",
     "prepare": "husky install",
     "sonar:scan": "cd apps/sonarqube && npm run sonar:scan"
