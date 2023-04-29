@@ -1,9 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ChatUser } from '~~/interfaces/chat-user.interface';
 
 export const useChat = () => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
-    const chatId = crypto.randomUUID();
+    const chatId = uuidv4();
 
     const alreadyExists = async (userId: string): Promise<ChatUser[]> => {
         const { data: chatUsers, error: chatUsersError } = await supabase
