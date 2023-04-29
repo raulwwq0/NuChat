@@ -4,18 +4,23 @@
 
     const user = useSupabaseUser();
 
-    defineProps({
-        title: {
-            type: String,
-            required: true,
-        },
+    interface ProfileProps {
+        title: string;
+        profile?: Profile;
+    }
+
+    const props = withDefaults(defineProps<ProfileProps>(), {
+        profile: {
+            id: '',
+            full_name: '',
+            username: '',
+            avatar_url: '',
+        } as any,
     });
 
     const profile: Profile = reactive({
-        id: user.value!.id || '',
-        full_name: '',
-        username: '',
-        avatar_url: '',
+        ...props.profile!,
+        id: user.value?.id || '',
     });
 
     const validationSchema = yup.object({
@@ -42,6 +47,7 @@
     <main>
         <h1>{{ $props.title }}</h1>
         <VeeForm :validation-schema="validationSchema" @submit="saveProfile">
+            <label for="full_name">Full Name</label>
             <VeeField
                 v-model="profile.full_name"
                 name="full_name"
@@ -49,6 +55,7 @@
                 placeholder="Full Name"
             />
             <VeeErrorMessage name="full_name" class="error" />
+            <label for="username">Username</label>
             <VeeField
                 v-model="profile.username"
                 name="username"
@@ -56,6 +63,7 @@
                 placeholder="Username"
             />
             <VeeErrorMessage name="username" class="error" />
+            <label for="avatar_url">Avatar URL</label>
             <VeeField
                 v-model="profile.avatar_url"
                 name="avatar_url"
@@ -63,7 +71,7 @@
                 placeholder="Avatar URL"
             />
             <VeeErrorMessage name="avatar_url" class="error" />
-            <button type="submit">Save and Continue</button>
+            <button type="submit">Save</button>
         </VeeForm>
     </main>
 </template>
@@ -87,6 +95,12 @@
             align-items: center;
             justify-content: center;
 
+            label {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                font-size: 1.2rem;
+            }
+
             input {
                 width: 100%;
                 padding: 1rem;
@@ -105,7 +119,7 @@
             button {
                 width: 100%;
                 padding: 1rem;
-                margin-bottom: 1rem;
+                margin-top: 1rem;
                 border: 1px solid #ccc;
                 border-radius: 0.5rem;
                 font-size: 1rem;
