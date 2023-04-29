@@ -10,7 +10,7 @@
 
     const menuItems = [
         {
-            title: 'New Chat',
+            title: 'Find Chats',
             action: () => {
                 newChatDialog.value = true;
             },
@@ -65,8 +65,8 @@
         <section>
             <slot name="messages" />
         </section>
-        <VDialog v-model="newChatDialog">
-            <ChatsFindNew />
+        <VDialog v-model="newChatDialog" class="dialog">
+            <ChatsFindNew @close="newChatDialog = false" />
         </VDialog>
     </main>
 </template>

@@ -8,6 +8,10 @@
     const profilesFound = ref<Profile[]>([]);
     const areUsersFound = computed(() => profilesFound.value.length > 0);
 
+    defineEmits<{
+        close: () => void;
+    }>();
+
     const findUserByUsername = async () => {
         if (username.value.length < 3) {
             profilesFound.value = [];
@@ -60,10 +64,17 @@
                     <VDivider />
                 </VListItem>
             </VList>
-            <span v-else class="no-users-found-message"
-                >Find people by their username</span
-            >
+            <div v-else class="no-users-found-message">
+                <strong>Find already existing chats</strong>
+                <span>or</span>
+                <strong>Search for new ones</strong>
+            </div>
         </section>
+        <Icon
+            name="material-symbols:close-rounded"
+            class="close-icon"
+            @click="$emit('close')"
+        />
     </main>
 </template>
 
@@ -86,10 +97,15 @@
 
             input {
                 width: 80%;
-                padding: 0.5rem;
-                border: 1px solid $primary;
+                padding: 1rem;
+                border: 1px solid #ccc;
                 border-radius: 5px;
                 outline: none;
+                font-size: 1.2rem;
+
+                &:focus {
+                    border-color: $primary;
+                }
             }
         }
 
@@ -100,13 +116,40 @@
             padding: 0 1rem;
 
             .no-users-found-message {
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
                 font-size: 1.2rem;
-                color: $primary;
+                color: #aaa;
                 position: absolute;
                 top: 50%;
                 left: 0;
                 right: 0;
+
+                strong {
+                    font-size: 1.5rem;
+                    color: $primary;
+                }
+
+                span {
+                    margin: 0.5rem;
+                }
+            }
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+
+            &:hover {
+                color: $primary;
+                transition: all 0.2s ease-in-out;
             }
         }
     }
