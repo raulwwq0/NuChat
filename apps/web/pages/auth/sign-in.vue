@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+    definePageMeta({
+        middleware: ['already-authenticated'],
+    });
+
     useServerSeoMeta({
         title: 'NuChat | Sign In',
         description: 'Just a chat app built with Nuxt 3 and Supabase',
