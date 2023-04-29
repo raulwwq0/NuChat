@@ -10,16 +10,17 @@
 
     const menuItems = [
         {
+            icon: 'material-symbols:search-rounded',
             title: 'Find Chats',
-            action: () => {
-                newChatDialog.value = true;
-            },
+            action: () => (newChatDialog.value = true),
         },
         {
+            icon: 'ic:baseline-person-outline',
             title: 'Profile',
             action: () => navigateTo('/profile'),
         },
         {
+            icon: 'lucide:log-out',
             title: 'Logout',
             action: logout,
         },
@@ -49,13 +50,19 @@
                         </div>
                     </header>
                 </template>
-                <VList>
+                <VList class="menu-options">
                     <VListItem
                         v-for="item in menuItems"
                         :key="item.title"
+                        class="menu-option"
                         @click="item.action"
                     >
-                        <VListItemTitle>{{ item.title }}</VListItemTitle>
+                        <div>
+                            <Icon :name="item.icon" class="menu-option-icon" />
+                            <VListItemTitle class="menu-option-title">{{
+                                item.title
+                            }}</VListItemTitle>
+                        </div>
                     </VListItem>
                 </VList>
             </VMenu>
@@ -129,6 +136,25 @@
             //background-color: antiquewhite;
             border: 1px solid $primary;
             border-radius: 10px;
+        }
+    }
+
+    .menu-options {
+        .menu-option div {
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .menu-option-icon {
+                font-size: 1rem;
+                margin-right: 10px;
+            }
+
+            .menu-option-title {
+                font-size: 1rem;
+                width: 90%;
+            }
         }
     }
 </style>
