@@ -11,6 +11,18 @@ export default defineNuxtConfig({
                 autoImports: ['defineStore'],
             },
         ],
+        [
+            '@vee-validate/nuxt',
+            {
+                autoImports: true,
+                componentNames: {
+                    Form: 'VeeForm',
+                    Field: 'VeeField',
+                    FieldArray: 'VeeFieldArray',
+                    ErrorMessage: 'VeeErrorMessage',
+                },
+            },
+        ],
         'nuxt-icon',
         (_, nuxt) => {
             nuxt.hooks.hook('vite:extendConfig', config =>

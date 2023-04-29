@@ -1,5 +1,10 @@
-<script lang="ts" setup></script>
+<script setup lang="ts">
+    useServerSeoMeta({
+        title: 'NuChat | Complete your profile',
+        description: 'Create a new profile',
+    });
+</script>
 
 <template>
-    <div>Page: COMPLETE YOUR PROFILE</div>
+    <AuthFormProfile title="Complete your profile before start chatting" />
 </template>
