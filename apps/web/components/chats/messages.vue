@@ -75,7 +75,13 @@
         />
         <span v-if="!messages.length">No messages</span>
         <button v-if="!isAtBottom" class="down-button" @click="scrollToBottom">
-            Scroll to bottom
+            <Icon
+                name="material-symbols:keyboard-double-arrow-down-rounded"
+                size="1.5rem"
+            />
+            <v-tooltip activator="parent" location="left"
+                >Scroll down</v-tooltip
+            >
         </button>
     </section>
     <ChatsSendMessage :chat-id="chatId" />
@@ -85,7 +91,7 @@
     header {
         font-size: 1.5rem;
         font-weight: 600;
-        height: 75px;
+        height: 60px;
         background-color: $primary;
         width: 100%;
         border-radius: 10px;
@@ -101,8 +107,8 @@
         }
 
         img {
-            width: 75px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
             border-top-left-radius: 10px;
             margin-right: 10px;
         }
@@ -121,11 +127,11 @@
             position: fixed;
             bottom: 0;
             right: 0;
-            margin: 10px;
+            margin: 20px;
             padding: 10px;
             background-color: #000;
             color: #fff;
-            border-radius: 10px;
+            border-radius: 9999px;
             border: none;
             cursor: pointer;
         }

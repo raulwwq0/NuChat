@@ -34,7 +34,7 @@
             <VMenu v-model="menu">
                 <template #activator="{ props }">
                     <header color="primary" v-bind="props">
-                        <div>You</div>
+                        <h2>You</h2>
                         <div>
                             <Icon
                                 v-if="!menu"
@@ -93,7 +93,7 @@
 
             header {
                 width: 100%;
-                height: 50px;
+                height: 60px;
                 border-radius: 8px;
                 border-bottom-left-radius: 0px;
                 border-bottom-right-radius: 0px;
@@ -104,11 +104,17 @@
                 background-color: $primary;
                 color: #fff;
 
+                h2 {
+                    margin: 0 20px;
+                    padding: 10px 0;
+                    font-size: 1.5rem;
+                }
+
                 div {
                     margin: 0 20px;
 
                     .menu-icon {
-                        font-size: 1.2rem;
+                        font-size: 1.4rem;
                     }
                 }
             }

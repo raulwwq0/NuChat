@@ -50,7 +50,7 @@
 
         .v-list {
             width: 100%;
-            height: 100%;
+            height: 90%;
             overflow-y: scroll;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
