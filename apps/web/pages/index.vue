@@ -1,4 +1,9 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+    useServerSeoMeta({
+        title: 'NuChat | Home',
+        description: 'Just a chat app built with Nuxt 3 and Supabase',
+    });
+</script>
 
 <template>
     <main>

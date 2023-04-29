@@ -2,6 +2,10 @@
     definePageMeta({
         middleware: ['authenticated', 'empty-profile'],
     });
+    useSeoMeta({
+        title: 'NuChat | Chats',
+        description: 'Just a chat app built with Nuxt 3 and Supabase',
+    });
     await preloadComponents('ChatsList');
 </script>
 

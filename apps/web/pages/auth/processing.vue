@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+    useServerSeoMeta({
+        title: 'NuChat | Processing',
+        description: 'Just a chat app built with Nuxt 3 and Supabase',
+    });
     preloadRouteComponents('/chats');
     setTimeout(() => {
         navigateTo('/chats');

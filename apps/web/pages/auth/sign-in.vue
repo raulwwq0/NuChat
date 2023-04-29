@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-    definePageMeta({
-        title: 'Register Form',
+    useServerSeoMeta({
+        title: 'NuChat | Sign In',
+        description: 'Just a chat app built with Nuxt 3 and Supabase',
     });
 </script>
 
