@@ -1,5 +1,6 @@
 <script lang="ts" setup>
     import { Message } from '@/interfaces/message.interface';
+    import { Profile } from '~~/interfaces/profile.interface';
 
     const supabase = useSupabaseClient();
 
@@ -8,6 +9,9 @@
     const messagesWatcher = ref();
     const messageList = ref<HTMLElement>();
     const { y: messageListVerticalScrollPosition } = useScroll(messageList);
+    const profile = ref<Profile>(
+        await useProfile().getFromChatId(chatId as string)
+    );
 
     function getMessages() {
         return supabase
@@ -60,7 +64,8 @@
 
 <template>
     <header>
-        <h1>Chat: {{ chatId }}</h1>
+        <img :src="profile.avatar_url" :alt="profile.full_name" />
+        <h1>{{ profile.full_name }}</h1>
     </header>
     <section ref="messageList">
         <ChatsMessage
@@ -80,7 +85,7 @@
     header {
         font-size: 1.5rem;
         font-weight: 600;
-        height: 50px;
+        height: 75px;
         background-color: $primary;
         width: 100%;
         border-radius: 10px;
@@ -93,6 +98,13 @@
             margin: 0;
             padding: 10px;
             color: #fff;
+        }
+
+        img {
+            width: 75px;
+            height: 75px;
+            border-top-left-radius: 10px;
+            margin-right: 10px;
         }
     }
 
