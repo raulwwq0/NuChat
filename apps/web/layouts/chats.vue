@@ -1,8 +1,22 @@
 <script lang="ts" setup>
-    const { auth } = useSupabaseClient();
+    const supabase = useSupabaseClient();
+    const user = useSupabaseUser();
+    const userAvatar = ref('');
+
+    const getUserAvatar = async () => {
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('avatar_url')
+            .eq('id', user.value?.id)
+            .single();
+
+        if (error) throw error;
+
+        userAvatar.value = profile?.avatar_url || userAvatar.value;
+    };
 
     const logout = async () => {
-        await auth.signOut();
+        await supabase.auth.signOut();
         navigateTo('/auth/sign-in');
     };
 
@@ -27,6 +41,8 @@
     ];
 
     const newChatDialog = ref(false);
+
+    onMounted(getUserAvatar);
 </script>
 
 <template>
@@ -35,7 +51,19 @@
             <VMenu v-model="menu">
                 <template #activator="{ props }">
                     <header color="primary" v-bind="props">
-                        <h2>You</h2>
+                        <figure>
+                            <img
+                                v-if="userAvatar"
+                                :src="userAvatar"
+                                alt="Your avatar"
+                            />
+                            <img
+                                v-else
+                                src="@/assets/images/default-avatar.jpg"
+                                alt="Default avatar"
+                            />
+                            <figcaption>You</figcaption>
+                        </figure>
                         <div>
                             <Icon
                                 v-if="!menu"
@@ -111,10 +139,25 @@
                 background-color: $primary;
                 color: #fff;
 
-                h2 {
+                figure {
                     margin: 0 20px;
-                    padding: 10px 0;
-                    font-size: 1.5rem;
+                    display: flex;
+                    flex-flow: row;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 9999px;
+                        object-fit: cover;
+                    }
+
+                    figcaption {
+                        margin: 0 10px;
+                        padding: 10px 0;
+                        font-size: 1.5rem;
+                    }
                 }
 
                 div {
