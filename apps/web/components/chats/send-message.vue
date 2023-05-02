@@ -40,6 +40,17 @@
             placeholder="Write your message..."
             @keyup.enter="sendMessage"
         />
+        <VMenu location="top" open-on-hover>
+            <template #activator="{ props }">
+                <Icon
+                    v-bind="props"
+                    name="fluent-emoji-high-contrast:beaming-face-with-smiling-eyes"
+                    class="emoji-icon"
+                />
+            </template>
+
+            <EmojiPicker @emoji-click="emoji => (messageContent += emoji)" />
+        </VMenu>
         <button
             :class="{ disabled: isMessageEmpty }"
             @click.prevent="sendMessage"
@@ -78,6 +89,18 @@
         input:focus {
             outline: none;
             caret-color: $primary;
+        }
+
+        .emoji-icon {
+            height: 25px;
+            width: 25px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                color: $primary;
+            }
         }
 
         button {
