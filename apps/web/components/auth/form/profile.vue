@@ -41,7 +41,7 @@
 
     const saveProfile = () => {
         useProfile()
-            .update(profile)
+            .upsert(profile)
             .then(() => {
                 navigateTo('/chats');
             })
@@ -63,6 +63,11 @@
                     :src="`${config.public.avatarBucketUrl}/${
                         isCorrectAvatar ? profile.avatar : 'default-avatar'
                     }`"
+                    alt="Your avatar"
+                />
+                <img
+                    v-else
+                    src="@/assets/images/default-avatar.jpg"
                     alt="Your avatar"
                 />
             </label>

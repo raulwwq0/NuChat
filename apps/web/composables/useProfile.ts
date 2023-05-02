@@ -45,10 +45,10 @@ export const useProfile = () => {
         return profile!;
     };
 
-    const update = async (profile: Profile) => {
+    const upsert = async (profile: Profile) => {
         const { error } = await supabase
             .from('profiles')
-            .update(profile as never)
+            .upsert(profile as never)
             .eq('id', user.value!.id);
 
         if (error) {
@@ -59,6 +59,6 @@ export const useProfile = () => {
     return {
         fetchProfile,
         getFromChatId,
-        update,
+        upsert,
     };
 };
