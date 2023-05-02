@@ -8,9 +8,23 @@
 
     const image = ref<File | null>(null);
 
+    const isAllowedImage = (file: File) => {
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        const allowedExtensions = ['png', 'jpeg', 'jpg'];
+        return (
+            allowedTypes.includes(file.type) &&
+            allowedExtensions.includes(file.name.split('.').pop()!)
+        );
+    };
+
     const uploadImage = async (e: Event) => {
         image.value = (e.target as HTMLInputElement).files?.[0] ?? null;
         if (!image.value) return;
+
+        if (!isAllowedImage(image.value)) {
+            alert('Only images are allowed (png, jpeg, jpg)');
+            return;
+        }
 
         const { data, error } = await supabase.storage
             .from('chats')
