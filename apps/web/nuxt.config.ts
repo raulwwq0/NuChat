@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
+            imageBucketUrl: process.env.SUPABASE_CHATS_IMAGES_BUCKET_URL,
         },
     },
     css: ['@/assets/style/main.scss'],

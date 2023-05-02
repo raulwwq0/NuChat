@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-    import { Message } from '@/interfaces/message.interface';
+    import { Message, MessageType } from '@/interfaces/message.interface';
 
     const props = defineProps<{
         chatId: string | string[];
+    }>();
+
+    const emit = defineEmits<{
+        (e: 'message-sent'): void;
     }>();
 
     const supabase = useSupabaseClient();
@@ -21,6 +25,7 @@
             chat_id: props.chatId as string,
             user_id: userId.value as string,
             content: messageContent.value,
+            type: MessageType.TEXT,
         };
 
         await supabase
@@ -29,7 +34,23 @@
             .single();
 
         messageContent.value = '';
+        emit('message-sent');
     }
+
+    const sendImage = async (path: string) => {
+        const message: Message = {
+            chat_id: props.chatId as string,
+            user_id: userId.value as string,
+            content: path,
+            type: MessageType.IMAGE,
+        };
+
+        await supabase
+            .from('messages')
+            .insert([message as never])
+            .single();
+        emit('message-sent');
+    };
 </script>
 
 <template>
@@ -44,13 +65,16 @@
             <template #activator="{ props }">
                 <Icon
                     v-bind="props"
-                    name="fluent-emoji-high-contrast:beaming-face-with-smiling-eyes"
-                    class="emoji-icon"
+                    name="uil:smile"
+                    class="send-message-emoji-icon"
                 />
             </template>
 
-            <EmojiPicker @emoji-click="emoji => (messageContent += emoji)" />
+            <ChatsEmojiPicker
+                @emoji-click="emoji => (messageContent += emoji)"
+            />
         </VMenu>
+        <ChatsUploadImage @image-uploaded="sendImage" />
         <button
             :class="{ disabled: isMessageEmpty }"
             @click.prevent="sendMessage"
@@ -89,18 +113,6 @@
         input:focus {
             outline: none;
             caret-color: $primary;
-        }
-
-        .emoji-icon {
-            height: 25px;
-            width: 25px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-
-            &:hover {
-                color: $primary;
-            }
         }
 
         button {

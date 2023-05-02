@@ -1,7 +1,8 @@
 <script lang="ts" setup>
     import { format } from 'date-fns';
-    import { Message } from '@/interfaces/message.interface';
+    import { Message, MessageType } from '@/interfaces/message.interface';
 
+    const config = useRuntimeConfig();
     const user = useSupabaseUser();
     const userId = user.value?.id;
 
@@ -13,6 +14,14 @@
         return props.message.user_id === userId;
     });
 
+    const isTextMessage = computed(() => {
+        return props.message.type === MessageType.TEXT;
+    });
+
+    const isImageMessage = computed(() => {
+        return props.message.type === MessageType.IMAGE;
+    });
+
     const dateFormatted = computed(() => {
         return format(new Date(props.message.created_at!), 'dd/MM/yyyy HH:mm');
     });
@@ -20,7 +29,15 @@
 
 <template>
     <article :class="{ 'own-message': isOwnMessage }">
-        <div class="content">{{ props.message.content }}</div>
+        <div v-if="isTextMessage" class="content">
+            {{ props.message.content }}
+        </div>
+        <div v-if="isImageMessage" class="content">
+            <img
+                :src="`${config.public.imageBucketUrl}/${props.message.content}`"
+                alt="image"
+            />
+        </div>
         <div class="date">{{ dateFormatted }}</div>
     </article>
 </template>
@@ -35,12 +52,17 @@
         color: #fff;
         border-radius: 10px;
         align-self: flex-start;
-        max-width: 30%;
+        max-width: 50%;
         width: auto;
         margin: 10px;
 
         .content {
             font-size: 1.2rem;
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
         }
 
         .date {

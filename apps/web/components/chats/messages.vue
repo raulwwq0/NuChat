@@ -82,7 +82,7 @@
             <VTooltip activator="parent" location="left">Scroll down</VTooltip>
         </button>
     </section>
-    <ChatsSendMessage :chat-id="chatId" />
+    <ChatsSendMessage :chat-id="chatId" @message-sent="scrollToBottom" />
 </template>
 
 <style lang="scss" scoped>

@@ -7,6 +7,18 @@
     --v-theme-overlay-multiplier: 1;
 }
 
+.send-message-emoji-icon {
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    transition: all 0.2s ease-in-out;
+    width: 25px;
+
+    &:hover {
+        color: $primary;
+    }
+}
+
 html,
 body,
 div,
