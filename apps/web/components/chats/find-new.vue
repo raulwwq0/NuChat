@@ -58,7 +58,7 @@
                     :key="userProfile.id"
                     :title="userProfile.full_name"
                     :subtitle="`@${userProfile.username}`"
-                    :prepend-avatar="userProfile.avatar_url"
+                    :prepend-avatar="userProfile.avatar"
                     @click="createChat(userProfile.id)"
                 >
                     <VDivider />

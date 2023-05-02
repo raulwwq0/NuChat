@@ -3,6 +3,7 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const user = useSupabaseUser();
+    const config = useRuntimeConfig();
 
     interface ProfileProps {
         title: string;
@@ -14,7 +15,7 @@
             id: '',
             full_name: '',
             username: '',
-            avatar_url: '',
+            avatar: '',
         } as any,
     });
 
@@ -26,8 +27,17 @@
     const validationSchema = yup.object({
         full_name: yup.string().required('Full name is required'),
         username: yup.string().required('Username is required'),
-        avatar_url: yup.string().url('Avatar URL must be a valid URL'),
     });
+
+    const isCorrectAvatar = computed(() => typeof profile.avatar === 'string');
+
+    const uploadAvatar = () => {
+        useImageUpload()
+            .upload(profile.avatar, 'avatars')
+            .then((path?: string) => {
+                profile.avatar = path || profile.avatar;
+            });
+    };
 
     const saveProfile = () => {
         useProfile()
@@ -47,6 +57,23 @@
     <main>
         <h1>{{ $props.title }}</h1>
         <VeeForm :validation-schema="validationSchema" @submit="saveProfile">
+            <label for="avatarUrl">
+                <img
+                    v-if="profile.avatar"
+                    :src="`${config.public.avatarBucketUrl}/${
+                        isCorrectAvatar ? profile.avatar : 'default-avatar'
+                    }`"
+                    alt="Your avatar"
+                />
+            </label>
+            <VeeField
+                id="avatarUrl"
+                v-model="profile.avatar"
+                name="avatarUrl"
+                type="file"
+                @change="uploadAvatar"
+            />
+            <VeeErrorMessage name="avatarUrl" class="error" />
             <label for="full_name">Full Name</label>
             <VeeField
                 v-model="profile.full_name"
@@ -63,14 +90,6 @@
                 placeholder="Username"
             />
             <VeeErrorMessage name="username" class="error" />
-            <label for="avatar_url">Avatar URL</label>
-            <VeeField
-                v-model="profile.avatar_url"
-                name="avatar_url"
-                type="text"
-                placeholder="Avatar URL"
-            />
-            <VeeErrorMessage name="avatar_url" class="error" />
             <button type="submit">Save</button>
         </VeeForm>
     </main>
@@ -99,6 +118,26 @@
                 width: 100%;
                 margin-bottom: 0.5rem;
                 font-size: 1.2rem;
+                display: flex;
+                justify-content: center;
+                cursor: pointer;
+
+                &:first-child {
+                    margin-bottom: 3rem;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+
+                img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 9999px;
+                    object-fit: cover;
+                    border: 1px solid #ccc;
+                }
             }
 
             input {
@@ -108,6 +147,10 @@
                 border: 1px solid #ccc;
                 border-radius: 0.5rem;
                 font-size: 1rem;
+            }
+
+            input[type='file'] {
+                display: none;
             }
 
             .error {

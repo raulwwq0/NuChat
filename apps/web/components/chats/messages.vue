@@ -3,6 +3,7 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const supabase = useSupabaseClient();
+    const config = useRuntimeConfig();
 
     const chatId = useRoute().params.id;
     const messages = ref<Message[]>([]);
@@ -74,7 +75,10 @@
 
 <template>
     <header>
-        <img :src="profile.avatar_url" :alt="profile.full_name" />
+        <img
+            :src="`${config.public.avatarBucketUrl}/${profile.avatar}`"
+            :alt="profile.full_name"
+        />
         <h1>{{ profile.full_name }}</h1>
     </header>
     <section ref="messageList">

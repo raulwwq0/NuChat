@@ -35,6 +35,7 @@ export default defineNuxtConfig({
         public: {
             baseUrl: process.env.BASE_URL,
             imageBucketUrl: process.env.SUPABASE_CHATS_IMAGES_BUCKET_URL,
+            avatarBucketUrl: process.env.SUPABASE_AVATARS_IMAGES_BUCKET_NAME,
         },
     },
     css: ['@/assets/style/main.scss'],

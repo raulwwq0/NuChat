@@ -2,6 +2,7 @@
     import { storeToRefs } from 'pinia';
     import { useChatsStore } from '~~/stores/chats.store';
 
+    const config = useRuntimeConfig();
     const store = useChatsStore();
     const { chats, areChatsLoaded } = storeToRefs(store);
     const chatsProfiles = computed(() =>
@@ -28,7 +29,7 @@
             :key="chat.id"
             :title="chat.full_name"
             :subtitle="`@${chat.username}`"
-            :prepend-avatar="chat.avatar_url"
+            :prepend-avatar="`${config.public.avatarBucketUrl}/${chat.avatar}`"
             @click="() => navigateTo(`/chats/${chat.roomId}/messages`)"
         >
             <VDivider />

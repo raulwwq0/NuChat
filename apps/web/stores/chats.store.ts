@@ -16,7 +16,7 @@ export const useChatsStore = defineStore('chats', () => {
         const { data: chatsResponse } = await supabase
             .from('chats')
             .select(
-                '*, users:chat_user!inner(profile:profiles(id, username, full_name, avatar_url))'
+                '*, users:chat_user!inner(profile:profiles(id, username, full_name, avatar))'
             )
             .neq('users.user_id', user.value!.id)
             .in('id', chatIds?.map(chat => chat.id) || []);
