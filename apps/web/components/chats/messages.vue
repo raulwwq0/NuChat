@@ -8,7 +8,10 @@
     const messages = ref<Message[]>([]);
     const messagesWatcher = ref();
     const messageList = ref<HTMLElement>();
-    const { y: messageListVerticalScrollPosition } = useScroll(messageList);
+    const scrollBehavior = ref<'smooth' | 'auto'>('auto');
+    const { y: messageListVerticalScrollPosition } = useScroll(messageList, {
+        behavior: scrollBehavior,
+    });
     const profile = ref<Profile>(
         await useProfile().getFromChatId(chatId as string)
     );
@@ -33,10 +36,16 @@
 
     const isAtBottom = computed(() => {
         if (!messageList.value) return false;
+        const pxMarginOfError = 15;
         return (
             messageListVerticalScrollPosition.value +
-                messageList.value.offsetHeight ===
-            messageList.value.scrollHeight
+                messageList.value.offsetHeight -
+                messageList.value.scrollHeight <=
+                pxMarginOfError &&
+            messageListVerticalScrollPosition.value +
+                messageList.value.offsetHeight -
+                messageList.value.scrollHeight >=
+                -pxMarginOfError
         );
     });
 
@@ -55,6 +64,7 @@
             .subscribe();
         await updateMessages();
         scrollToBottom();
+        scrollBehavior.value = 'smooth';
     });
 
     onBeforeUnmount(() => {
