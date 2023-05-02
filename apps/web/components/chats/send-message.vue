@@ -40,7 +40,7 @@
             placeholder="Write your message..."
             @keyup.enter="sendMessage"
         />
-        <VMenu location="top" open-on-hover>
+        <VMenu location="top" open-on-hover :close-on-content-click="false">
             <template #activator="{ props }">
                 <Icon
                     v-bind="props"
