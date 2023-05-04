@@ -2,9 +2,9 @@
     import { format } from 'date-fns';
     import { Message, MessageType } from '@/interfaces/message.interface';
 
-    const config = useRuntimeConfig();
     const user = useSupabaseUser();
     const userId = user.value?.id;
+    const imageUrl = ref<string>('');
 
     const props = defineProps<{
         message: Message;
@@ -25,6 +25,12 @@
     const dateFormatted = computed(() => {
         return format(new Date(props.message.created_at!), 'dd/MM/yyyy HH:mm');
     });
+
+    onMounted(() => {
+        useBucket('chats')
+            .get(props.message.content)
+            .then(url => (imageUrl.value = url));
+    });
 </script>
 
 <template>
@@ -33,10 +39,7 @@
             {{ props.message.content }}
         </div>
         <div v-if="isImageMessage" class="content">
-            <img
-                :src="`${config.public.imageBucketUrl}/${props.message.content}`"
-                alt="image"
-            />
+            <img :src="imageUrl" alt="image" />
         </div>
         <div class="date">{{ dateFormatted }}</div>
     </article>
