@@ -628,115 +628,24 @@ GRANT ALL ON TABLE public.profiles TO authenticated;
 GRANT ALL ON TABLE public.profiles TO service_role;
 
 
+ALTER PUBLICATION supabase_realtime OWNER TO postgres;
 
--- CREATE TABLE storage.objects (
---     id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
---     bucket_id text,
---     name text,
---     owner uuid,
---     created_at timestamp with time zone DEFAULT now(),
---     updated_at timestamp with time zone DEFAULT now(),
---     last_accessed_at timestamp with time zone DEFAULT now(),
---     metadata jsonb,
---     path_tokens text[] GENERATED ALWAYS AS (string_to_array(name, '/'::text)) STORED
--- );
+--
+-- Name: supabase_realtime chat_user; Type: PUBLICATION TABLE; Schema: public; Owner: postgres
+--
+
+ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.chat_user;
 
 
--- ALTER TABLE storage.objects OWNER TO supabase_storage_admin;
+--
+-- Name: supabase_realtime chats; Type: PUBLICATION TABLE; Schema: public; Owner: postgres
+--
 
--- ALTER TABLE storage.buckets ADD COLUMN "public" boolean default false;
-
--- COPY storage.migrations (id, name, hash, executed_at) FROM stdin;
--- 0	create-migrations-table	e18db593bcde2aca2a408c4d1100f6abba2195df	2023-04-04 18:44:24.28388
--- 1	initialmigration	6ab16121fbaa08bbd11b712d05f358f9b555d777	2023-04-04 18:44:24.288125
--- 2	pathtoken-column	49756be03be4c17bb85fe70d4a861f27de7e49ad	2023-04-04 18:44:24.291914
--- 3	add-migrations-rls	bb5d124c53d68635a883e399426c6a5a25fc893d	2023-04-04 18:44:24.310352
--- 4	add-size-functions	6d79007d04f5acd288c9c250c42d2d5fd286c54d	2023-04-04 18:44:24.313847
--- 5	change-column-name-in-get-size	fd65688505d2ffa9fbdc58a944348dd8604d688c	2023-04-04 18:44:24.318905
--- 6	add-rls-to-buckets	63e2bab75a2040fee8e3fb3f15a0d26f3380e9b6	2023-04-04 18:44:24.32453
--- 7	add-public-to-buckets	82568934f8a4d9e0a85f126f6fb483ad8214c418	2023-04-04 18:44:24.335427
--- 8	fix-search-function	1a43a40eddb525f2e2f26efd709e6c06e58e059c	2023-04-04 18:44:24.339751
--- 9	search-files-search-function	34c096597eb8b9d077fdfdde9878c88501b2fafc	2023-04-04 18:44:24.344085
--- 10	add-trigger-to-auto-update-updated_at-column	37d6bb964a70a822e6d37f22f457b9bca7885928	2023-04-04 18:44:24.350713
--- \.
-
--- COPY storage.buckets (id, name, owner, created_at, updated_at, public) FROM stdin;
--- avatars	avatars	\N	2023-05-02 14:54:20.929113+00	2023-05-02 14:54:20.929113+00	t
--- chats	chats	\N	2023-05-02 14:03:15.138466+00	2023-05-02 14:03:15.138466+00	t
--- \.
-
--- COPY storage.objects (id, bucket_id, name, owner, created_at, updated_at, last_accessed_at, metadata) FROM stdin;
--- d90c14be-5c48-4d0e-a528-ff82a400448a	avatars	default-avatar	\N	2023-05-02 16:42:25.681213+00	2023-05-02 16:43:01.690491+00	2023-05-02 16:43:01.68+00	{"eTag": "\\"7cf2bdce2f90dd09d06d996e8734661e\\"", "size": 1830, "mimetype": "image/jpeg", "cacheControl": "max-age=3600", "lastModified": "2023-05-02T16:43:01.682Z", "contentLength": 1830, "httpStatusCode": 200}
--- \.
+ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.chats;
 
 
--- --
--- -- Name: search(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: supabase_storage_admin
--- --
+--
+-- Name: supabase_realtime messages; Type: PUBLICATION TABLE; Schema: public; Owner: postgres
+--
 
--- CREATE FUNCTION storage.search(prefix text, bucketname text, limits integer DEFAULT 100, levels integer DEFAULT 1, offsets integer DEFAULT 0, search text DEFAULT ''::text, sortcolumn text DEFAULT 'name'::text, sortorder text DEFAULT 'asc'::text) RETURNS TABLE(name text, id uuid, updated_at timestamp with time zone, created_at timestamp with time zone, last_accessed_at timestamp with time zone, metadata jsonb)
---     LANGUAGE plpgsql STABLE
---     AS $_$
--- declare
---   v_order_by text;
---   v_sort_order text;
--- begin
---   case
---     when sortcolumn = 'name' then
---       v_order_by = 'name';
---     when sortcolumn = 'updated_at' then
---       v_order_by = 'updated_at';
---     when sortcolumn = 'created_at' then
---       v_order_by = 'created_at';
---     when sortcolumn = 'last_accessed_at' then
---       v_order_by = 'last_accessed_at';
---     else
---       v_order_by = 'name';
---   end case;
-
---   case
---     when sortorder = 'asc' then
---       v_sort_order = 'asc';
---     when sortorder = 'desc' then
---       v_sort_order = 'desc';
---     else
---       v_sort_order = 'asc';
---   end case;
-
---   v_order_by = v_order_by || ' ' || v_sort_order;
-
---   return query execute
---     'with folders as (
---        select path_tokens[$1] as folder
---        from storage.objects
---          where objects.name ilike $2 || $3 || ''%''
---            and bucket_id = $4
---            and array_length(regexp_split_to_array(objects.name, ''/''), 1) <> $1
---        group by folder
---        order by folder ' || v_sort_order || '
---      )
---      (select folder as "name",
---             null as id,
---             null as updated_at,
---             null as created_at,
---             null as last_accessed_at,
---             null as metadata from folders)
---      union all
---      (select path_tokens[$1] as "name",
---             id,
---             updated_at,
---             created_at,
---             last_accessed_at,
---             metadata
---      from storage.objects
---      where objects.name ilike $2 || $3 || ''%''
---        and bucket_id = $4
---        and array_length(regexp_split_to_array(objects.name, ''/''), 1) = $1
---      order by ' || v_order_by || ')
---      limit $5
---      offset $6' using levels, prefix, search, bucketname, limits, offsets;
--- end;
--- $_$;
-
-
--- ALTER FUNCTION storage.search(prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text) OWNER TO supabase_storage_admin;
+ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.messages;
