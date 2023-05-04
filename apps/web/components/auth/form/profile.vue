@@ -3,7 +3,6 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const user = useSupabaseUser();
-    const config = useRuntimeConfig();
 
     interface ProfileProps {
         title: string;
@@ -24,18 +23,23 @@
         id: user.value?.id || '',
     });
 
+    const userAvatar = ref<string>('');
+
     const validationSchema = yup.object({
         full_name: yup.string().required('Full name is required'),
         username: yup.string().required('Username is required'),
     });
 
-    const isCorrectAvatar = computed(() => typeof profile.avatar === 'string');
-
     const uploadAvatar = () => {
-        useImageUpload()
-            .upload(profile.avatar, 'avatars')
+        useBucket('avatars')
+            .upload(profile.avatar)
             .then((path?: string) => {
                 profile.avatar = path || profile.avatar;
+            })
+            .then(() => {
+                useBucket('avatars')
+                    .get(profile.avatar)
+                    .then((url: string) => (userAvatar.value = url));
             });
     };
 
@@ -51,6 +55,12 @@
                 }
             });
     };
+
+    onMounted(() => {
+        useBucket('avatars')
+            .get(profile.avatar)
+            .then((url: string) => (userAvatar.value = url));
+    });
 </script>
 
 <template>
@@ -59,15 +69,7 @@
         <VeeForm :validation-schema="validationSchema" @submit="saveProfile">
             <label for="avatarUrl">
                 <img
-                    v-if="profile.avatar"
-                    :src="`${config.public.avatarBucketUrl}/${
-                        isCorrectAvatar ? profile.avatar : 'default-avatar'
-                    }`"
-                    alt="Your avatar"
-                />
-                <img
-                    v-else
-                    src="@/assets/images/default-avatar.jpg"
+                    :src="useDefaultAvatar().ifNeeded(userAvatar)"
                     alt="Your avatar"
                 />
             </label>

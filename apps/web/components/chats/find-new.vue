@@ -40,6 +40,14 @@
         );
     };
 
+    watch(profilesFound, () => {
+        for (const profile of profilesFound.value) {
+            useBucket('avatars')
+                .get(profile.avatar)
+                .then(url => (profile.avatar = url));
+        }
+    });
+
     const createChat = async (profileId: string) => {
         const chatId = await useChat().create(profileId);
         navigateTo(`/chats/${chatId}/messages`);
@@ -58,7 +66,9 @@
                     :key="userProfile.id"
                     :title="userProfile.full_name"
                     :subtitle="`@${userProfile.username}`"
-                    :prepend-avatar="userProfile.avatar"
+                    :prepend-avatar="
+                        useDefaultAvatar().ifNeeded(userProfile.avatar)
+                    "
                     @click="createChat(userProfile.id)"
                 >
                     <VDivider />

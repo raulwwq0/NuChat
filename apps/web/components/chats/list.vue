@@ -2,18 +2,27 @@
     import { storeToRefs } from 'pinia';
     import { useChatsStore } from '~~/stores/chats.store';
 
-    const config = useRuntimeConfig();
     const store = useChatsStore();
     const { chats, areChatsLoaded } = storeToRefs(store);
-    const chatsProfiles = computed(() =>
+
+    const chatsProfilesWithRoomId = () =>
         chats.value.map(chat => ({
             roomId: chat.id,
             ...chat.users![0].profile,
-        }))
-    );
+        }));
 
-    onMounted(async () => {
-        await store.fetchAllUserChats();
+    const chatsProfiles = ref<any[]>([]);
+
+    onMounted(() => {
+        store.fetchAllUserChats().then(() => {
+            chatsProfiles.value = chatsProfilesWithRoomId();
+            for (const chat of chatsProfiles.value) {
+                useBucket('avatars')
+                    .get(chat.avatar)
+                    .then(url => (chat.avatar = url));
+            }
+        });
+
         store.startChatsWatcher();
     });
 
@@ -29,7 +38,7 @@
             :key="chat.id"
             :title="chat.full_name"
             :subtitle="`@${chat.username}`"
-            :prepend-avatar="`${config.public.avatarBucketUrl}/${chat.avatar}`"
+            :prepend-avatar="useDefaultAvatar().ifNeeded(chat.avatar)"
             @click="() => navigateTo(`/chats/${chat.roomId}/messages`)"
         >
             <VDivider />

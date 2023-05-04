@@ -1,4 +1,4 @@
-export const useImageUpload = () => {
+export const useBucket = (bucket: string) => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
     const route = useRoute();
@@ -14,7 +14,7 @@ export const useImageUpload = () => {
         );
     };
 
-    const upload = async (file: File | string, bucket: string) => {
+    const upload = async (file: File | string) => {
         image.value = file as File;
 
         if (!image.value) return;
@@ -39,8 +39,16 @@ export const useImageUpload = () => {
         return data?.path ?? '';
     };
 
+    const get = async (path: string) => {
+        const { data } = await supabase.storage
+            .from(bucket)
+            .createSignedUrl(path, 60);
+        return data?.signedUrl ?? '';
+    };
+
     return {
         image,
         upload,
+        get,
     };
 };

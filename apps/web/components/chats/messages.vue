@@ -3,7 +3,6 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const supabase = useSupabaseClient();
-    const config = useRuntimeConfig();
 
     const chatId = useRoute().params.id;
     const messages = ref<Message[]>([]);
@@ -13,7 +12,7 @@
     const { y: messageListVerticalScrollPosition } = useScroll(messageList, {
         behavior: scrollBehavior,
     });
-    const profile = ref<Profile>(
+    const profile = reactive<Profile>(
         await useProfile().getFromChatId(chatId as string)
     );
 
@@ -66,6 +65,9 @@
         await updateMessages();
         scrollToBottom();
         scrollBehavior.value = 'smooth';
+        useBucket('avatars')
+            .get(profile.avatar)
+            .then((url: string) => (profile.avatar = url));
     });
 
     onBeforeUnmount(() => {
@@ -76,7 +78,7 @@
 <template>
     <header>
         <img
-            :src="`${config.public.avatarBucketUrl}/${profile.avatar}`"
+            :src="useDefaultAvatar().ifNeeded(profile.avatar)"
             :alt="profile.full_name"
         />
         <h1>{{ profile.full_name }}</h1>

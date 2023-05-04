@@ -35,7 +35,6 @@
             return;
         }
 
-        console.log(data);
         emit('image-uploaded', data?.path ?? '');
     };
 </script>

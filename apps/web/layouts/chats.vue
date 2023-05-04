@@ -1,8 +1,8 @@
 <script lang="ts" setup>
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
-    const config = useRuntimeConfig();
     const userAvatar = ref('');
+    const avatarUrl = ref('');
 
     const getUserAvatar = async () => {
         const { data: profile, error } = await supabase
@@ -14,6 +14,10 @@
         if (error) throw error;
 
         userAvatar.value = profile?.avatar || userAvatar.value;
+
+        if (userAvatar.value) {
+            avatarUrl.value = await useBucket('avatars').get(userAvatar.value);
+        }
     };
 
     const logout = async () => {
@@ -54,14 +58,8 @@
                     <header color="primary" v-bind="props">
                         <figure>
                             <img
-                                v-if="userAvatar"
-                                :src="`${config.public.avatarBucketUrl}/${userAvatar}`"
+                                :src="useDefaultAvatar().ifNeeded(avatarUrl)"
                                 alt="Your avatar"
-                            />
-                            <img
-                                v-else
-                                src="@/assets/images/default-avatar.jpg"
-                                alt="Default avatar"
                             />
                             <figcaption>You</figcaption>
                         </figure>
