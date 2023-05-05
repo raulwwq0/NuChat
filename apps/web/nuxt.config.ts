@@ -23,6 +23,7 @@ export default defineNuxtConfig({
                 },
             },
         ],
+        'nuxt-security',
         'nuxt-icon',
         (_, nuxt) => {
             nuxt.hooks.hook('vite:extendConfig', config =>
@@ -34,8 +35,6 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
-            imageBucketUrl: process.env.SUPABASE_CHATS_IMAGES_BUCKET_URL,
-            avatarBucketUrl: process.env.SUPABASE_AVATARS_IMAGES_BUCKET_NAME,
         },
     },
     css: ['@/assets/style/main.scss'],
@@ -51,6 +50,14 @@ export default defineNuxtConfig({
                     @import "~/assets/style/00-variables/_fonts.scss";
                     `,
                 },
+            },
+        },
+    },
+    security: {
+        headers: {
+            crossOriginEmbedderPolicy: 'unsafe-none',
+            contentSecurityPolicy: {
+                'img-src': ["'self'", 'data:', 'https://localhost:3200'],
             },
         },
     },

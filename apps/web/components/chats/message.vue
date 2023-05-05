@@ -27,9 +27,11 @@
     });
 
     onMounted(() => {
-        useBucket('chats')
-            .get(props.message.content)
-            .then(url => (imageUrl.value = url));
+        if (isImageMessage.value) {
+            useBucket('chats')
+                .get(props.message.content)
+                .then(url => (imageUrl.value = url));
+        }
     });
 </script>
 

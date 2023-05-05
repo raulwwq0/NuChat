@@ -26,6 +26,7 @@
         "@vueuse/nuxt": "^9.13.0",
         "nuxt": "^3.3.2",
         "nuxt-icon": "^0.4.0",
+        "nuxt-security": "^0.13.0",
         "sass": "^1.60.0",
         "sass-loader": "^13.2.2",
         "typescript": "^5.0.3"
