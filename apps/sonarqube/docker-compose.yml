@@ -9,6 +9,7 @@ services:
       SONAR_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
       SONAR_JDBC_USERNAME: sonar
       SONAR_JDBC_PASSWORD: sonar
+      SONAR_WEB_CONTEXT: /sonar
     volumes:
       - type: bind
         source: ./docker/sonarqube/data
