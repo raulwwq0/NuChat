@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx-reverse-proxy
+    hostname: nuchat.social
+    image: nginx:1.24.0
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./config:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs

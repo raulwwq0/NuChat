@@ -1,0 +1,10 @@
+{
+    "name": "@proyecto-integrado/nginx-reverse-proxy",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "prod": "npm run docker:down && npm run docker:up",
+        "docker:up": "docker compose -f docker-compose.yml up -d",
+        "docker:down": "docker compose -f docker-compose.yml down"
+    }
+}
