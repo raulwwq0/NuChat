@@ -76,85 +76,101 @@
 </script>
 
 <template>
-    <header>
-        <img
-            :src="useDefaultAvatar().ifNeeded(profile.avatar)"
-            :alt="profile.full_name"
-        />
-        <h1>{{ profile.full_name }}</h1>
-    </header>
-    <section ref="messageList">
-        <ChatsMessage
-            v-for="message in messages"
-            :key="message.id"
-            :message="message"
-        />
-        <span v-if="!messages.length">No messages</span>
-        <button v-if="!isAtBottom" class="down-button" @click="scrollToBottom">
+    <main>
+        <header>
             <img
-                src="@/assets/images/scroll-down-arrow.svg"
-                alt="Scroll down arrow"
+                :src="useDefaultAvatar().ifNeeded(profile.avatar)"
+                :alt="profile.full_name"
             />
-            <VTooltip activator="parent" location="left">Scroll down</VTooltip>
-        </button>
-    </section>
-    <ChatsSendMessage :chat-id="chatId" @message-sent="scrollToBottom" />
+            <h1>{{ profile.full_name }}</h1>
+        </header>
+        <section ref="messageList">
+            <ChatsMessage
+                v-for="message in messages"
+                :key="message.id"
+                :message="message"
+            />
+            <span v-if="!messages.length">No messages</span>
+            <button
+                v-if="!isAtBottom"
+                class="down-button"
+                @click="scrollToBottom"
+            >
+                <img
+                    src="@/assets/images/scroll-down-arrow.svg"
+                    alt="Scroll down arrow"
+                />
+                <VTooltip activator="parent" location="left"
+                    >Scroll down</VTooltip
+                >
+            </button>
+        </section>
+        <ChatsSendMessage :chat-id="chatId" @message-sent="scrollToBottom" />
+    </main>
 </template>
 
 <style lang="scss" scoped>
-    header {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 60px;
-        background-color: $primary;
-        width: 100%;
-        border-radius: 10px;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
-        display: flex;
-        align-items: center;
-
-        h1 {
-            margin: 0;
-            padding: 10px;
-            color: #fff;
-        }
-
-        img {
-            width: 60px;
-            height: 60px;
-            border-top-left-radius: 10px;
-            margin-right: 10px;
-        }
-    }
-
-    section {
+    main {
         display: flex;
         flex-flow: column;
-        align-items: center;
-        height: 100%;
         width: 100%;
-        background-color: #fff;
-        overflow-y: scroll;
+        height: 100%;
+        z-index: 1;
 
-        .down-button {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            margin: 20px;
-            padding: 5px;
-            background-color: #000;
-            color: #fff;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
+        header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            height: 60px;
+            background-color: $primary;
+            width: 100%;
+            border-radius: 10px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
             display: flex;
             align-items: center;
-            justify-content: center;
+
+            h1 {
+                margin: 0;
+                padding: 10px;
+                color: #fff;
+            }
 
             img {
-                width: 30px;
-                height: 30px;
+                width: 60px;
+                height: 60px;
+                border-top-left-radius: 10px;
+                margin-right: 10px;
+            }
+        }
+
+        section {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+            overflow-y: scroll;
+
+            .down-button {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                margin: 20px;
+                padding: 5px;
+                background-color: #000;
+                color: #fff;
+                border-radius: 9999px;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
     }

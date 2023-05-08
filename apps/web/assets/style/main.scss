@@ -2,6 +2,11 @@
     font-family: $body-font !important;
 }
 
+#__nuxt {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
 .v-theme--light {
     --v-hover-opacity: 0.04;
     --v-theme-overlay-multiplier: 1;

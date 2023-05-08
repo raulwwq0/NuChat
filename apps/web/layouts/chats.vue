@@ -96,8 +96,9 @@
 
             <slot name="chatList" />
         </aside>
-        <section>
+        <section class="messages">
             <slot name="messages" />
+            <ChatsDragDropUploadImage />
         </section>
         <VDialog v-model="newChatDialog" class="dialog">
             <ChatsFindNew @close="newChatDialog = false" />
@@ -178,6 +179,7 @@
             //background-color: antiquewhite;
             border: 1px solid $primary;
             border-radius: 10px;
+            position: relative;
         }
     }
 

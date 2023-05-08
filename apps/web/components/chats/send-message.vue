@@ -37,19 +37,12 @@
         emit('message-sent');
     }
 
-    const sendImage = async (path: string) => {
-        const message: Message = {
-            chat_id: props.chatId as string,
-            user_id: userId.value as string,
-            content: path,
-            type: MessageType.IMAGE,
-        };
-
-        await supabase
-            .from('messages')
-            .insert([message as never])
-            .single();
-        emit('message-sent');
+    const sendImage = (path: string) => {
+        useMessages(props.chatId as string)
+            .sendImage(path)
+            .then(() => {
+                emit('message-sent');
+            });
     };
 </script>
 
