@@ -10,9 +10,8 @@
             useBucket('chats')
                 .upload(file)
                 .then((path?: string) => {
-                    useMessages(route.params.id as string).sendImage(
-                        path || ''
-                    );
+                    if (!path) return;
+                    useMessages(route.params.id as string).sendImage(path);
                 });
         }
     };
