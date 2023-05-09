@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+    import { useProfileStore } from '~~/stores/profile.store';
+
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
     const userAvatar = ref('');
@@ -32,16 +34,25 @@
             icon: 'material-symbols:search-rounded',
             title: 'Find Chats',
             action: () => (newChatDialog.value = true),
+            show: true,
         },
         {
             icon: 'ic:baseline-person-outline',
             title: 'Profile',
             action: () => navigateTo('/profile'),
+            show: true,
+        },
+        {
+            icon: 'ic:baseline-person-outline',
+            title: 'Admin Panel',
+            action: () => navigateTo('/admin'),
+            show: useProfileStore().isAdmin(),
         },
         {
             icon: 'lucide:log-out',
             title: 'Logout',
             action: logout,
+            show: true,
         },
     ];
 
@@ -78,19 +89,23 @@
                     </header>
                 </template>
                 <VList class="menu-options">
-                    <VListItem
-                        v-for="item in menuItems"
-                        :key="item.title"
-                        class="menu-option"
-                        @click="item.action"
-                    >
-                        <div>
-                            <Icon :name="item.icon" class="menu-option-icon" />
-                            <VListItemTitle class="menu-option-title">{{
-                                item.title
-                            }}</VListItemTitle>
-                        </div>
-                    </VListItem>
+                    <div v-for="item in menuItems" :key="item.title">
+                        <VListItem
+                            v-if="item.show"
+                            class="menu-option"
+                            @click="item.action"
+                        >
+                            <div>
+                                <Icon
+                                    :name="item.icon"
+                                    class="menu-option-icon"
+                                />
+                                <VListItemTitle class="menu-option-title">{{
+                                    item.title
+                                }}</VListItemTitle>
+                            </div>
+                        </VListItem>
+                    </div>
                 </VList>
             </VMenu>
 

@@ -20,7 +20,7 @@ export const useProfile = () => {
     };
 
     const fetchProfile = async (userId: string): Promise<Profile> => {
-        const { data: profile, error: profileError } = await supabase
+        const { data: profileData, error: profileError } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', userId)
@@ -30,7 +30,7 @@ export const useProfile = () => {
             console.error(profileError);
         }
 
-        return profile!;
+        return profileData!;
     };
 
     const getFromChatId = async (chatId: string): Promise<Profile> => {

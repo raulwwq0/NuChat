@@ -1,20 +1,11 @@
+import { useProfileStore } from '~~/stores/profile.store';
+
 export default defineNuxtRouteMiddleware(async () => {
-    const supabase = useSupabaseClient();
-    const user = useSupabaseUser();
+    const { fetch } = useProfileStore();
+    await fetch();
+    const profile = useProfileStore().profile!;
 
-    const { data } = await supabase
-        .from('profiles')
-        .select(`username, full_name`)
-        .eq('id', user.value!.id)
-        .single();
-
-    if (!data) {
-        return navigateTo('/profile/new');
-    }
-
-    const { username, full_name: fullName } = data;
-
-    if (!username || !fullName) {
+    if (!profile.username || !profile.full_name) {
         return navigateTo('/profile/new');
     }
 });
