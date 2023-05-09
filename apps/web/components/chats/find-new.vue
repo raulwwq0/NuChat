@@ -3,6 +3,7 @@
 
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
+    const { ifNeeded } = useDefaultAvatar();
     const username = ref('');
 
     const profilesFound = ref<Profile[]>([]);
@@ -66,9 +67,7 @@
                     :key="userProfile.id"
                     :title="userProfile.full_name"
                     :subtitle="`@${userProfile.username}`"
-                    :prepend-avatar="
-                        useDefaultAvatar().ifNeeded(userProfile.avatar)
-                    "
+                    :prepend-avatar="ifNeeded(userProfile.avatar)"
                     @click="createChat(userProfile.id)"
                 >
                     <VDivider />

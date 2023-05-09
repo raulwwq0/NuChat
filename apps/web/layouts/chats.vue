@@ -4,6 +4,7 @@
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
     const route = useRoute();
+    const { ifNeeded } = useDefaultAvatar();
     const userAvatar = ref('');
     const avatarUrl = ref('');
 
@@ -69,10 +70,7 @@
                 <template #activator="{ props }">
                     <header color="primary" v-bind="props">
                         <figure>
-                            <img
-                                :src="useDefaultAvatar().ifNeeded(avatarUrl)"
-                                alt="Your avatar"
-                            />
+                            <img :src="ifNeeded(avatarUrl)" alt="Your avatar" />
                             <figcaption>You</figcaption>
                         </figure>
                         <div>

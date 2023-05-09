@@ -3,6 +3,7 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const supabase = useSupabaseClient();
+    const { ifNeeded } = useDefaultAvatar();
 
     const chatId = useRoute().params.id;
     const messages = ref<Message[]>([]);
@@ -78,10 +79,7 @@
 <template>
     <main>
         <header>
-            <img
-                :src="useDefaultAvatar().ifNeeded(profile.avatar)"
-                :alt="profile.full_name"
-            />
+            <img :src="ifNeeded(profile.avatar)" :alt="profile.full_name" />
             <h1>{{ profile.full_name }}</h1>
         </header>
         <section ref="messageList">

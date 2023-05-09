@@ -3,6 +3,7 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     const user = useSupabaseUser();
+    const { ifNeeded } = useDefaultAvatar();
 
     interface ProfileProps {
         title: string;
@@ -68,10 +69,7 @@
         <h1>{{ $props.title }}</h1>
         <VeeForm :validation-schema="validationSchema" @submit="saveProfile">
             <label for="avatarUrl">
-                <img
-                    :src="useDefaultAvatar().ifNeeded(userAvatar)"
-                    alt="Your avatar"
-                />
+                <img :src="ifNeeded(userAvatar)" alt="Your avatar" />
             </label>
             <VeeField
                 id="avatarUrl"

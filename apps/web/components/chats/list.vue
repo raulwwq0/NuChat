@@ -4,6 +4,7 @@
 
     const store = useChatsStore();
     const { chats, areChatsLoaded } = storeToRefs(store);
+    const { ifNeeded } = useDefaultAvatar();
 
     const chatsProfilesWithRoomId = () =>
         chats.value.map(chat => ({
@@ -38,7 +39,7 @@
             :key="chat.id"
             :title="chat.full_name"
             :subtitle="`@${chat.username}`"
-            :prepend-avatar="useDefaultAvatar().ifNeeded(chat.avatar)"
+            :prepend-avatar="ifNeeded(chat.avatar)"
             @click="() => navigateTo(`/chats/${chat.roomId}/messages`)"
         >
             <VDivider />
