@@ -3,6 +3,7 @@
 
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
+    const route = useRoute();
     const userAvatar = ref('');
     const avatarUrl = ref('');
 
@@ -113,7 +114,7 @@
         </aside>
         <section class="messages">
             <slot name="messages" />
-            <ChatsDragDropUploadImage />
+            <ChatsDragDropUploadImage v-if="route.params.id" />
         </section>
         <VDialog v-model="newChatDialog" class="dialog">
             <ChatsFindNew @close="newChatDialog = false" />
