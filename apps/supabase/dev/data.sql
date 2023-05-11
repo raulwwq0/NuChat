@@ -412,6 +412,15 @@ CREATE POLICY "Users can insert their own profile." ON public.profiles FOR INSER
 
 CREATE POLICY "Users can update own profile." ON public.profiles FOR UPDATE USING ((auth.uid() = id));
 
+CREATE OR REPLACE FUNCTION is_admin(user_id uuid)
+            returns boolean AS
+        $$
+        select role = 'admin' from profiles
+        where id = user_id
+        $$ stable language sql security definer;
+
+CREATE POLICY "Full access on all profiles for admins"
+        ON profiles FOR ALL using (is_admin(auth.uid()))        
 
 --
 -- Name: chat_user; Type: ROW SECURITY; Schema: public; Owner: postgres
@@ -650,6 +659,7 @@ ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.chats;
 
 ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.messages;
 
+ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.profiles;
 
 create view profiles_with_total_messages as
 select *, (

@@ -49,7 +49,7 @@ export const useProfile = () => {
         const { error } = await supabase
             .from('profiles')
             .upsert(profile as never)
-            .eq('id', user.value!.id);
+            .eq('id', profile.id);
 
         if (error) {
             throw error;

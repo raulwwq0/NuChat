@@ -1,13 +1,13 @@
 <script lang="ts" setup>
     import * as yup from 'yup';
-    import { Profile } from '~~/interfaces/profile.interface';
+    import { Profile, Role } from '~~/interfaces/profile.interface';
 
-    const user = useSupabaseUser();
     const { ifNeeded } = useDefaultAvatar();
 
     interface ProfileProps {
         title: string;
         profile?: Profile;
+        adminFields?: boolean;
     }
 
     const props = withDefaults(defineProps<ProfileProps>(), {
@@ -16,12 +16,17 @@
             full_name: '',
             username: '',
             avatar: '',
+            role: 'user',
         } as any,
+        adminFields: false,
     });
+
+    const emit = defineEmits<{
+        (e: 'saved'): void;
+    }>();
 
     const profile: Profile = reactive({
         ...props.profile!,
-        id: user.value?.id || '',
     });
 
     const userAvatar = ref<string>('');
@@ -48,7 +53,7 @@
         useProfile()
             .upsert(profile)
             .then(() => {
-                navigateTo('/chats');
+                emit('saved');
             })
             .catch(error => {
                 if (error.code === '23505') {
@@ -95,6 +100,17 @@
                 placeholder="Username"
             />
             <VeeErrorMessage name="username" class="error" />
+            <label v-if="adminFields" for="role">Role</label>
+            <VeeField
+                v-if="adminFields"
+                v-model="profile.role"
+                name="role"
+                as="select"
+                placeholder="Role"
+            >
+                <option :value="Role.USER">User</option>
+                <option :value="Role.ADMIN">Admin</option>
+            </VeeField>
             <button type="submit">Save</button>
         </VeeForm>
     </main>
