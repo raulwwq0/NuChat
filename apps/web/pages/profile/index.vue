@@ -17,5 +17,9 @@
 </script>
 
 <template>
-    <AuthFormProfile title="Your profile" :profile="profile" />
+    <AuthFormProfile
+        title="Your profile"
+        :profile="profile"
+        @saved="() => navigateTo('/chats')"
+    />
 </template>

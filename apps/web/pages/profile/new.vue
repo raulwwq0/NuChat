@@ -6,5 +6,8 @@
 </script>
 
 <template>
-    <AuthFormProfile title="Complete your profile before start chatting" />
+    <AuthFormProfile
+        title="Complete your profile before start chatting"
+        @saved="() => navigateTo('/chats')"
+    />
 </template>
