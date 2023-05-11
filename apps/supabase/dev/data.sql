@@ -666,3 +666,17 @@ select *, (
   select count(*) from messages
                   where messages.user_id = profiles.id
 ) as total_messages from profiles;
+
+ALTER TABLE storage.objects drop constraint objects_owner_fkey, add constraint objects_owner_fkey foreign key (owner) references auth.users(id) on delete cascade;
+
+CREATE OR REPLACE FUNCTION deleteUser() RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM auth.users WHERE auth.users.id = OLD.id;
+    RETURN OLD;
+END $$ LANGUAGE 'plpgsql' security definer;
+
+CREATE TRIGGER deleteUserTrigger 
+    AFTER DELETE
+ON public.profiles
+FOR EACH ROW 
+    EXECUTE PROCEDURE deleteUser();

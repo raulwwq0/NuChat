@@ -7,12 +7,13 @@
 
     const props = defineProps<ProfileProps>();
 
-    defineEmits<{
+    const emit = defineEmits<{
         (e: 'close'): void;
     }>();
 
     const deleteProfile = async () => {
         await useAdmin().deleteProfile(props.profile.id);
+        emit('close');
     };
 </script>
 
