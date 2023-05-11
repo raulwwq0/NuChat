@@ -649,3 +649,10 @@ ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.chats;
 --
 
 ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.messages;
+
+
+create view profiles_with_total_messages as
+select *, (
+  select count(*) from messages
+                  where messages.user_id = profiles.id
+) as total_messages from profiles;

@@ -45,7 +45,7 @@
             show: true,
         },
         {
-            icon: 'ic:baseline-person-outline',
+            icon: 'eos-icons:admin-outlined',
             title: 'Admin Panel',
             action: () => navigateTo('/admin'),
             show: useProfileStore().isAdmin(),

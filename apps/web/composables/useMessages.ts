@@ -1,6 +1,6 @@
 import { Message, MessageType } from '~~/interfaces/message.interface';
 
-export function useMessages(chatId: string) {
+export const useMessages = (chatId: string) => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
     const userId = computed(() => user.value?.id);
@@ -22,4 +22,4 @@ export function useMessages(chatId: string) {
     return {
         sendImage,
     };
-}
+};

@@ -10,3 +10,8 @@ export interface Profile {
     avatar: string;
     role: 'user' | 'admin';
 }
+
+export interface ProfileWithTotalMessages extends Profile {
+    total_messages?: number;
+    avatarUrl?: string;
+}
