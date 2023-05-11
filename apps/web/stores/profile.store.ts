@@ -19,7 +19,7 @@ export const useProfileStore = defineStore('profile', () => {
     fetch();
 
     return {
-        profile: readonly(profile),
+        profile,
         isAdmin,
         fetch,
     };
