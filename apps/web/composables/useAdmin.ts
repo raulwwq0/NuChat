@@ -19,6 +19,17 @@ export const useAdmin = () => {
         profilesWithTotalMessages.value = [...(profiles || [])];
     };
 
+    const deleteProfile = async (profileId: string) => {
+        const { error } = await supabase
+            .from('profiles')
+            .delete()
+            .eq('id', profileId);
+
+        if (error) {
+            console.error(error);
+        }
+    };
+
     function startProfilesWatcher() {
         chatsWatcher.value = supabase
             .channel('profiles-channel')
@@ -44,6 +55,7 @@ export const useAdmin = () => {
     return {
         profilesWithTotalMessages,
         fetchAllProfilesWithTotalMessages,
+        deleteProfile,
         startProfilesWatcher,
         stopProfilesWatcher,
     };

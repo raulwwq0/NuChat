@@ -19,7 +19,12 @@
     const { ifNeeded } = useDefaultAvatar();
     const { get } = useBucket('avatars');
 
-    const editDialog = ref(false);
+    type Dialogs = 'edit' | 'delete';
+
+    const dialogs = reactive({
+        edit: false,
+        delete: false,
+    });
     const profileForActions = ref<Profile | null>(null);
 
     const headers = [
@@ -32,16 +37,20 @@
         { title: 'Actions', key: 'actions', sortable: false, align: 'center' },
     ];
 
-    const openEditProfile = (profile: ProfileWithTotalMessages) => {
+    const prepareProfileForActions = (profile: ProfileWithTotalMessages) => {
         const profileToClean = { ...profile };
         delete profileToClean.avatarUrl;
         delete profileToClean.total_messages;
         profileForActions.value = profileToClean;
-        editDialog.value = true;
     };
 
-    const closeEditDialog = () => {
-        editDialog.value = false;
+    const openDialog = (dialog: Dialogs, profile: ProfileWithTotalMessages) => {
+        prepareProfileForActions(profile);
+        dialogs[dialog] = true;
+    };
+
+    const closeDialog = (dialog: Dialogs) => {
+        dialogs[dialog] = false;
     };
 
     onMounted(() => {
@@ -93,19 +102,29 @@
                         <Icon
                             name="material-symbols:edit-outline-rounded"
                             class="icon edit"
-                            @click="() => openEditProfile(item.raw)"
+                            @click="() => openDialog('edit', item.raw)"
                         />
                         <Icon
                             name="material-symbols:delete-outline-rounded"
                             class="icon delete"
+                            @click="() => openDialog('delete', item.raw)"
                         />
                     </td>
                 </tr>
             </template>
         </VDataTable>
         <span v-else>No users found</span>
-        <VDialog v-model="editDialog" width="50%" height="50%">
-            <AdminEdit :profile="profileForActions!" @close="closeEditDialog" />
+        <VDialog v-model="dialogs.edit" width="50%" height="50%">
+            <AdminEdit
+                :profile="profileForActions!"
+                @close="closeDialog('edit')"
+            />
+        </VDialog>
+        <VDialog v-model="dialogs.delete" width="50%" height="50%">
+            <AdminDelete
+                :profile="profileForActions!"
+                @close="closeDialog('delete')"
+            />
         </VDialog>
     </main>
 </template>
