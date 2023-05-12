@@ -8,8 +8,8 @@
     const profilesFound = ref<Profile[]>([]);
     const areUsersFound = computed(() => profilesFound.value.length > 0);
 
-    defineEmits<{
-        close: () => void;
+    const emit = defineEmits<{
+        (e: 'close'): void;
     }>();
 
     const findUserByUsername = async () => {
@@ -50,6 +50,7 @@
 
     const createChat = async (profileId: string) => {
         const chatId = await useChat().create(profileId);
+        emit('close');
         navigateTo(`/chats/${chatId}/messages`);
     };
 </script>
