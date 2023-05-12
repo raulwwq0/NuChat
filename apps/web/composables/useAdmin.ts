@@ -1,3 +1,4 @@
+import { ChatUser } from '~~/interfaces/chat-user.interface';
 import { ProfileWithTotalMessages } from '~~/interfaces/profile.interface';
 
 export const useAdmin = () => {
@@ -20,6 +21,7 @@ export const useAdmin = () => {
     };
 
     const deleteProfile = async (profileId: string) => {
+        await deleteUserChats(profileId);
         const { error } = await supabase
             .from('profiles')
             .delete()
@@ -27,6 +29,31 @@ export const useAdmin = () => {
 
         if (error) {
             console.error(error);
+        }
+    };
+
+    const deleteUserChats = async (userId: string) => {
+        const { data: chatUsers, error: chatUsersError } = await supabase
+            .from('chat_user')
+            .select('*')
+            .eq('user_id', userId);
+
+        if (chatUsersError) {
+            console.error(chatUsersError);
+            return [];
+        }
+
+        const chatIds = chatUsers?.map(
+            (chatUser: ChatUser) => chatUser.chat_id
+        );
+
+        const { error: deleteChatsError } = await supabase
+            .from('chats')
+            .delete()
+            .in('id', chatIds || []);
+
+        if (deleteChatsError) {
+            console.error(deleteChatsError);
         }
     };
 

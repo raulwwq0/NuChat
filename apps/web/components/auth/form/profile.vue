@@ -2,6 +2,7 @@
     import * as yup from 'yup';
     import { Profile, Role } from '~~/interfaces/profile.interface';
 
+    const user = useSupabaseUser();
     const { ifNeeded } = useDefaultAvatar();
 
     interface ProfileProps {
@@ -27,6 +28,7 @@
 
     const profile: Profile = reactive({
         ...props.profile!,
+        id: props.profile!.id || user.value?.id || '',
     });
 
     const userAvatar = ref<string>('');

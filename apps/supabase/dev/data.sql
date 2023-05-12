@@ -135,15 +135,19 @@ ALTER FUNCTION auth.jwt() OWNER TO supabase_auth_admin;
 -- Name: handle_new_user(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.handle_new_user() RETURNS trigger
+CREATE OR REPLACE FUNCTION public.handle_new_user() RETURNS trigger
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
 begin
-  insert into public.profiles (id, full_name, avatar_url)
-  values (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
+  insert into public.profiles (id, full_name, avatar)
+  values (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar');
   return new;
 end;
 $$;
+
+CREATE TRIGGER on_auth_user_create
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
 
 ALTER FUNCTION public.handle_new_user() OWNER TO postgres;
