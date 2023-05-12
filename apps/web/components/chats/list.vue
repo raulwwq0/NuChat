@@ -3,11 +3,11 @@
     import { useChatsStore } from '~~/stores/chats.store';
 
     const store = useChatsStore();
-    const { chats, areChatsLoaded } = storeToRefs(store);
+    const { chats, areChatsEmpty, areChatsLoading } = storeToRefs(store);
     const { ifNeeded } = useDefaultAvatar();
 
     const chatsProfilesWithRoomId = () =>
-        chats.value.map(chat => ({
+        chats.value.map((chat: any) => ({
             roomId: chat.id,
             ...chat.users![0].profile,
         }));
@@ -33,7 +33,10 @@
 </script>
 
 <template>
-    <VList v-if="!areChatsLoaded" lines="one">
+    <div v-if="areChatsLoading" class="loading">
+        <img src="@/assets/images/SvgSpinnersPulseRings3.svg" alt="Loading" />
+    </div>
+    <VList v-else-if="!areChatsEmpty" lines="one">
         <VListItem
             v-for="chat in chatsProfiles"
             :key="chat.id"
@@ -45,8 +48,13 @@
             <VDivider />
         </VListItem>
     </VList>
-    <div v-else>
-        <img src="@/assets/images/SvgSpinnersPulseRings3.svg" alt="Loading" />
+    <div v-else class="no-chats-found-message">
+        <Icon name="material-symbols:arrow-upward-rounded" class="icon" />
+        <h3>No chats found</h3>
+        <span
+            >Start a new chat or search for existing ones in the upper
+            menu</span
+        >
     </div>
 </template>
 
@@ -71,6 +79,33 @@
             width: 100px;
             height: 100px;
             margin-top: 20px;
+        }
+
+        .no-chats-found-message {
+            display: flex;
+            flex-flow: column;
+            justify-content: start;
+            align-items: center;
+            height: 90%;
+            width: 100%;
+            padding-top: 3rem;
+
+            .icon {
+                font-size: 5rem;
+            }
+
+            h3 {
+                font-size: 2rem;
+                font-weight: 600;
+                margin: 0.5rem 0;
+            }
+
+            span {
+                font-size: 1.5rem;
+                font-weight: 500;
+                color: #ccc;
+                text-align: center;
+            }
         }
     }
 </style>

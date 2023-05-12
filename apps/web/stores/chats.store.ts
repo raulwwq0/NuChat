@@ -3,9 +3,10 @@ import { Chat } from '@/interfaces/chat.interface';
 export const useChatsStore = defineStore('chats', () => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
-    const chats = ref<Chat[]>([]);
+    const chats = ref<Chat[] | ['loading']>(['loading']);
     const chatsWatcher = ref();
-    const areChatsLoaded = computed(() => chats.value.length === 0);
+    const areChatsEmpty = computed(() => chats.value.length === 0);
+    const areChatsLoading = computed(() => chats.value[0] === 'loading');
 
     async function fetchAllUserChats() {
         const { data: chatIds } = await supabase
@@ -43,7 +44,8 @@ export const useChatsStore = defineStore('chats', () => {
 
     return {
         chats,
-        areChatsLoaded,
+        areChatsEmpty,
+        areChatsLoading,
         fetchAllUserChats,
         startChatsWatcher,
         stopChatsWatcher,
