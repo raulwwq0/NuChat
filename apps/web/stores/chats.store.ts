@@ -27,10 +27,10 @@ export const useChatsStore = defineStore('chats', () => {
 
     function startChatsWatcher() {
         chatsWatcher.value = supabase
-            .channel('chat-user-channel')
+            .channel('chats-channel')
             .on(
                 'postgres_changes',
-                { event: '*', schema: 'public', table: 'chat_user' },
+                { event: '*', schema: 'public', table: 'chats' },
                 async () => {
                     await fetchAllUserChats();
                 }

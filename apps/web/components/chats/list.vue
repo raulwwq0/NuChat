@@ -13,16 +13,19 @@
 
     const chatsProfiles = ref<any[]>([]);
 
-    onMounted(() => {
-        chatsStore.fetchAllUserChats().then(() => {
-            chatsProfiles.value = chatsProfilesWithRoomId();
-            for (const chat of chatsProfiles.value) {
-                useBucket('avatars')
-                    .get(chat.avatar)
-                    .then(url => (chat.avatar = url));
-            }
-        });
+    const prepareChatList = () => {
+        chatsProfiles.value = chatsProfilesWithRoomId();
+        for (const chat of chatsProfiles.value) {
+            useBucket('avatars')
+                .get(chat.avatar)
+                .then(url => (chat.avatar = url));
+        }
+    };
 
+    watch(chats, () => prepareChatList());
+
+    onMounted(() => {
+        chatsStore.fetchAllUserChats().then(() => prepareChatList());
         chatsStore.startChatsWatcher();
     });
 
