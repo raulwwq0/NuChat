@@ -2,9 +2,8 @@
     import { storeToRefs } from 'pinia';
     import { useChatsStore } from '~~/stores/chats.store';
 
-    const store = useChatsStore();
-    const { chats, areChatsEmpty, areChatsLoading } = storeToRefs(store);
-    const { ifNeeded } = useDefaultAvatar();
+    const chatsStore = useChatsStore();
+    const { chats, areChatsEmpty, areChatsLoading } = storeToRefs(chatsStore);
 
     const chatsProfilesWithRoomId = () =>
         chats.value.map((chat: any) => ({
@@ -15,7 +14,7 @@
     const chatsProfiles = ref<any[]>([]);
 
     onMounted(() => {
-        store.fetchAllUserChats().then(() => {
+        chatsStore.fetchAllUserChats().then(() => {
             chatsProfiles.value = chatsProfilesWithRoomId();
             for (const chat of chatsProfiles.value) {
                 useBucket('avatars')
@@ -24,11 +23,11 @@
             }
         });
 
-        store.startChatsWatcher();
+        chatsStore.startChatsWatcher();
     });
 
     onBeforeUnmount(() => {
-        store.stopChatsWatcher();
+        chatsStore.stopChatsWatcher();
     });
 </script>
 
@@ -37,16 +36,12 @@
         <img src="@/assets/images/SvgSpinnersPulseRings3.svg" alt="Loading" />
     </div>
     <VList v-else-if="!areChatsEmpty" lines="one">
-        <VListItem
+        <ChatsListItem
             v-for="chat in chatsProfiles"
             :key="chat.id"
-            :title="chat.full_name"
-            :subtitle="`@${chat.username}`"
-            :prepend-avatar="ifNeeded(chat.avatar)"
+            :data="chat"
             @click="() => navigateTo(`/chats/${chat.roomId}/messages`)"
-        >
-            <VDivider />
-        </VListItem>
+        />
     </VList>
     <div v-else class="no-chats-found-message">
         <Icon name="material-symbols:arrow-upward-rounded" class="icon" />
@@ -73,6 +68,7 @@
             overflow-y: scroll;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
+            position: relative;
         }
 
         img {

@@ -3,7 +3,6 @@
 
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
-    const { ifNeeded } = useDefaultAvatar();
     const username = ref('');
 
     const profilesFound = ref<Profile[]>([]);
@@ -62,16 +61,12 @@
         </header>
         <section>
             <VList v-if="areUsersFound" lines="one">
-                <VListItem
+                <ChatsListItem
                     v-for="userProfile in profilesFound"
                     :key="userProfile.id"
-                    :title="userProfile.full_name"
-                    :subtitle="`@${userProfile.username}`"
-                    :prepend-avatar="ifNeeded(userProfile.avatar)"
+                    :data="userProfile"
                     @click="createChat(userProfile.id)"
-                >
-                    <VDivider />
-                </VListItem>
+                />
             </VList>
             <div v-else class="no-users-found-message">
                 <strong>Find already existing chats</strong>
