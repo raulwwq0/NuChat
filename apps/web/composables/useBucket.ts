@@ -44,6 +44,7 @@ export const useBucket = (bucket: string) => {
     };
 
     const get = async (path: string) => {
+        if (!path) return '';
         const { data } = await supabase.storage
             .from(bucket)
             .createSignedUrl(path, 60);
