@@ -6,7 +6,8 @@
     const { ifNeeded } = useDefaultAvatar();
 
     const chatId = useRoute().params.id;
-    const messages = ref<Message[]>([]);
+    const messages = ref<Message[] | ['loading']>(['loading']);
+    const areMessagesLoading = computed(() => messages.value[0] === 'loading');
     const messagesWatcher = ref();
     const messageList = ref<HTMLElement>();
     const scrollBehavior = ref<'smooth' | 'auto'>('auto');
@@ -83,14 +84,23 @@
             <h1>{{ profile.full_name }}</h1>
         </header>
         <section ref="messageList">
+            <div v-if="areMessagesLoading" class="loading">
+                <img
+                    src="@/assets/images/SvgSpinnersPulseRings3.svg"
+                    alt="Loading"
+                />
+            </div>
+            <div v-else-if="!messages.length" class="no-messages">
+                No messages yet. Be the first to send one!
+            </div>
             <ChatsMessage
-                v-for="message in messages"
+                v-for="message in (messages as Message[])"
+                v-else
                 :key="message.id"
                 :message="message"
             />
-            <span v-if="!messages.length">No messages</span>
             <button
-                v-if="!isAtBottom"
+                v-if="!areMessagesLoading && !isAtBottom"
                 class="down-button"
                 @click="scrollToBottom"
             >
@@ -149,6 +159,29 @@
             width: 100%;
             background-color: #fff;
             overflow-y: scroll;
+
+            .loading {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 5rem;
+                    height: 5rem;
+                }
+            }
+
+            .no-messages {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                color: #ccc;
+            }
 
             .down-button {
                 position: fixed;
