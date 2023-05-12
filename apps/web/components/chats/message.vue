@@ -10,6 +10,10 @@
         message: Message;
     }>();
 
+    defineEmits<{
+        (e: 'img-loaded'): void;
+    }>();
+
     const isOwnMessage = computed(() => {
         return props.message.user_id === userId;
     });
@@ -41,7 +45,7 @@
             {{ props.message.content }}
         </div>
         <div v-if="isImageMessage" class="content">
-            <img :src="imageUrl" alt="image" />
+            <img :src="imageUrl" alt="image" @load="$emit('img-loaded')" />
         </div>
         <div class="date">{{ dateFormatted }}</div>
     </article>

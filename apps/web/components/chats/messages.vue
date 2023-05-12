@@ -98,6 +98,7 @@
                 v-else
                 :key="message.id"
                 :message="message"
+                @img-loaded="scrollToBottom"
             />
             <button
                 v-if="!areMessagesLoading && !isAtBottom"
