@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const useBucket = (bucket: string) => {
     const supabase = useSupabaseClient();
     const user = useSupabaseUser();
@@ -27,7 +29,9 @@ export const useBucket = (bucket: string) => {
         const { data, error } = await supabase.storage
             .from(bucket)
             .upload(
-                `${route.params.id || user.value?.id}/${Date.now()}`,
+                `${
+                    route.params.id || user.value?.id
+                }/${Date.now()}-${uuidv4()}`,
                 image.value
             );
 
