@@ -108,10 +108,10 @@
                 </VList>
             </VMenu>
 
-            <slot name="chatList" />
+            <ChatsList />
         </aside>
         <section class="messages">
-            <slot name="messages" />
+            <slot />
             <ChatsDragDropUploadImage v-if="route.params.id" />
         </section>
         <VDialog v-model="newChatDialog" class="dialog">

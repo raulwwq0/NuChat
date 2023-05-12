@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     definePageMeta({
         middleware: ['authenticated', 'empty-profile'],
+        layout: 'chats',
     });
     useSeoMeta({
         title: 'NuChat | Chats',
@@ -10,17 +11,10 @@
 </script>
 
 <template>
-    <NuxtLayout name="chats">
-        <template #chatList>
-            <ChatsList />
-        </template>
-        <template #messages>
-            <section class="welcome">
-                <h1>Welcome to NuChat</h1>
-                <h2>Just a chat app built with Nuxt 3 and Supabase</h2>
-            </section>
-        </template>
-    </NuxtLayout>
+    <section class="welcome">
+        <h1>Welcome to NuChat</h1>
+        <h2>Just a chat app built with Nuxt 3 and Supabase</h2>
+    </section>
 </template>
 
 <style lang="scss" scoped>

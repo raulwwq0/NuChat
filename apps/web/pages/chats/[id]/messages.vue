@@ -3,6 +3,7 @@
 
     definePageMeta({
         middleware: ['authenticated', 'empty-profile'],
+        layout: 'chats',
     });
 
     const chatId = useRoute().params.id;
@@ -17,14 +18,7 @@
 </script>
 
 <template>
-    <NuxtLayout name="chats">
-        <template #chatList>
-            <ChatsList />
-        </template>
-        <template #messages>
-            <ChatsMessages />
-        </template>
-    </NuxtLayout>
+    <ChatsMessages />
 </template>
 
 <style lang="scss" scoped>
