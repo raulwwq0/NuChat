@@ -416,7 +416,7 @@ CREATE POLICY "Users can insert their own profile." ON public.profiles FOR INSER
 
 CREATE POLICY "Users can update own profile." ON public.profiles FOR UPDATE USING ((auth.uid() = id));
 
-CREATE OR REPLACE FUNCTION is_admin(user_id uuid)
+CREATE OR REPLACE FUNCTION auth.is_admin(user_id uuid)
             returns boolean AS
         $$
         select role = 'admin' from profiles
@@ -424,7 +424,7 @@ CREATE OR REPLACE FUNCTION is_admin(user_id uuid)
         $$ stable language sql security definer;
 
 CREATE POLICY "Full access on all profiles for admins"
-        ON profiles FOR ALL using (is_admin(auth.uid()))        
+        ON public.profiles FOR ALL using (auth.is_admin(auth.uid()));
 
 --
 -- Name: chat_user; Type: ROW SECURITY; Schema: public; Owner: postgres
@@ -665,15 +665,15 @@ ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.messages;
 
 ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.profiles;
 
-create view profiles_with_total_messages as
+create view public.profiles_with_total_messages as
 select *, (
-  select count(*) from messages
+  select count(*) from public.messages
                   where messages.user_id = profiles.id
-) as total_messages from profiles;
+) as total_messages from public.profiles;
 
 ALTER TABLE storage.objects drop constraint objects_owner_fkey, add constraint objects_owner_fkey foreign key (owner) references auth.users(id) on delete cascade;
 
-CREATE OR REPLACE FUNCTION deleteUser() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION auth.deleteUser() RETURNS TRIGGER AS $$
 BEGIN
     DELETE FROM auth.users WHERE auth.users.id = OLD.id;
     RETURN OLD;
@@ -683,4 +683,4 @@ CREATE TRIGGER deleteUserTrigger
     AFTER DELETE
 ON public.profiles
 FOR EACH ROW 
-    EXECUTE PROCEDURE deleteUser();
+    EXECUTE PROCEDURE auth.deleteUser();
