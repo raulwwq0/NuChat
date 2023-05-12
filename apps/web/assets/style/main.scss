@@ -1,5 +1,11 @@
 * {
     font-family: $body-font !important;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 #__nuxt {
