@@ -34,14 +34,22 @@
             .single();
 
         messageContent.value = '';
-        emit('message-sent');
+        useChat()
+            .updateLastMessageAt(props.chatId as string)
+            .then(() => {
+                emit('message-sent');
+            });
     }
 
     const sendImage = (path: string) => {
         useMessages(props.chatId as string)
             .sendImage(path)
             .then(() => {
-                emit('message-sent');
+                useChat()
+                    .updateLastMessageAt(props.chatId as string)
+                    .then(() => {
+                        emit('message-sent');
+                    });
             });
     };
 </script>

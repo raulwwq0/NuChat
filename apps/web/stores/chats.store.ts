@@ -20,7 +20,10 @@ export const useChatsStore = defineStore('chats', () => {
                 '*, users:chat_user!inner(profile:profiles(id, username, full_name, avatar, role))'
             )
             .neq('users.user_id', user.value!.id)
-            .in('id', chatIds?.map(chat => chat.id) || []);
+            .in('id', chatIds?.map(chat => chat.id) || [])
+            .order('last_message_at', { ascending: false });
+
+        console.log(chatsResponse);
 
         chats.value = [...(chatsResponse || [])];
     }

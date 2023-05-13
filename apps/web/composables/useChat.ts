@@ -75,7 +75,19 @@ export const useChat = () => {
         return addUsers(userId);
     };
 
+    const updateLastMessageAt = async (chatId: string) => {
+        const { error } = await supabase
+            .from('chats')
+            .update({ last_message_at: new Date() } as never)
+            .eq('id', chatId);
+
+        if (error) {
+            console.error(error);
+        }
+    };
+
     return {
         create,
+        updateLastMessageAt,
     };
 };
