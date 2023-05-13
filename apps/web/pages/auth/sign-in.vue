@@ -12,5 +12,6 @@
 <template>
     <NuxtLayout name="auth">
         <AuthFormSignIn />
+        <AuthProvider provider="github" icon="bi:github" />
     </NuxtLayout>
 </template>
