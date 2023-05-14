@@ -55,7 +55,6 @@
             width: 100%;
             height: 50vh;
             position: relative;
-            width: 100%;
             pointer-events: none;
 
             img.svg {
