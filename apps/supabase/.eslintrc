@@ -1,4 +1,7 @@
 {
   "extends": ["plugin:yml/standard"],
-  "rules": {}
+  "rules": {
+    "yml/plain-scalar": "off",
+    "yml/block-sequence": "off"
+  }
 }
