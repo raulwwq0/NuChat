@@ -5,7 +5,7 @@
     "dev": "npm run dev:docker:up",
     "dev:docker:up": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml up",
     "dev:docker:down": "docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml down",
-    "prod": "npm run prod:docker:down && npm run prod:docker:up",
+    "prod": "npm run prod:docker:down && npm run prod:docker:up -- -d",
     "prod:docker:up": "docker compose -f docker-compose.yml up",
     "prod:docker:down": "docker compose -f docker-compose.yml down",
     "lint": "npm run lint:yml && npm run lintfix:yml",
