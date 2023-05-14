@@ -23,8 +23,6 @@ export const useChatsStore = defineStore('chats', () => {
             .in('id', chatIds?.map(chat => chat.id) || [])
             .order('last_message_at', { ascending: false });
 
-        console.log(chatsResponse);
-
         chats.value = [...(chatsResponse || [])];
     }
 
