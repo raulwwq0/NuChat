@@ -11,7 +11,21 @@
 
 <template>
     <NuxtLayout name="auth">
-        <AuthFormSignIn />
-        <AuthProvider provider="github" icon="bi:github" />
+        <template #magic-link>
+            <AuthFormSignIn />
+        </template>
+        <template #providers>
+            <h1>Or using these OAuth providers</h1>
+            <AuthProvider provider="github" icon="bi:github" />
+        </template>
     </NuxtLayout>
 </template>
+
+<style lang="scss" scoped>
+    h1 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-family: $title-font;
+        color: #fff;
+    }
+</style>

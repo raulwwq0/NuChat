@@ -50,6 +50,7 @@ export default defineNuxtConfig({
                     @import "~/assets/style/00-variables/_colors.scss";
                     @import "~/assets/style/00-variables/_fonts.scss";
                     @import "~/assets/style/01-components/_buttons.scss";
+                    @import "~/assets/style/01-components/_text-inputs.scss";
                     `,
                 },
             },

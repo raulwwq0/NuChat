@@ -1,0 +1,12 @@
+input.input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 1rem;
+    width: 80%;
+
+    &:focus {
+        border-color: $primary;
+    }
+}

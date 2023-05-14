@@ -24,14 +24,16 @@
 
 <template>
     <form @submit.prevent="handleLogin">
-        <h1>Sign In</h1>
-        <input v-model="email" type="email" placeholder="Your Email" />
+        <h1>Sign In with Magic Link</h1>
         <input
-            type="submit"
-            class="button"
-            :value="isSendingLink ? 'Sending...' : 'Send Magic Link'"
-            :disabled="isSendingLink"
+            v-model="email"
+            class="input"
+            type="email"
+            placeholder="Your Email"
         />
+        <button class="btn" :disabled="isSendingLink">
+            {{ isSendingLink ? 'Sending...' : 'Send Magic Link' }}
+        </button>
     </form>
 </template>
 
@@ -42,30 +44,24 @@
         align-items: center;
         justify-content: center;
         height: 100%;
-        background-color: #fefefe;
         padding: 3rem;
-        width: 30%;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        backdrop-filter: blur(13px);
+        width: 100%;
         h1 {
             margin-bottom: 2rem;
-            font-size: 2rem;
+            font-size: 3rem;
             font-family: $title-font;
+            color: #fff;
         }
         input {
-            width: 100%;
-            max-width: 500px;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: none;
 
-            &.button {
-                background-color: #333;
-                color: #fff;
-                border: none;
-                cursor: pointer;
+            &:focus {
+                outline: none;
             }
+        }
+
+        button {
+            border: none;
         }
     }
 </style>

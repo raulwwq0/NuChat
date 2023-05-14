@@ -58,7 +58,12 @@
 <template>
     <main class="find-dialog">
         <header>
-            <input v-model="username" type="text" @input="findUserByUsername" />
+            <input
+                v-model="username"
+                type="text"
+                class="input"
+                @input="findUserByUsername"
+            />
         </header>
         <section>
             <VList v-if="areUsersFound" lines="one">
@@ -99,19 +104,6 @@
             margin-bottom: 1rem;
             display: flex;
             justify-content: center;
-
-            input {
-                width: 80%;
-                padding: 1rem;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                outline: none;
-                font-size: 1.2rem;
-
-                &:focus {
-                    border-color: $primary;
-                }
-            }
         }
 
         section {
