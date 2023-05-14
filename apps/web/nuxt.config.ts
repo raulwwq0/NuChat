@@ -32,6 +32,7 @@ export default defineNuxtConfig({
             );
         },
     ],
+    plugins: ['~/plugins/particles'],
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
@@ -48,6 +49,7 @@ export default defineNuxtConfig({
                     additionalData: `
                     @import "~/assets/style/00-variables/_colors.scss";
                     @import "~/assets/style/00-variables/_fonts.scss";
+                    @import "~/assets/style/01-components/_buttons.scss";
                     `,
                 },
             },
