@@ -117,6 +117,7 @@
         <VDialog v-model="newChatDialog" class="dialog">
             <ChatsFindNew @close="newChatDialog = false" />
         </VDialog>
+        <ParticlesBg />
     </main>
 </template>
 
@@ -129,7 +130,6 @@
         height: 100vh;
         width: 70%;
         margin: 0 auto;
-        //background-color: antiquewhite;
 
         aside {
             display: flex;
@@ -139,6 +139,8 @@
             width: 30%;
             border: 1px solid $primary;
             border-radius: 10px;
+            z-index: 100;
+            background-color: #fff;
 
             header {
                 width: 100%;
@@ -194,6 +196,8 @@
             border: 1px solid $primary;
             border-radius: 10px;
             position: relative;
+            background-color: #fff;
+            z-index: 1;
         }
     }
 
