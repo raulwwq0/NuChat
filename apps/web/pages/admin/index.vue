@@ -5,19 +5,18 @@
     } from '@/interfaces/profile.interface';
 
     definePageMeta({
-        middleware: ['empty-profile', 'authenticated', 'is-admin'],
+        middleware: ['authenticated', 'empty-profile', 'is-admin'],
     });
 
+    const { errorNotification } = useSwal();
+    const { ifNeeded } = useDefaultAvatar();
+    const { get } = useBucket('avatars');
     const {
         profilesWithTotalMessages: profiles,
         fetchAllProfilesWithTotalMessages,
         startProfilesWatcher,
         stopProfilesWatcher,
     } = useAdmin();
-    await fetchAllProfilesWithTotalMessages();
-
-    const { ifNeeded } = useDefaultAvatar();
-    const { get } = useBucket('avatars');
 
     type Dialogs = 'edit' | 'delete';
 
@@ -55,9 +54,19 @@
 
     onMounted(() => {
         startProfilesWatcher();
-        for (const profile of profiles.value) {
-            get(profile.avatar).then(url => (profile.avatarUrl = url));
-        }
+        fetchAllProfilesWithTotalMessages()
+            .then(() => {
+                for (const profile of profiles.value) {
+                    get(profile.avatar)
+                        .then(url => (profile.avatarUrl = url))
+                        .catch(error => {
+                            errorNotification(error.message);
+                        });
+                }
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     });
 
     onUnmounted(() => {

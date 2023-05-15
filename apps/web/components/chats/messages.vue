@@ -2,13 +2,17 @@
     import { Message } from '@/interfaces/message.interface';
     import { Profile } from '~~/interfaces/profile.interface';
 
-    const supabase = useSupabaseClient();
-    const { ifNeeded } = useDefaultAvatar();
-
     const chatId = useRoute().params.id;
+    const { ifNeeded } = useDefaultAvatar();
+    const { errorNotification } = useSwal();
+    const { get: getAvatar } = useBucket('avatars');
+    const {
+        get: getMessages,
+        startMessagesWatcher,
+        stopMessagesWatcher,
+    } = useMessages(chatId as string);
     const messages = ref<Message[] | ['loading']>(['loading']);
     const areMessagesLoading = computed(() => messages.value[0] === 'loading');
-    const messagesWatcher = ref();
     const messageList = ref<HTMLElement>();
     const scrollBehavior = ref<'smooth' | 'auto'>('auto');
     const { y: messageListVerticalScrollPosition } = useScroll(messageList, {
@@ -18,17 +22,17 @@
         await useProfile().getFromChatId(chatId as string)
     );
 
-    function getMessages() {
-        return supabase
-            .from('messages')
-            .select('*')
-            .eq('chat_id', chatId)
-            .order('created_at', { ascending: true });
-    }
-
-    async function updateMessages() {
-        const { data: messagesResponse } = await getMessages();
-        messages.value = messagesResponse!;
+    function updateMessages() {
+        return getMessages()
+            .then(messagesResponse => {
+                messages.value = messagesResponse!;
+            })
+            .then(() => {
+                if (isAtBottom.value) scrollToBottom();
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     }
 
     function scrollToBottom() {
@@ -51,29 +55,21 @@
         );
     });
 
-    onMounted(async () => {
-        messagesWatcher.value = supabase
-            .channel('messages-channel')
-            .on(
-                'postgres_changes',
-                { event: '*', schema: 'public', table: 'messages' },
-                () => {
-                    updateMessages().then(() => {
-                        if (isAtBottom.value) scrollToBottom();
-                    });
-                }
-            )
-            .subscribe();
-        await updateMessages();
-        scrollToBottom();
-        scrollBehavior.value = 'smooth';
-        useBucket('avatars')
-            .get(profile.avatar)
-            .then((url: string) => (profile.avatar = url));
+    onMounted(() => {
+        startMessagesWatcher(updateMessages);
+        updateMessages().then(() => {
+            scrollToBottom();
+            scrollBehavior.value = 'smooth';
+        });
+        getAvatar(profile.avatar)
+            .then((url: string) => (profile.avatar = url))
+            .catch(error => {
+                errorNotification(error.message);
+            });
     });
 
     onBeforeUnmount(() => {
-        messagesWatcher.value!.unsubscribe();
+        stopMessagesWatcher();
     });
 </script>
 

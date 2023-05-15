@@ -8,11 +8,18 @@
 
     const props = defineProps<ProviderProps>();
 
+    const { errorNotification } = useSwal();
     const { signInOAuth } = useAuth(props.provider);
+
+    const handleOAuth = () => {
+        signInOAuth().catch(error => {
+            errorNotification(error.message);
+        });
+    };
 </script>
 
 <template>
-    <figure class="provider" @click="signInOAuth()">
+    <figure class="provider" @click="handleOAuth">
         <Icon v-if="icon" :name="icon" class="provider-icon" />
         <h2>Sign in with {{ provider }}</h2>
     </figure>

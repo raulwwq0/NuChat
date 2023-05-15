@@ -1,9 +1,16 @@
 <script lang="ts" setup>
     const supabase = useSupabaseClient();
+    const { errorNotification } = useSwal();
 
-    const logout = async () => {
-        await supabase.auth.signOut();
-        navigateTo('/auth/sign-in');
+    const logout = () => {
+        supabase.auth
+            .signOut()
+            .then(() => {
+                navigateTo('/');
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     };
 </script>
 

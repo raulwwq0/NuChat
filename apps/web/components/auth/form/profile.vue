@@ -4,6 +4,9 @@
 
     const user = useSupabaseUser();
     const { ifNeeded } = useDefaultAvatar();
+    const { errorNotification } = useSwal();
+    const { upload, get } = useBucket('avatars');
+    const { upsert } = useProfile();
 
     interface ProfileProps {
         title: string;
@@ -38,36 +41,43 @@
         username: yup.string().required('Username is required'),
     });
 
+    const getAvatar = (avatar: string) => {
+        get(avatar)
+            .then((url: string) => (userAvatar.value = url))
+            .catch(error => {
+                errorNotification(error.message);
+            });
+    };
+
     const uploadAvatar = () => {
-        useBucket('avatars')
-            .upload(profile.avatar)
+        upload(profile.avatar)
             .then((path?: string) => {
                 profile.avatar = path || profile.avatar;
             })
             .then(() => {
-                useBucket('avatars')
-                    .get(profile.avatar)
-                    .then((url: string) => (userAvatar.value = url));
+                getAvatar(profile.avatar);
+            })
+            .catch(error => {
+                errorNotification(error.message);
             });
     };
 
     const saveProfile = () => {
-        useProfile()
-            .upsert(profile)
+        upsert(profile)
             .then(() => {
                 emit('saved');
             })
             .catch(error => {
                 if (error.code === '23505') {
-                    alert('Username already taken');
+                    errorNotification('Username already exists');
+                    return;
                 }
+                errorNotification(error.message);
             });
     };
 
     onMounted(() => {
-        useBucket('avatars')
-            .get(profile.avatar)
-            .then((url: string) => (userAvatar.value = url));
+        getAvatar(profile.avatar);
     });
 </script>
 

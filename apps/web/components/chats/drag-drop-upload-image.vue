@@ -1,17 +1,21 @@
 <script lang="ts" setup>
     const route = useRoute();
     const dropArea = ref<HTMLElement | null>(null);
+    const { errorNotification } = useSwal();
+    const { upload } = useBucket('chats');
 
     const uploadImages = (e: DragEvent) => {
         const files = e.dataTransfer?.files;
         if (!files) return;
 
         for (const file of files) {
-            useBucket('chats')
-                .upload(file)
+            upload(file)
                 .then((path?: string) => {
                     if (!path) return;
                     useMessages(route.params.id as string).sendImage(path);
+                })
+                .catch(error => {
+                    errorNotification(error.message);
                 });
         }
     };

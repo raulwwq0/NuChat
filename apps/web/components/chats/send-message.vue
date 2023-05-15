@@ -9,8 +9,10 @@
         (e: 'message-sent'): void;
     }>();
 
-    const supabase = useSupabaseClient();
     const user = useSupabaseUser();
+    const { send, sendImage } = useMessages(props.chatId as string);
+    const { updateLastMessageAt } = useChat();
+    const { errorNotification } = useSwal();
 
     const userId = computed(() => user.value?.id);
 
@@ -18,7 +20,7 @@
 
     const isMessageEmpty = computed(() => messageContent.value === '');
 
-    async function sendMessage() {
+    function handleSendMessage() {
         if (isMessageEmpty.value) return;
 
         const message: Message = {
@@ -28,29 +30,30 @@
             type: MessageType.TEXT,
         };
 
-        await supabase
-            .from('messages')
-            .insert([message as never])
-            .single();
-
-        messageContent.value = '';
-        useChat()
-            .updateLastMessageAt(props.chatId as string)
+        send(message)
             .then(() => {
-                emit('message-sent');
+                messageContent.value = '';
+                updateLastMessageAt(props.chatId as string)
+                    .then(() => {
+                        emit('message-sent');
+                    })
+                    .catch(error => {
+                        errorNotification(error.message);
+                    });
+            })
+            .catch(error => {
+                errorNotification(error.message);
             });
     }
 
-    const sendImage = (path: string) => {
-        useMessages(props.chatId as string)
-            .sendImage(path)
-            .then(() => {
-                useChat()
-                    .updateLastMessageAt(props.chatId as string)
-                    .then(() => {
-                        emit('message-sent');
-                    });
-            });
+    const handleSendImage = (path: string) => {
+        sendImage(path).then(() => {
+            useChat()
+                .updateLastMessageAt(props.chatId as string)
+                .then(() => {
+                    emit('message-sent');
+                });
+        });
     };
 </script>
 
@@ -60,7 +63,7 @@
             v-model="messageContent"
             type="text"
             placeholder="Write your message..."
-            @keyup.enter="sendMessage"
+            @keyup.enter="handleSendMessage"
         />
         <VMenu location="top" open-on-hover :close-on-content-click="false">
             <template #activator="{ props }">
@@ -75,10 +78,10 @@
                 @emoji-click="emoji => (messageContent += emoji)"
             />
         </VMenu>
-        <ChatsUploadImage @image-uploaded="sendImage" />
+        <ChatsUploadImage @image-uploaded="handleSendImage" />
         <button
             :class="{ disabled: isMessageEmpty }"
-            @click.prevent="sendMessage"
+            @click.prevent="handleSendMessage"
         >
             <Icon
                 v-if="isMessageEmpty"

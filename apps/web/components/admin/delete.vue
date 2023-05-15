@@ -11,8 +11,13 @@
         (e: 'close'): void;
     }>();
 
-    const deleteProfile = async () => {
-        await useAdmin().deleteProfile(props.profile.id);
+    const { deleteProfile } = useAdmin();
+    const { errorNotification } = useSwal();
+
+    const handleDelete = () => {
+        deleteProfile(props.profile.id).catch(error => {
+            errorNotification(error.message);
+        });
         emit('close');
     };
 </script>
@@ -39,7 +44,7 @@
         </section>
         <section class="buttons">
             <div @click="$emit('close')">Cancel</div>
-            <div class="delete" @click="deleteProfile">Delete</div>
+            <div class="delete" @click="handleDelete">Delete</div>
         </section>
     </main>
 </template>

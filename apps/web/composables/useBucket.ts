@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { NonValidImageTypeException } from '~~/exceptions/non-valid-image-type.exception';
+import { SupabaseException } from '~~/exceptions/supabase.exception';
 
 export const useBucket = (bucket: string) => {
     const supabase = useSupabaseClient();
@@ -22,8 +24,9 @@ export const useBucket = (bucket: string) => {
         if (!image.value) return;
 
         if (!isAllowedImage(image.value)) {
-            alert('Only images are allowed (png, jpeg, jpg)');
-            return;
+            throw new NonValidImageTypeException(
+                'Invalid image type, only PNG and JPEG are allowed.'
+            );
         }
 
         const { data, error } = await supabase.storage
@@ -36,8 +39,7 @@ export const useBucket = (bucket: string) => {
             );
 
         if (error) {
-            console.error(error);
-            return;
+            throw new SupabaseException(error.message);
         }
 
         return data?.path ?? '';
@@ -45,9 +47,14 @@ export const useBucket = (bucket: string) => {
 
     const get = async (path: string) => {
         if (!path) return '';
-        const { data } = await supabase.storage
+        const { data, error } = await supabase.storage
             .from(bucket)
             .createSignedUrl(path, 60);
+
+        if (error) {
+            throw new SupabaseException(error.message);
+        }
+
         return data?.signedUrl ?? '';
     };
 

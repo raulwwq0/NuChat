@@ -1,3 +1,4 @@
+import { SupabaseException } from '~~/exceptions/supabase.exception';
 import { ChatUser } from '~~/interfaces/chat-user.interface';
 import { ProfileWithTotalMessages } from '~~/interfaces/profile.interface';
 
@@ -13,8 +14,7 @@ export const useAdmin = () => {
             .select('*');
 
         if (profilesError) {
-            console.error(profilesError);
-            return [];
+            throw new SupabaseException(profilesError.message);
         }
 
         profilesWithTotalMessages.value = [...(profiles || [])];
@@ -28,7 +28,7 @@ export const useAdmin = () => {
             .eq('id', profileId);
 
         if (error) {
-            console.error(error);
+            throw new SupabaseException(error.message);
         }
     };
 
@@ -39,8 +39,7 @@ export const useAdmin = () => {
             .eq('user_id', userId);
 
         if (chatUsersError) {
-            console.error(chatUsersError);
-            return [];
+            throw new SupabaseException(chatUsersError.message);
         }
 
         const chatIds = chatUsers?.map(
@@ -53,7 +52,7 @@ export const useAdmin = () => {
             .in('id', chatIds || []);
 
         if (deleteChatsError) {
-            console.error(deleteChatsError);
+            throw new SupabaseException(deleteChatsError.message);
         }
     };
 

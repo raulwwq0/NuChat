@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { SupabaseException } from '~~/exceptions/supabase.exception';
 import { ChatUser } from '~~/interfaces/chat-user.interface';
 
 export const useChat = () => {
@@ -13,8 +14,7 @@ export const useChat = () => {
             .or(`user_id.eq.${userId},user_id.eq.${user.value!.id}`);
 
         if (chatUsersError) {
-            console.error(chatUsersError);
-            return [];
+            throw new SupabaseException(chatUsersError.message);
         }
 
         const duplicateChats: ChatUser[] = chatUsers!.filter(
@@ -38,7 +38,7 @@ export const useChat = () => {
             .insert([newChat as never]);
 
         if (createChatError) {
-            console.error(createChatError);
+            throw new SupabaseException(createChatError.message);
         }
     };
 
@@ -57,22 +57,25 @@ export const useChat = () => {
             ]);
 
         if (createChatUserError) {
-            console.error(createChatUserError);
-            return;
+            throw new SupabaseException(createChatUserError.message);
         }
 
         return chatId;
     };
 
     const create = async (userId: string) => {
-        const existingChats = await alreadyExists(userId);
+        try {
+            const existingChats = await alreadyExists(userId);
 
-        if (existingChats.length > 0) {
-            return existingChats[0].chat_id;
+            if (existingChats.length > 0) {
+                return existingChats[0].chat_id;
+            }
+
+            await createRoom();
+            return addUsers(userId);
+        } catch (error: any) {
+            throw new SupabaseException(error.message);
         }
-
-        await createRoom();
-        return addUsers(userId);
     };
 
     const updateLastMessageAt = async (chatId: string) => {
@@ -82,7 +85,7 @@ export const useChat = () => {
             .eq('id', chatId);
 
         if (error) {
-            console.error(error);
+            throw new SupabaseException(error.message);
         }
     };
 

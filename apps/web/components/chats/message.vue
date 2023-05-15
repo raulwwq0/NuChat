@@ -3,6 +3,8 @@
     import { Message, MessageType } from '@/interfaces/message.interface';
 
     const user = useSupabaseUser();
+    const { errorNotification } = useSwal();
+    const { get } = useBucket('chats');
     const userId = user.value?.id;
     const imageUrl = ref<string>('');
 
@@ -32,9 +34,11 @@
 
     onMounted(() => {
         if (isImageMessage.value) {
-            useBucket('chats')
-                .get(props.message.content)
-                .then(url => (imageUrl.value = url));
+            get(props.message.content)
+                .then(url => (imageUrl.value = url))
+                .catch(error => {
+                    errorNotification(error.message);
+                });
         }
     });
 </script>

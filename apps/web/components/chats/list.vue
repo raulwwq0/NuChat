@@ -4,6 +4,10 @@
 
     const chatsStore = useChatsStore();
     const { chats, areChatsEmpty, areChatsLoading } = storeToRefs(chatsStore);
+    const { fetchAllUserChats, startChatsWatcher, stopChatsWatcher } =
+        chatsStore;
+    const { get } = useBucket('avatars');
+    const { errorNotification } = useSwal();
 
     const chatsProfilesWithRoomId = () =>
         chats.value.map((chat: any) => ({
@@ -16,21 +20,27 @@
     const prepareChatList = () => {
         chatsProfiles.value = chatsProfilesWithRoomId();
         for (const chat of chatsProfiles.value) {
-            useBucket('avatars')
-                .get(chat.avatar)
-                .then(url => (chat.avatar = url));
+            get(chat.avatar)
+                .then(url => (chat.avatar = url))
+                .catch(error => {
+                    errorNotification(error.message);
+                });
         }
     };
 
     watch(chats, () => prepareChatList());
 
     onMounted(() => {
-        chatsStore.fetchAllUserChats().then(() => prepareChatList());
-        chatsStore.startChatsWatcher();
+        fetchAllUserChats()
+            .then(() => prepareChatList())
+            .catch(error => {
+                errorNotification(error.message);
+            });
+        startChatsWatcher();
     });
 
     onBeforeUnmount(() => {
-        chatsStore.stopChatsWatcher();
+        stopChatsWatcher();
     });
 </script>
 

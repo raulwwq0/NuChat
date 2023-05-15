@@ -1,10 +1,11 @@
 <script lang="ts" setup>
     import { Profile } from '~~/interfaces/profile.interface';
 
-    const supabase = useSupabaseClient();
-    const user = useSupabaseUser();
     const username = ref('');
-
+    const { errorNotification } = useSwal();
+    const { get } = useBucket('avatars');
+    const { create } = useChat();
+    const { findByUsername } = useProfile();
     const profilesFound = ref<Profile[]>([]);
     const areUsersFound = computed(() => profilesFound.value.length > 0);
 
@@ -12,46 +13,40 @@
         (e: 'close'): void;
     }>();
 
-    const findUserByUsername = async () => {
+    const findUserByUsername = () => {
         if (username.value.length < 3) {
             profilesFound.value = [];
             return;
         }
 
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .ilike(
-                'username',
-                `%${
-                    username.value[0] === '@'
-                        ? username.value.slice(1)
-                        : username.value
-                }%`
-            );
-
-        if (error) {
-            console.error(error);
-            return;
-        }
-
-        profilesFound.value = data.filter(
-            (profile: Profile) => profile.id !== user.value!.id
-        );
+        findByUsername(username.value)
+            .then(profiles => {
+                profilesFound.value = profiles;
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     };
 
     watch(profilesFound, () => {
         for (const profile of profilesFound.value) {
-            useBucket('avatars')
-                .get(profile.avatar)
-                .then(url => (profile.avatar = url));
+            get(profile.avatar)
+                .then(url => (profile.avatar = url))
+                .catch(error => {
+                    errorNotification(error.message);
+                });
         }
     });
 
-    const createChat = async (profileId: string) => {
-        const chatId = await useChat().create(profileId);
-        emit('close');
-        navigateTo(`/chats/${chatId}/messages`);
+    const createChat = (profileId: string) => {
+        create(profileId)
+            .then(chatId => {
+                emit('close');
+                navigateTo(`/chats/${chatId}/messages`);
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     };
 </script>
 

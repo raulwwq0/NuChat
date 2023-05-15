@@ -1,3 +1,4 @@
+import { SupabaseException } from '~~/exceptions/supabase.exception';
 import { ChatUser } from '~~/interfaces/chat-user.interface';
 import { Profile } from '~~/interfaces/profile.interface';
 
@@ -12,8 +13,7 @@ export const useProfile = () => {
             .eq('chat_id', chatId);
 
         if (chatUsersError) {
-            console.error(chatUsersError);
-            return [];
+            throw new SupabaseException(chatUsersError.message);
         }
 
         return chatUsers;
@@ -27,22 +27,44 @@ export const useProfile = () => {
             .single();
 
         if (profileError) {
-            console.error(profileError);
+            throw new SupabaseException(profileError.message);
         }
 
         return profileData!;
     };
 
     const getFromChatId = async (chatId: string): Promise<Profile> => {
-        const chatUsers = await fetchChatUsers(chatId);
+        try {
+            const chatUsers = await fetchChatUsers(chatId);
 
-        const otherUser: any = chatUsers.find(
-            (chatUser: ChatUser) => chatUser.user_id !== user.value!.id
-        );
+            const otherUser: any = chatUsers.find(
+                (chatUser: ChatUser) => chatUser.user_id !== user.value!.id
+            );
 
-        const profile = await fetchProfile(otherUser!.user_id);
+            const profile = await fetchProfile(otherUser!.user_id);
 
-        return profile!;
+            return profile!;
+        } catch (error: any) {
+            throw new SupabaseException(error.message);
+        }
+    };
+
+    const findByUsername = async (username: string): Promise<Profile[]> => {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .ilike(
+                'username',
+                `%${username[0] === '@' ? username.slice(1) : username}%`
+            );
+
+        if (error) {
+            throw new SupabaseException(error.message);
+        }
+
+        return data.filter(
+            (profile: Profile) => profile.id !== user.value!.id
+        ) as Profile[];
     };
 
     const upsert = async (profile: Profile) => {
@@ -52,13 +74,14 @@ export const useProfile = () => {
             .eq('id', profile.id);
 
         if (error) {
-            throw error;
+            throw new SupabaseException(error.message);
         }
     };
 
     return {
         fetchProfile,
         getFromChatId,
+        findByUsername,
         upsert,
     };
 };
