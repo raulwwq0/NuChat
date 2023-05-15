@@ -1,24 +1,39 @@
 <script lang="ts" setup>
-    const config = useRuntimeConfig();
-    const supabase = useSupabaseClient();
+    const { errorNotification } = useSwal();
+    const { signInWithEmail, verifyOTP } = useAuth();
     const isSendingLink = ref(false);
+    const emailSentDialog = ref(false);
     const email = ref('');
-    const handleLogin = async () => {
-        try {
-            isSendingLink.value = true;
-            const { error } = await supabase.auth.signInWithOtp({
-                email: email.value,
-                options: {
-                    emailRedirectTo: `${config.public.baseUrl}/auth/processing`,
-                },
-            });
-            if (error) throw error;
-            alert('Check your email for the login link!');
-        } catch (error: any) {
-            alert(error.error_description || error.message);
-        } finally {
-            isSendingLink.value = false;
+    const emailCode = ref('');
+    const handleLogin = () => {
+        if (!email.value) {
+            errorNotification('Please enter your email');
+            return;
         }
+        isSendingLink.value = true;
+        signInWithEmail(email.value)
+            .then(() => {
+                emailSentDialog.value = true;
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            })
+            .finally(() => {
+                isSendingLink.value = false;
+            });
+    };
+    const handleVerifyOTP = () => {
+        if (!emailCode.value) {
+            errorNotification('Please enter the code');
+            return;
+        }
+        verifyOTP(email.value, emailCode.value)
+            .then(() => {
+                navigateTo('/auth/processing');
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     };
 </script>
 
@@ -35,6 +50,25 @@
             {{ isSendingLink ? 'Sending...' : 'Send Magic Link' }}
         </button>
     </form>
+    <VDialog v-model="emailSentDialog" title="Email Sent">
+        <div class="sign-in-dialog">
+            <h2>Check your email for the login link!</h2>
+            <p>or</p>
+            <h2>You can also check your email for the code!</h2>
+            <input
+                v-model="emailCode"
+                class="input"
+                type="text"
+                placeholder="Enter the code here"
+            />
+            <button class="btn" @click="handleVerifyOTP">Check Code</button>
+            <Icon
+                name="material-symbols:close-rounded"
+                class="close-icon"
+                @click="emailSentDialog = false"
+            />
+        </div>
+    </VDialog>
 </template>
 
 <style lang="scss" scoped>
@@ -62,6 +96,47 @@
 
         button {
             border: none;
+        }
+    }
+
+    .sign-in-dialog {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 3rem;
+        width: 50%;
+        margin: 0 auto;
+        background-color: #fff;
+        position: relative;
+
+        h2 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-family: $title-font;
+            color: $secondary;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-family: $title-font;
+            color: #333;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+
+            &:hover {
+                color: $primary;
+                transition: all 0.2s ease-in-out;
+            }
         }
     }
 </style>

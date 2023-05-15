@@ -39,6 +39,7 @@
         "date-fns": "^2.29.3",
         "particles.vue3": "^2.9.3",
         "pinia": "^2.0.34",
+        "sweetalert2": "^11.7.5",
         "tsparticles": "^2.9.3",
         "uuid": "^9.0.0",
         "vite-plugin-vuetify": "^1.0.2",
