@@ -2,7 +2,7 @@
     import {
         Profile,
         ProfileWithTotalMessages,
-    } from '@/interfaces/profile.interface';
+    } from '~~/interfaces/profile.interface';
 
     definePageMeta({
         middleware: ['authenticated', 'empty-profile', 'is-admin'],

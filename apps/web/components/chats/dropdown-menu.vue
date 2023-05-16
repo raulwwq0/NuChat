@@ -1,7 +1,4 @@
 <script setup lang="ts">
-    import { storeToRefs } from 'pinia';
-    import { useProfileStore } from '~~/stores/profile.store';
-
     const supabase = useSupabaseClient();
     const { profile } = storeToRefs(useProfileStore());
     const { isAdmin } = useProfileStore();

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { format } from 'date-fns';
-    import { Message } from '@/interfaces/message.interface';
+    import { Message } from '~~/interfaces/message.interface';
     import { MessageType } from '~~/enums/message.enum';
 
     const user = useSupabaseUser();

@@ -1,4 +1,4 @@
-import { Chat } from '@/interfaces/chat.interface';
+import { Chat } from '~~/interfaces/chat.interface';
 
 export const useChatsStore = defineStore('chats', () => {
     const supabase = useSupabaseClient();

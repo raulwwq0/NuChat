@@ -2,13 +2,16 @@ import vuetify from 'vite-plugin-vuetify';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    imports: {
+        dirs: ['stores'],
+    },
     modules: [
         '@nuxtjs/supabase',
         '@vueuse/nuxt',
         [
             '@pinia/nuxt',
             {
-                autoImports: ['defineStore'],
+                autoImports: ['defineStore', 'storeToRefs'],
             },
         ],
         [

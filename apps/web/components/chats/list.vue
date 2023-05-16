@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-    import { storeToRefs } from 'pinia';
-    import { useChatsStore } from '~~/stores/chats.store';
-
     const chatsStore = useChatsStore();
     const { chats, areChatsEmpty, areChatsLoading } = storeToRefs(chatsStore);
     const { fetchAllUserChats, startChatsWatcher, stopChatsWatcher } =

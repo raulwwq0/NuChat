@@ -1,5 +1,3 @@
-import { useProfileStore } from '~~/stores/profile.store';
-
 export default defineNuxtRouteMiddleware(async () => {
     const { fetch } = useProfileStore();
     await fetch();

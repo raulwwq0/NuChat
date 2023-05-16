@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { Message } from '@/interfaces/message.interface';
+    import { Message } from '~~/interfaces/message.interface';
     import { Profile } from '~~/interfaces/profile.interface';
 
     const chatId = useRoute().params.id;
