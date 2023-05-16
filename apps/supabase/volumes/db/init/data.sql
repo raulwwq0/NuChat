@@ -776,3 +776,18 @@ CREATE TRIGGER deleteUserTrigger
 ON public.profiles
 FOR EACH ROW 
     EXECUTE PROCEDURE auth.deleteUser();
+
+-- add missing columns to auth.users
+alter table auth.users 
+    add column email_confirmed_at timestamp with time zone,
+    add column email_change_token_new text,
+    add column phone text,
+    add column phone_confirmed_at timestamp with time zone,
+    add column phone_change text,
+    add column phone_change_token text,
+    add column phone_change_sent_at timestamp with time zone,
+    add column email_change_token_current text,
+    add column email_change_confirm_status integer,
+    add column banned_until timestamp with time zone,
+    add column reauthentication_token text,
+    add column reauthentication_sent_at timestamp with time zone;
