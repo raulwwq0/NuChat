@@ -2,7 +2,7 @@ import { Profile, Role } from '~~/interfaces/profile.interface';
 
 export const useProfileStore = defineStore('profile', () => {
     const user = useSupabaseUser();
-    const profile = ref<Profile | null>(null);
+    const profile = ref<Profile>();
 
     const { fetchProfile } = useProfile();
 

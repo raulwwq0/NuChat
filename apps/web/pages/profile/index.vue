@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-    import { Profile } from '~~/interfaces/profile.interface';
+    import { storeToRefs } from 'pinia';
+    import { useProfileStore } from '~~/stores/profile.store';
 
     definePageMeta({
         middleware: ['empty-profile', 'authenticated'],
@@ -10,10 +11,7 @@
         description: 'Your profile',
     });
 
-    const user = useSupabaseUser();
-    const profile = ref<Profile>(
-        await useProfile().fetchProfile(user.value?.id || '')
-    );
+    const { profile } = storeToRefs(useProfileStore());
 </script>
 
 <template>

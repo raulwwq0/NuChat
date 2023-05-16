@@ -8,6 +8,11 @@
         middleware: ['authenticated', 'empty-profile', 'is-admin'],
     });
 
+    useServerSeoMeta({
+        title: 'NuChat | Admin',
+        description: 'Just a chat app built with Nuxt 3 and Supabase',
+    });
+
     const { errorNotification } = useSwal();
     const { ifNeeded } = useDefaultAvatar();
     const { get } = useBucket('avatars');

@@ -7,13 +7,23 @@
     });
 
     const chatId = useRoute().params.id;
-    const profile = ref<Profile>(
-        await useProfile().getFromChatId(chatId as string)
-    );
+    const profile = ref<Profile>();
+    const { getFromChatId } = useProfile();
+    const { errorNotification } = useSwal();
 
     useSeoMeta({
         title: `NuChat | ${profile.value?.full_name || 'Chat'}`,
         description: 'Just a chat app built with Nuxt 3 and Supabase',
+    });
+
+    onMounted(() => {
+        getFromChatId(chatId as string)
+            .then(profileResponse => {
+                profile.value = profileResponse!;
+            })
+            .catch(error => {
+                errorNotification(error.message);
+            });
     });
 </script>
 
