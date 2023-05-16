@@ -1,6 +1,6 @@
 FROM node:18-alpine3.17 AS build
 
-RUN apk update && apk upgrade && adduser -D nuchat
+RUN apk update && apk upgrade && apk add g++ make py3-pip && adduser -D nuchat
 
 USER nuchat
 
