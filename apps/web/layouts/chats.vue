@@ -117,7 +117,9 @@
         <VDialog v-model="newChatDialog" class="dialog">
             <ChatsFindNew @close="newChatDialog = false" />
         </VDialog>
-        <ParticlesBg />
+        <LazyClientOnly>
+            <ParticlesBg />
+        </LazyClientOnly>
     </main>
 </template>
 

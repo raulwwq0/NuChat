@@ -21,7 +21,9 @@
                 />
             </article>
         </section>
-        <ParticlesBg />
+        <LazyClientOnly>
+            <ParticlesBg />
+        </LazyClientOnly>
     </main>
 </template>
 

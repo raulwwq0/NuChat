@@ -32,7 +32,9 @@
                 ></span
             >
         </footer>
-        <ParticlesBg />
+        <LazyClientOnly>
+            <ParticlesBg />
+        </LazyClientOnly>
     </main>
 </template>
 
