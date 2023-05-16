@@ -1,4 +1,5 @@
-import { Profile, Role } from '~~/interfaces/profile.interface';
+import { Profile } from '~~/interfaces/profile.interface';
+import { Role } from '~~/enums/role.enum';
 
 export const useProfileStore = defineStore('profile', () => {
     const user = useSupabaseUser();

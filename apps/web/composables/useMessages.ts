@@ -1,5 +1,6 @@
 import { SupabaseException } from '~~/exceptions/supabase.exception';
-import { Message, MessageType } from '~~/interfaces/message.interface';
+import { Message } from '~~/interfaces/message.interface';
+import { MessageType } from '~~/enums/message.enum';
 
 export const useMessages = (chatId: string) => {
     const supabase = useSupabaseClient();

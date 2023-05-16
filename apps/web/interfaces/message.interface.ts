@@ -1,7 +1,4 @@
-export enum MessageType {
-    TEXT = 'text',
-    IMAGE = 'image',
-}
+import { MessageType } from '~~/enums/message.enum';
 
 export interface Message {
     id?: string;

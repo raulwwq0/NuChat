@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-    import { Message, MessageType } from '@/interfaces/message.interface';
+    import { Message } from '@/interfaces/message.interface';
+    import { MessageType } from '~~/enums/message.enum';
 
     const props = defineProps<{
         chatId: string | string[];

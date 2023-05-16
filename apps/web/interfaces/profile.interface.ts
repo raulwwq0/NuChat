@@ -1,14 +1,11 @@
-export enum Role {
-    ADMIN = 'admin',
-    USER = 'user',
-}
+import { Role } from '~~/enums/role.enum';
 
 export interface Profile {
     id: string;
     username: string;
     full_name: string;
     avatar: string;
-    role: 'user' | 'admin';
+    role: Role;
 }
 
 export interface ProfileWithTotalMessages extends Profile {

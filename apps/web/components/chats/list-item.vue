@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Role } from '~~/interfaces/profile.interface';
+    import { Role } from '~~/enums/role.enum';
     const { ifNeeded } = useDefaultAvatar();
     const isChatWithAdmin = (role: Role) => role === 'admin';
 

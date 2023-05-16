@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     import * as yup from 'yup';
-    import { Profile, Role } from '~~/interfaces/profile.interface';
+    import { Profile } from '~~/interfaces/profile.interface';
+    import { Role } from '~~/enums/role.enum';
 
     const user = useSupabaseUser();
     const { ifNeeded } = useDefaultAvatar();
