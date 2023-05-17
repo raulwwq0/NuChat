@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY --chown=nuchat:nuchat . /app
 
-RUN npm install && npx nuxt build
+RUN npm install && npm install nuxt@3.3.2 && npx nuxt@3.3.2 build
 
 FROM node:18-alpine3.17
 
