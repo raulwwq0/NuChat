@@ -147,7 +147,7 @@
     main {
         display: flex;
         flex-flow: column;
-        justify-content: start;
+        justify-content: flex-start;
         align-items: center;
         height: 100vh;
         width: 70%;

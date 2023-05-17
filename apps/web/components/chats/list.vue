@@ -90,7 +90,7 @@
         .no-chats-found-message {
             display: flex;
             flex-flow: column;
-            justify-content: start;
+            justify-content: flex-start;
             align-items: center;
             height: 90%;
             width: 100%;
