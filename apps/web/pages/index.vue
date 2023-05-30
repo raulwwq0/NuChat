@@ -17,7 +17,12 @@
                     >
                 </main>
                 <figure>
-                    <img src="@/assets/images/logo.png" alt="NuChatLogo" />
+                    <img
+                        src="@/assets/images/logo.png"
+                        alt="NuChat Logo"
+                        width="300"
+                        height="300"
+                    />
                 </figure>
             </div>
             <img src="@/assets/images/wave-haikei.svg" alt="SVG" class="svg" />

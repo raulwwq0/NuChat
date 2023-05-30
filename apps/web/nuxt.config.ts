@@ -37,6 +37,9 @@ export default defineNuxtConfig({
             );
         },
     ],
+    nitro: {
+        compressPublicAssets: true,
+    },
     plugins: ['~/plugins/particles'],
     runtimeConfig: {
         public: {
