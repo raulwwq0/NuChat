@@ -67,9 +67,9 @@
             @keyup.enter="handleSendMessage"
         />
         <VMenu location="top" open-on-hover :close-on-content-click="false">
-            <template #activator="{ props }">
+            <template #activator="{ props: menuProps }">
                 <Icon
-                    v-bind="props"
+                    v-bind="menuProps"
                     name="uil:smile"
                     class="send-message-emoji-icon"
                 />

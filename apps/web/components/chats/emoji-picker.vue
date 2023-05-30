@@ -2,7 +2,7 @@
     import data from '@/assets/emojis.json';
 
     defineEmits<{
-        'emoji-click': (emoji: string) => void;
+        (e: 'emoji-click', emoji: string): void;
     }>();
 
     const searchEmoji = ref('');
