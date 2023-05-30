@@ -33,7 +33,7 @@
         span {
             font-size: 1.5rem;
             font-weight: 600;
-            font-family: $title-font;
+            font-family: $body-font;
             color: $secondary;
             cursor: pointer;
         }

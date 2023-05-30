@@ -1,12 +1,7 @@
 @font-face {
-    font-family: 'Alkatra';
-    src: url('~/assets/fonts/Alkatra-VariableFont_wght.ttf');
-}
-
-@font-face {
+    font-display: swap;
     font-family: 'Rubik';
     src: url('~/assets/fonts/Rubik-Regular.ttf');
 }
 
-$title-font: 'Alkatra', sans-serif;
 $body-font: 'Rubik', sans-serif;

@@ -25,7 +25,7 @@
     h1 {
         margin-bottom: 2rem;
         font-size: 2rem;
-        font-family: $title-font;
+        font-family: $body-font;
         color: #fff;
     }
 </style>

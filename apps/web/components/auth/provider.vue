@@ -44,7 +44,7 @@
         h2 {
             font-size: 1.2rem;
             font-weight: 600;
-            font-family: $title-font;
+            font-family: $body-font;
             color: #fff;
         }
 

@@ -7,6 +7,8 @@ export default defineNuxtConfig({
     },
     modules: [
         '@nuxtjs/supabase',
+        '@nuxtjs/robots',
+        '@nuxtjs/fontaine',
         '@vueuse/nuxt',
         [
             '@pinia/nuxt',
@@ -41,7 +43,7 @@ export default defineNuxtConfig({
             baseUrl: process.env.BASE_URL,
         },
     },
-    css: ['@/assets/style/main.scss'],
+    css: ['@/assets/style/reset.scss'],
     vite: {
         ssr: {
             noExternal: ['vuetify'],
@@ -54,6 +56,7 @@ export default defineNuxtConfig({
                     @import "~/assets/style/00-variables/_fonts.scss";
                     @import "~/assets/style/01-components/_buttons.scss";
                     @import "~/assets/style/01-components/_text-inputs.scss";
+                    @import "~/assets/style/main.scss";
                     `,
                 },
             },

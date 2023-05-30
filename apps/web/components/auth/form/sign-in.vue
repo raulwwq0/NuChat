@@ -83,7 +83,7 @@
         h1 {
             margin-bottom: 2rem;
             font-size: 3rem;
-            font-family: $title-font;
+            font-family: $body-font;
             color: #fff;
         }
         input {
@@ -114,14 +114,14 @@
         h2 {
             margin-bottom: 2rem;
             font-size: 2rem;
-            font-family: $title-font;
+            font-family: $body-font;
             color: $secondary;
         }
 
         p {
             margin-bottom: 2rem;
             font-size: 1.5rem;
-            font-family: $title-font;
+            font-family: $body-font;
             color: #333;
         }
 
