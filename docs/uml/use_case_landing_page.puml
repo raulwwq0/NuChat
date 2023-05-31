@@ -1,0 +1,13 @@
+@startuml use_case
+
+skinparam ActorStyle awesome
+
+actor User
+
+usecase "Click on 'Let's begin' button" as click_button
+usecase "Redirect to 'Sign in' page" as sign_in
+
+User ..> click_button
+click_button ..> sign_in
+
+@enduml

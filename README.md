@@ -68,6 +68,20 @@ These are the ports where each sub-project is expose **locally**:
 
 ## UML
 
+### Use cases
+
+#### Landing Page
+
+![Landing page UML](./docs/images/uml/use_case_landing_page.png)
+
+#### Sign In Page
+
+![Sign in UML](./docs/images/uml/use_case_sign_in.png)
+
+#### Chats Page
+
+![Chats UML](./docs/images/uml/use_case_chats.png)
+
 ### Database
 
 Since Supabase provide a lot of pre-made tables in their database, I'm going to represent only the ones that I create for this project but there are more under the hood.

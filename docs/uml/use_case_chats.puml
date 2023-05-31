@@ -1,0 +1,89 @@
+@startuml use_case
+
+skinparam ActorStyle awesome
+
+actor User
+
+
+
+usecase "Wants to start a new chat" as wants_to_start_a_new_chat
+
+User ..> wants_to_start_a_new_chat
+
+usecase "Click on the dropdown menu" as click_on_dropdown
+usecase "Click on the 'Find Chats' option" as click_on_find_chats
+usecase "Type username of the person you want to chat with" as type_username
+usecase "Open new chat automatically" as open_new_chat_automatically
+
+wants_to_start_a_new_chat ..> click_on_dropdown
+click_on_dropdown ..> click_on_find_chats
+click_on_find_chats ..> type_username
+type_username ..> open_new_chat_automatically
+
+
+
+usecase "Wants to send a message" as wants_to_send_a_message
+
+User ..> wants_to_send_a_message
+
+usecase "Click on a chat" as click_on_chat
+usecase "Send a message" as send_message
+
+wants_to_send_a_message ..> click_on_chat
+click_on_chat ..> send_message
+
+
+
+usecase "Wants to edit their profile" as wants_to_edit_their_profile
+
+User ..> wants_to_edit_their_profile
+
+usecase "Click on the dropdown menu" as click_on_dropdown2
+usecase "Click on the 'Profile' option" as click_on_profile
+usecase "Make changes to profile" as make_changes_to_profile
+usecase "Save changes" as save_changes
+usecase "Back to chats" as back_to_chats
+
+wants_to_edit_their_profile ..> click_on_dropdown2
+click_on_dropdown2 ..> click_on_profile
+click_on_profile ..> make_changes_to_profile
+make_changes_to_profile ..> save_changes
+save_changes ..> back_to_chats
+
+
+
+usecase "Wants to log out" as wants_to_log_out
+
+User ..> wants_to_log_out
+
+usecase "Click on the dropdown menu" as click_on_dropdown3
+usecase "Click on the 'Logout' option" as click_on_log_out
+usecase "Back to sign in page" as back_to_sign_in_page
+
+wants_to_log_out ..> click_on_dropdown3
+click_on_dropdown3 ..> click_on_log_out
+click_on_log_out ..> back_to_sign_in_page
+
+
+
+
+actor Admin
+
+Admin -[dashed,#ff0000]-> wants_to_start_a_new_chat
+Admin -[dashed,#ff0000]-> wants_to_send_a_message
+Admin -[dashed,#ff0000]-> wants_to_edit_their_profile
+Admin -[dashed,#ff0000]-> wants_to_log_out
+
+usecase "Wants to access admin panel" as wants_to_access_admin_panel
+
+Admin -[dashed,#ff0000]-> wants_to_access_admin_panel
+
+usecase "Click on the dropdown menu" as click_on_dropdown4
+usecase "Click on the 'Admin Panel' option" as click_on_admin_panel
+usecase "Access admin panel" as access_admin_panel
+
+wants_to_access_admin_panel -[dashed,#ff0000]-> click_on_dropdown4
+click_on_dropdown4 -[dashed,#ff0000]-> click_on_admin_panel
+click_on_admin_panel -[dashed,#ff0000]-> access_admin_panel
+
+@enduml
