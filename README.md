@@ -11,30 +11,6 @@ You can find a further explanation of every part of the project in the following
 
 ---
 
-## Low-Fi Prototypes
-
-### Landing Page
-
-![Landing page low-fi prototype](./docs/images/prototypes/landing-low.jpeg)
-
-### Sign In Form
-
-![Sign In Form low-fi prototype](./docs/images/prototypes/sign-in-low.jpeg)
-
-### Main View
-
-![Main View low-fi prototype](./docs/images/prototypes/main-view-low.jpeg)
-
-### Profile
-
-![Profile low-fi prototype](./docs/images/prototypes/profile-low.jpeg)
-
-### Admin Panel
-
-![Admin panel low-fi prototype](./docs/images/prototypes/admin-panel-low.jpeg)
-
----
-
 ## Installation
 
 This project uses [Turborepo](https://turbo.build/repo), so to install all dependencies from every part of the project you just need to run the following command:
@@ -65,3 +41,35 @@ These are the ports where each sub-project is expose **locally**:
 ## Usage
 
 `WIP`: Since the app might change from the [low-fi prototypes](#low-fi-prototypes) this section will be fulfilled when the app is going to be finished.
+
+---
+
+## Low-Fi Prototypes
+
+### Landing Page
+
+![Landing page low-fi prototype](./docs/images/prototypes/landing-low.jpeg)
+
+### Sign In Form
+
+![Sign In Form low-fi prototype](./docs/images/prototypes/sign-in-low.jpeg)
+
+### Main View
+
+![Main View low-fi prototype](./docs/images/prototypes/main-view-low.jpeg)
+
+### Profile
+
+![Profile low-fi prototype](./docs/images/prototypes/profile-low.jpeg)
+
+### Admin Panel
+
+![Admin panel low-fi prototype](./docs/images/prototypes/admin-panel-low.jpeg)
+
+## UML
+
+### Database
+
+Since Supabase provide a lot of pre-made tables in their database, I'm going to represent only the ones that I create for this project but there are more under the hood.
+
+![Database UML](./docs/images/uml/supabase.png)

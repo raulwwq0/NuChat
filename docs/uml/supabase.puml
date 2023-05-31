@@ -9,13 +9,15 @@ package Database {
         created_at: timestamp
         username: text
         full_name: text
-        avatar_url: text
+        avatar: text
+        role: text
     }
 
     entity chats {
         id: uuid <<PK>>
         --
         created_at: timestamp
+        last_message_at: timestamp
     }
 
     entity chat_user {
@@ -32,11 +34,16 @@ package Database {
         chat_id: uuid <<FK>>
         user_id: uuid <<FK>>
         content: text
+        type: text
     }
+
+    entity profiles_with_total_messages <<view>> {}
 
     chats ||..o{ messages
     profiles ||..o{ chat_user
     chats ||..o{ chat_user
+    profiles ||..|| profiles_with_total_messages
+
 }
 
 package Authentication {
@@ -51,7 +58,13 @@ package Authentication {
     Users ||..|| profiles
 }
 
-package Storage {}
-note left of Storage: Not used yet...
+package Storage {
+    circle AvatarsBucket
+
+    circle ChatsBucket
+}
+
+AvatarsBucket <-- profiles
+ChatsBucket <-- messages
 
 @enduml
