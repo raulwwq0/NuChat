@@ -1,0 +1,22 @@
+name: Plant UML
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.puml'
+
+jobs:
+  diagrams:
+    name: Draw diagrams
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Process diagrams
+        uses: Timmy/plantuml-action@v1
+        with:
+          args: 'docs/uml/*.puml -o ../images/uml'
+      - name: Upload diagrams
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'docs: uml image processed'

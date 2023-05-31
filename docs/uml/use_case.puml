@@ -1,0 +1,32 @@
+@startuml use_case
+
+skinparam ActorStyle awesome
+
+actor User
+
+package Supabase {
+    actor Authentication as supa_auth
+}
+
+package "Auth" {
+    usecase "Sign in" as sign_in
+    usecase "Process authentication" as auth
+    usecase "Complete profile" as complete_profile
+    usecase "Continue to chats" as continue_to_chats
+}
+
+note right of complete_profile
+    Only if user is new
+end note
+
+User ..> sign_in
+sign_in ..> supa_auth
+supa_auth ..> auth : <<include>>
+complete_profile ..> continue_to_chats
+auth ..> complete_profile
+auth ..> continue_to_chats
+
+
+
+
+@enduml

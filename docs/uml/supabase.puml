@@ -1,0 +1,57 @@
+@startuml supabase
+
+skinparam Linetype ortho
+
+package Database {
+    entity profiles {
+        id: uuid <<PK>> <<FK>>
+        --
+        created_at: timestamp
+        username: text
+        full_name: text
+        avatar_url: text
+    }
+
+    entity chats {
+        id: uuid <<PK>>
+        --
+        created_at: timestamp
+    }
+
+    entity chat_user {
+        chat_id: uuid <<PK>> <<FK>>
+        user_id: uuid <<PK>> <<FK>>
+        --
+        created_at: timestamp
+    }
+
+    entity messages {
+        id: uuid <<PK>>
+        --
+        created_at: timestamp
+        chat_id: uuid <<FK>>
+        user_id: uuid <<FK>>
+        content: text
+    }
+
+    chats ||..o{ messages
+    profiles ||..o{ chat_user
+    chats ||..o{ chat_user
+}
+
+package Authentication {
+    class Users {
+        Email
+        Provider
+        Created
+        Last Sign In
+        User UID
+    }
+
+    Users ||..|| profiles
+}
+
+package Storage {}
+note left of Storage: Not used yet...
+
+@enduml
