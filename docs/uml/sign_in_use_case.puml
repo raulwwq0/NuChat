@@ -6,6 +6,13 @@ actor User
 
 package Supabase {
     actor Authentication as supa_auth
+
+    note right of supa_auth
+        It can be by:
+        - Magic link
+        - OTP
+        - GitHub
+    end note
 }
 
 package "Auth" {
