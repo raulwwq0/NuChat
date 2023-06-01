@@ -1,4 +1,4 @@
-@startuml chats_use_case
+@startuml use_case_chats
 
 skinparam ActorStyle awesome
 

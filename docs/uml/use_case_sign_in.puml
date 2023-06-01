@@ -1,4 +1,4 @@
-@startuml sig_in_use_case
+@startuml use_case_sign_in
 
 skinparam ActorStyle awesome
 

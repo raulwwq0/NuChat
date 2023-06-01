@@ -1,4 +1,4 @@
-@startuml landing_page_use_case
+@startuml use_case_landing_page
 
 skinparam ActorStyle awesome
 
