@@ -15,7 +15,7 @@ jobs:
       - name: Process diagrams
         uses: Timmy/plantuml-action@v1
         with:
-          args: 'docs/uml/**.puml -o /docs/images/uml'
+          args: 'docs/uml/**.puml -o ../images/uml'
       - name: Upload diagrams
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
