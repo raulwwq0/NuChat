@@ -38,9 +38,35 @@ These are the ports where each sub-project is expose **locally**:
 
 ---
 
-## Usage
+## Screenshots
 
-`WIP`: Since the app might change from the [low-fi prototypes](#low-fi-prototypes) this section will be fulfilled when the app is going to be finished.
+### Landing Page
+
+![Landing page screenshot](./docs/images/screenshots/landing.png)
+
+### Sign In Form
+
+![Sign In Form screenshot](./docs/images/screenshots/sign-in.png)
+
+![Sign In Mail Dialog screenshot](./docs/images/screenshots/sign-in-mail-dialog.png)
+
+### Main View
+
+![No Chats screenshot](./docs/images/screenshots/no-chats.png)
+
+![Messages screenshot](./docs/images/screenshots/messages.png)
+
+![Find User Dialog screenshot](./docs/images/screenshots/find-user-dialog.png)
+
+![Dropdown screenshot](./docs/images/screenshots/dropdown.png)
+
+### Profile
+
+![Profile screenshot](./docs/images/screenshots/profile.png)
+
+### Admin Panel
+
+![Admin panel screenshot](./docs/images/screenshots/admin-panel.png)
 
 ---
 
