@@ -92,6 +92,8 @@
         background-color: white;
         padding-top: 5rem;
         position: relative;
+        max-height: 60%;
+        overflow-y: scroll;
 
         header {
             width: 100%;
