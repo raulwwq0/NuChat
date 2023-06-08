@@ -42,8 +42,8 @@
         .profile-form-admin-edit {
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
-            height: 500px;
+            margin: 20px auto;
+            height: auto;
             background-color: transparent;
             color: #000;
         }

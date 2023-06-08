@@ -128,7 +128,7 @@
             </template>
         </VDataTable>
         <span v-else>No users found</span>
-        <VDialog v-model="dialogs.edit" width="50%" height="50%">
+        <VDialog v-model="dialogs.edit" width="50%" height="90%">
             <AdminEdit
                 :profile="profileForActions!"
                 @close="closeDialog('edit')"
