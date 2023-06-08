@@ -15,6 +15,7 @@
 <template>
     <main>
         <AuthFormProfile
+            class="profile-form-admin-edit"
             :title="`Editing profile of @${profile.username}`"
             :profile="profile"
             @saved="$emit('close')"
@@ -37,6 +38,15 @@
         background-color: #fff;
         padding: 1rem;
         position: relative;
+
+        .profile-form-admin-edit {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 500px;
+            background-color: transparent;
+            color: #000;
+        }
 
         .close-icon {
             position: absolute;

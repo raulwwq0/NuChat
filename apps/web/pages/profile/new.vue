@@ -6,8 +6,13 @@
 </script>
 
 <template>
-    <AuthFormProfile
-        title="Complete your profile before start chatting"
-        @saved="() => navigateTo('/chats')"
-    />
+    <main>
+        <AuthFormProfile
+            title="Complete your profile before start chatting"
+            @saved="() => navigateTo('/chats')"
+        />
+        <LazyClientOnly>
+            <ParticlesBg />
+        </LazyClientOnly>
+    </main>
 </template>

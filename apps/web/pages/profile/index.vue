@@ -12,9 +12,14 @@
 </script>
 
 <template>
-    <AuthFormProfile
-        title="Your profile"
-        :profile="profile"
-        @saved="() => navigateTo('/chats')"
-    />
+    <main>
+        <AuthFormProfile
+            title="Your profile"
+            :profile="profile"
+            @saved="() => navigateTo('/chats')"
+        />
+        <LazyClientOnly>
+            <ParticlesBg />
+        </LazyClientOnly>
+    </main>
 </template>

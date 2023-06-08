@@ -83,7 +83,7 @@
 </script>
 
 <template>
-    <main>
+    <main class="profile-form">
         <h1>{{ $props.title }}</h1>
         <VeeForm :validation-schema="validationSchema" @submit="saveProfile">
             <label for="avatarUrl">
@@ -124,22 +124,28 @@
                 <option :value="Role.USER">User</option>
                 <option :value="Role.ADMIN">Admin</option>
             </VeeField>
-            <button type="submit">Save</button>
+            <button type="submit" class="btn">Save</button>
         </VeeForm>
     </main>
 </template>
 
 <style lang="scss" scoped>
-    main {
+    main.profile-form {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
+        background-color: $primary;
+        color: #fff;
+        width: 30%;
+        margin: 0 auto;
+        z-index: 2;
 
         h1 {
-            font-size: 2rem;
+            font-size: 3rem;
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         form {
@@ -151,7 +157,7 @@
             label {
                 width: 100%;
                 margin-bottom: 0.5rem;
-                font-size: 1.2rem;
+                font-size: 1.5rem;
                 display: flex;
                 justify-content: center;
                 cursor: pointer;
@@ -194,15 +200,7 @@
             }
 
             button {
-                width: 100%;
-                padding: 1rem;
-                margin-top: 1rem;
-                border: 1px solid #ccc;
-                border-radius: 0.5rem;
-                font-size: 1rem;
-                background-color: #000;
-                color: #fff;
-                cursor: pointer;
+                border: none;
             }
         }
     }
