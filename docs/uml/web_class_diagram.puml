@@ -1,0 +1,196 @@
+@startuml web_class_diagram
+
+skinparam Linetype ortho
+
+package Web {
+    package Components {
+        package "Admin" as component_admin {
+            class "delete" as component_admin_delete {
+                {field} props = {profile: Profile;}
+                {field} emit = {(e: 'close'): void;}
+                {field} <<useAdmin>> deleteProfile()
+                {field} <<useSwal>> errorNotification()
+                
+                {method} handleError(): void
+            }
+
+            class "edit" as component_admin_edit {
+                {field} props = {profile: Profile;}
+                {field} emit = {(e: 'close'): void;}
+            }
+        }
+
+        package "Auth" as component_auth {
+            package "Form" as component_auth_form {
+                class "profile" as component_auth_form_profile {
+                    {field} props = {title: string; profile?: Profile; adminFields?: boolean;}
+                    {field} emit = {(e: 'saved'): void;}
+                    {field} <<useSupabaseUser>> user
+                    {field} <<useDefaultAvatar>> ifNeeded()
+                    {field} <<useBucket>> upload()
+                    {field} <<useBucket>> get()
+                    {field} <<useProfile>> upsert()
+                    {field} profile: Profile
+                    {field} userAvatar: string
+                    {field} validationSchema: Yup.ObjectSchema
+
+                    {method} getAvatar(avatar: string): void
+                    {method} uploadAvatar(): void
+                    {method} saveProfile(): void
+                }
+
+                class "sign-in" as component_auth_form_sign_in {
+                    {field} <<useSwal>> errorNotification()
+                    {field} <<useAuth>> signInWithEmail()
+                    {field} <<useAuth>> verifyOTP()
+                    {field} isSendingLink: boolean
+                    {field} emailSentDialog: boolean
+                    {field} email: string
+                    {field} emailCode: string
+
+                    {method} handleLogin(): void
+                    {method} handleVerifyOTP(): void
+                }
+            }
+
+            class "logout" as component_auth_logout {
+                {field} <<useSupabaseClient>> supabase
+                {field} <<useSwal>> errorNotification()
+
+                {method} logout(): void
+            }
+
+            class "provider" as component_auth_provider {}
+        }
+
+        package "Chats" as component_chats {
+            class "drag-drop-upload-image" as component_chats_drag_drop_upload_image {}
+
+            class "drowpdown-menu" as component_chats_dropdown_menu {}
+
+            class "emoji-picker" as component_chats_emoji_picker {}
+
+            class "find-new" as component_chats_find_new {}
+
+            class "list-item" as component_chats_list_item {}
+
+            class "list" as component_chats_list {}
+
+            class "message" as component_chats_message {}
+
+            class "messages" as component_chats_messages {}
+
+            class "send-message" as component_chats_send_message {}
+
+            class "upload-image" as component_chats_upload_image {}
+        }
+
+        class "particles-bg" as component_particles_bg {}
+    }
+
+    package Composables {
+        class "use-admin" as composable_use_admin {}
+
+        class "use-auth" as composable_use_auth {}
+
+        class "use-bucket" as composable_use_bucket {}
+
+        class "use-chat" as composable_use_chat {}
+
+        class "use-default-avatar" as composable_use_default_avatar {}
+
+        class "use-messages" as composable_use_messages {}
+
+        class "use-profile" as composable_use_profile {}
+
+        class "use-swal" as composable_use_swal {}
+    }
+
+    package Enums {
+        enum "message" as enum_message {}
+
+        enum "role" as enum_role {}
+    }
+
+    package Exceptions {
+        class "non-valid-image-type" as exception_non_valid_image_type {}
+
+        class "supabase-auth" as exception_supabase_auth {}
+
+        class "supabase" as exception_supabase {}
+    }
+
+    package Interfaces {
+        interface "chat-user" as interface_chat_user {}
+
+        interface "chat" as interface_chat {}
+
+        interface "message" as interface_message {}
+
+        interface "profile" as interface_profile {}
+
+        interface "user" as interface_user {}
+    }
+
+    package Layouts {
+        class "auth" as layout_auth {}
+
+        class "chats" as layout_chats {}
+    }
+
+    package Middleware {
+        class "already-authenticated" as middleware_already_authenticated {}
+
+        class "authenticated" as middleware_authenticated {}
+
+        class "empty-profile" as middleware_empty_profile {}
+
+        class "is-admin" as middleware_is_admin {}
+    }
+
+    package Pages {
+        package "Admin" as page_admin {
+            class "index" as page_admin_index {}
+        }
+
+        package "Auth" as page_auth {
+            class "processing" as page_auth_processing {}
+
+            class "sign-in" as page_auth_sign_in {}
+        }
+
+        package "Chats" as page_chats {
+            package "[id]" {
+                class "messages" as page_chats_id_messages {}
+            }
+
+            class "index" as page_chats_index {}
+        }
+
+        package "Profile" as page_profile {
+            class "index" as page_profile_index {}
+
+            class "new" as page_profile_new {}
+        }
+
+        class "index" as page_index {}
+    }
+
+    package Plugins {
+        class "particles" as plugin_particles {}
+
+        class "vuetify" as plugin_vuetify {}
+    }
+
+    package Stores {
+        class "chats" as store_chats {}
+
+        class "profile" as store_profile {}
+    }
+
+    package Types {
+        class "oauth-provider" as type_oauth_provider {}
+    }
+}
+
+@enduml
