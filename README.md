@@ -36,6 +36,19 @@ These are the ports where each sub-project is expose **locally**:
 -   Supabase (API): `3200`
 -   SonarQube: `3300`
 
+### Dev Users
+
+When running Supabase in development mode, it creates a some users. Since the project uses emails to identify users, I decided to use [Yopmail](https://yopmail.com/) to create some fake emails to use in development mode. These are the emails that you can use to sign in:
+
+- `nuchat-admin@yopmail.com` (Admin)
+- `nuchat-userX@yopmail.com` (User) where `X` is a number between 1 and 20.
+
+After using one of these emails to sign in, you will receive an email with a magic link and a code. You can use the code to sign in or just click the magic link.
+
+You can also use the Github sign in button to sign in with your Github account.
+
+> **Warning**: Don't use these emails in production mode since anyone can access them.
+
 ---
 
 ## Screenshots
