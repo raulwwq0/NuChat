@@ -54,62 +54,252 @@ package Web {
             }
 
             class "logout" as component_auth_logout {
-                {field} <<useSupabaseClient>> supabase
+                {field} <<useSupabaseClient>> supabase: SupabaseClient
                 {field} <<useSwal>> errorNotification()
 
                 {method} logout(): void
             }
 
-            class "provider" as component_auth_provider {}
+            class "provider" as component_auth_provider {
+                {field} props = {provider: OAuthProvider, icon: string}
+                {field} <<useSwal>> errorNotification()
+                {field} <<useAuth>> signInOAuth()
+
+                {method} handleOAuth(): void
+            }
         }
 
         package "Chats" as component_chats {
-            class "drag-drop-upload-image" as component_chats_drag_drop_upload_image {}
+            class "drag-drop-upload-image" as component_chats_drag_drop_upload_image {
+                {field} <<useRoute>> route: RouteLocationNormalized
+                {field} dropArea: ref<HTMLElement | null>
+                {field} <<useSwal>> errorNotification()
+                {field} <<useBucket>> upload()
 
-            class "drowpdown-menu" as component_chats_dropdown_menu {}
+                {method} uploadImages(e: DragEvent): void
+                {method} highlight(): void
+                {method} unhighlight(): void
+                {method} onDragEnter(): void
+                {method} onDragLeave(): void
+                {method} onDrop(e: DragEvent): void
+            }
 
-            class "emoji-picker" as component_chats_emoji_picker {}
+            class "drowpdown-menu" as component_chats_dropdown_menu {
+                {field} <<useSupabaseClient>> supabase: SupabaseClient
+                {field} <<useProfileStore>> profile: ref<Profile | undefined>
+                {field} <<useProfileStore>> isAdmin(): boolean
+                {field} <<useDefaultAvatar>> ifNeeded()
+                {field} <<useBucket>> get()
+                {field} <<useSwal>> errorNotification()
+                {field} avatarUrl: ref<string>
+                {field} emit = {(e: 'open-dialog'): void;}
+                {field} menu: ref<boolean>
+                {field} menuItem: Array
 
-            class "find-new" as component_chats_find_new {}
+                {method} getUserAvatar(): void
+                {method} logout(): void              
+            }
 
-            class "list-item" as component_chats_list_item {}
+            class "emoji-picker" as component_chats_emoji_picker {
+                {field} data: JSON
+                {field} emit = {(e: 'emoji-click', emoji: string): void;}
+                {field} searchEmoji: ref<string>
+                {field} categories: computed<string[]>
 
-            class "list" as component_chats_list {}
+                {method} allCategoryEmojis(category: string): string[]
+                {method} filteredCategoryEmojis(category: string): string[]
+            }
 
-            class "message" as component_chats_message {}
+            class "find-new" as component_chats_find_new {
+                {field} username: ref<string>
+                {field} <<useSwal>> errorNotification()
+                {field} <<useBucket>> get()
+                {field} <<useChat>> create()
+                {field} <<useProfile>> findByUsername()
+                {field} profilesFound: ref<Profile[]>
+                {field} areUsersFound: computed<boolean>
+                {field} emit = {(e: 'close'): void;}
 
-            class "messages" as component_chats_messages {}
+                {method} findUserByUsername(): void
+                {method} createChat(profileId: string): void
+            }
 
-            class "send-message" as component_chats_send_message {}
+            class "list-item" as component_chats_list_item {
+                {field} <<useDefaultAvatar>> ifNeeded()
+                {field} props = {data: any}
 
-            class "upload-image" as component_chats_upload_image {}
+                {method} isChatWithAdmin(role: Role): boolean
+            }
+
+            class "list" as component_chats_list {
+                {field} <<useChatsStore>> chats: ref<Chat[]>
+                {field} <<useChatsStore>> areChatsEmpty: computed<boolean>
+                {field} <<useChatsStore>> areChatsLoading: computed<boolean>
+                {field} <<useChatsStore>> fetchAllUserChats()
+                {field} <<useChatsStore>> startChatWatcher()
+                {field} <<useChatsStore>> stopChatWatcher()
+                {field} <<useBucket>> get()
+                {field} <<useSwal>> errorNotification()
+                {field} chatsProfile: ref<any[]>
+
+                {method} chatsProfilesWithRoomId(): void
+                {method} prepareChatList(): void
+            }
+
+            class "message" as component_chats_message {
+                {field} <<useSupabaseUser>> user: ref<User | null>
+                {field} <<useSwal>> errorNotification()
+                {field} <<useBucket>> get()
+                {field} imageUrl: ref<string>
+                {field} props = {message: Message}
+                {field} emit = {(e: 'img-loaded): void;}
+                {field} isOwnMessage: computed<boolean>
+                {field} isTextMessage: computed<boolean>
+                {field} isImageMessage: computed<boolean>
+                {field} dateFormatted: computed<string>
+            }
+
+            class "messages" as component_chats_messages {
+                {field} chatId: string
+                {field} <<useDefaultAvatar>> ifNeeded()
+                {field} <<useSwal>> errorNotification()
+                {field} <<useBucket>> get() "as getAvatar"
+                {field} <<useMessages>> get() "as getMessages"
+                {field} <<useMessages>> startMessagesWatcher()
+                {field} <<useMessages>> stopMessagesWatcher()
+                {field} messages: ref<Message[]>
+                {field} areMessagesLoading: computed<boolean>
+                {field} messageList: ref<HTMLElement>
+                {field} scrollBehavior: ref<'smooth' | 'auto'>
+                {field} <<useScroll>> y "as messageListVerticalScrollPosition"
+                {field} profile: reactive<Profile>
+                {field} isAtBottom: computed<boolean>
+
+                {method} updateMessages(): Promise<void>
+                {method} scrollToBottom(): void
+            }
+
+            class "send-message" as component_chats_send_message {
+                {field} props = {chatId: string}
+                {field} emit = {(e: 'message-sent'): void;}
+                {field} <<useSupabaseUser>> user: ref<User | null>
+                {field} <<useMessages>> send()
+                {field} <<useMessages>> sendImage()
+                {field} <<useChat>> updateLastMessageAt()
+                {field} <<useSwal>> errorNotification()
+                {field} userId: ref<string>
+                {field} messageContent: ref<string>
+                {field} isMessageEmpty: computed<boolean>
+
+                {method} handleSendMessage(): void
+                {method} handleSendImage(path: string): void
+            }
+
+            class "upload-image" as component_chats_upload_image {
+                {field} <<useBucket>> upload()
+                {field} <<useSwal>> errorNotification()
+                {field} emit = {(e: 'image-uploaded', path: string): void;}
+                {field} image: ref<File | null>
+
+                {method} uploadImage(e: Event): void
+            }
         }
 
-        class "particles-bg" as component_particles_bg {}
+        class "particles-bg" as component_particles_bg {
+            {method} particlesInit(): Promise<void>
+        }
     }
 
     package Composables {
-        class "use-admin" as composable_use_admin {}
+        class "use-admin" as composable_use_admin {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} profilesWithTotalMessages: ref<ProfileWithTotalMessages[]>
+            {field} chatsWatcher: ref
+            {field} <<useBucket>> get()
 
-        class "use-auth" as composable_use_auth {}
+            {method} fetchAllProfilesWithTotalMessages(): Promise<void>
+            {method} deleteProfile(profileId: string): Promise<void>
+            {method} deleteUsersChats(userId: string): Promise<void>
+            {method} startChatsWatcher(): void
+            {method} stopChatsWatcher(): void
+        }
 
-        class "use-bucket" as composable_use_bucket {}
+        class "use-auth" as composable_use_auth {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useRuntimeConfig>> config: RuntimeConfig
 
-        class "use-chat" as composable_use_chat {}
+            {method} signInWithEmail(email: string): Promise<void>
+            {method} signInWithOAuth(): Promise<void>
+            {method} verifyOTP(email: string, token: string): Promise<void>
+        }
 
-        class "use-default-avatar" as composable_use_default_avatar {}
+        class "use-bucket" as composable_use_bucket {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            {field} <<useRoute>> route: RouteLocationNormalizedLoaded
+            {field} image: ref<File | null>
 
-        class "use-messages" as composable_use_messages {}
+            {method} get(): string
+            {method} upload(file: File | string): Promise<string>
+        }
 
-        class "use-profile" as composable_use_profile {}
+        class "use-chat" as composable_use_chat {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            {field} chatId: string = uuidv4()
 
-        class "use-swal" as composable_use_swal {}
+            {method} alreadyExists(): Promise<ChatUser[]>
+            {method} createRoom(): Promise<void>
+            {method} addUsers(userId: string): Promise<string>
+            {method} create(userId: string): Promise<string>
+            {method} updateLastMessageAt(): Promise<void>
+        }
+
+        class "use-default-avatar" as composable_use_default_avatar {
+            {field} <<useRuntimeConfig>> config: RuntimeConfig
+
+            {method} ifNeeded(url: string): string
+        }
+
+        class "use-messages" as composable_use_messages {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            {field} userId: computed<string>
+            {field} messageWatcher: ref
+
+            {method} send(message: string): Promise<void>
+            {method} sendImage(path: string): Promise<void>
+            {method} get(): Promise<void>
+            {method} startMessagesWatcher(callback: Function): void
+            {method} stopMessagesWatcher(): void
+        }
+
+        class "use-profile" as composable_use_profile {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            
+            {menthod} fetchChatUsers(): Promise<never[]>
+            {method} fetchProfile(userId: string): Promise<Profile>
+            {method} getFromChatId(chatId: string): Promise<Profile>
+            {method} findByUserId(userId: string): Promise<Profile>
+            {method} upsert(profile: Profile): Promise<void>
+        }
+
+        class "use-swal" as composable_use_swal {
+            {method} errorNotification(message: string): void
+        }
     }
 
     package Enums {
-        enum "message" as enum_message {}
+        enum "MessageType" as enum_message {
+            {field} TEXT
+            {field} IMAGE
+        }
 
-        enum "role" as enum_role {}
+        enum "Role" as enum_role {
+            {field} ADMIN
+            {field} USER
+        }
     }
 
     package Exceptions {
@@ -121,54 +311,125 @@ package Web {
     }
 
     package Interfaces {
-        interface "chat-user" as interface_chat_user {}
+        interface "ChatUser" as interface_chat_user {
+            {field} chat_id: string
+            {field} user_id: string
+            {field} created_at: string
+        }
 
-        interface "chat" as interface_chat {}
+        interface "Chat" as interface_chat {
+            {field} id: string
+            {field} created_at: string
+            {field} users: User[]
+        }
 
-        interface "message" as interface_message {}
+        interface "Message" as interface_message {
+            {field} id: string
+            {field} created_at: string
+            {field} chat_id: string
+            {field} user_id: string
+            {field} content: string
+            {field} type: MessageType
+        }
 
-        interface "profile" as interface_profile {}
+        interface "Profile" as interface_profile {
+            {field} id: string
+            {field} username: string
+            {field} full_name: string
+            {field} avatar: string
+            {field} role: Role
+        }
 
-        interface "user" as interface_user {}
+        interface "ProfileWithTotalMessages" as interface_profile_with_total_messages {
+            {field} total_messages: number
+            {field} avatarUrl: string
+        }
+
+        interface "User" as interface_user {
+            {field} profile: Profile
+        }
     }
 
     package Layouts {
         class "auth" as layout_auth {}
 
-        class "chats" as layout_chats {}
+        class "chats" as layout_chats {
+            {field} <<useRoute>> route: RouteLocationNormalizedLoaded
+            {field} newChatDialog: ref<boolean>
+        }
     }
 
     package Middleware {
-        class "already-authenticated" as middleware_already_authenticated {}
+        class "already-authenticated" as middleware_already_authenticated {
+            {field} <<useSupabaseUser>> user: ref<User | null>
+        }
 
-        class "authenticated" as middleware_authenticated {}
+        class "authenticated" as middleware_authenticated {
+            {field} <<useSupabaseUser>> user: ref<User | null>
+        }
 
-        class "empty-profile" as middleware_empty_profile {}
+        class "empty-profile" as middleware_empty_profile {
+            {field} <<useProfileStore>> fetch()
+            {field} <<useProfileStore>> profile: Profile
+        }
 
-        class "is-admin" as middleware_is_admin {}
+        class "is-admin" as middleware_is_admin {
+            {field} <<useProfileStore>> isAdmin()
+        }
     }
 
     package Pages {
         package "Admin" as page_admin {
-            class "index" as page_admin_index {}
+            class "index" as page_admin_index {
+                {field} <<useSwal>> errorNotification()
+                {field} <<useDefaultAvatar>> ifNeeded()
+                {field} <<useBucket>> get()
+                {field} <<useAdmin>> profilesWithTotalMessages "as profiles"
+                {field} <<useAdmin>> fetchAllProfilesWithTotalMessages()
+                {field} <<useAdmin>> startProfilesWatcher()
+                {field} <<useAdmin>> stopProfilesWatcher()
+                {field} <<type>> Dialogs = 'edit' | 'delete'
+                {field} dialogs = reactive({edit: false, delete: false})
+                {field} profileForActions: ref<Profile | null>
+                {field} headers: Array
+
+                {method} prepareProfileForActions(profile: ProfileWithTotalMessages): void
+                {method} openDialog(dialog: Dialogs, profile: ProfileWithTotalMessages): void
+                {method} closeDialog(dialog: Dialogs): void
+            }
         }
 
         package "Auth" as page_auth {
             class "processing" as page_auth_processing {}
 
-            class "sign-in" as page_auth_sign_in {}
+            class "sign-in" as page_auth_sign_in {
+                {field} middleware = [already-authenticated]
+            }
         }
 
         package "Chats" as page_chats {
             package "[id]" {
-                class "messages" as page_chats_id_messages {}
+                class "messages" as page_chats_id_messages {
+                    {field} middleware = [authenticated, empty-profile]
+                    {field} layout = chats
+                    {field} chatId: string
+                    {field} profile: ref<Profile>
+                    {field} <<useProfile>> getFromChatId()
+                    {field} <<useSwal>> errorNotification()
+                }
             }
 
-            class "index" as page_chats_index {}
+            class "index" as page_chats_index {
+                {field} middleware = [authenticated, empty-profile]
+                {field} layout = chats
+            }
         }
 
         package "Profile" as page_profile {
-            class "index" as page_profile_index {}
+            class "index" as page_profile_index {
+                {field} middleware = [authenticated, empty-profile]
+                {field} <<useProfileStore>> profile: Profile
+            }
 
             class "new" as page_profile_new {}
         }
@@ -176,21 +437,184 @@ package Web {
         class "index" as page_index {}
     }
 
-    package Plugins {
-        class "particles" as plugin_particles {}
-
-        class "vuetify" as plugin_vuetify {}
-    }
-
     package Stores {
-        class "chats" as store_chats {}
+        class "chats" as store_chats {
+            {field} <<useSupabaseClient>> supabase: SupabaseClient
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            {field} chats: ref<Chat[]>
+            {field} chatsWatcher: ref
+            {field} areChatsEmpty: computed<boolean>
+            {field} areChatsLoading: computed<boolean>
 
-        class "profile" as store_profile {}
+            {method} fetchAllUserChats(): Promise<void>
+            {method} startChatsWatcher(): void
+            {method} stopChatsWatcher(): void
+        }
+
+        class "profile" as store_profile {
+            {field} <<useSupabaseUser>> user: ref<User | null>
+            {field} profile: ref<Profile>
+            {field} <<useProfile>> fetchProfile()
+
+            {method} isAdmin(): boolean
+            {method} fetch(): Promise<void>
+        }
     }
 
     package Types {
         class "oauth-provider" as type_oauth_provider {}
     }
 }
+
+
+component_admin_delete ..> composable_use_swal
+component_admin_delete ..> composable_use_admin
+component_admin_delete ..> interface_profile
+
+component_admin_edit ..> interface_profile
+
+component_auth_form_profile ..> composable_use_default_avatar
+component_auth_form_profile ..> composable_use_bucket
+component_auth_form_profile ..> composable_use_profile
+component_auth_form_profile ..> interface_profile
+
+component_auth_form_sign_in ..> composable_use_swal
+component_auth_form_sign_in ..> composable_use_auth
+
+component_auth_logout ..> composable_use_swal
+
+component_auth_provider ..> composable_use_swal
+component_auth_provider ..> composable_use_auth
+
+component_chats_drag_drop_upload_image ..> composable_use_swal
+component_chats_drag_drop_upload_image ..> composable_use_bucket
+
+component_chats_dropdown_menu ..> composable_use_swal
+component_chats_dropdown_menu ..> composable_use_default_avatar
+component_chats_dropdown_menu ..> composable_use_bucket
+component_chats_dropdown_menu ..> store_profile
+
+component_chats_find_new ..> composable_use_swal
+component_chats_find_new ..> composable_use_bucket
+component_chats_find_new ..> composable_use_chat
+component_chats_find_new ..> composable_use_profile
+component_chats_find_new ..> interface_profile
+
+component_chats_list_item ..> composable_use_default_avatar
+component_chats_list_item ..> enum_role
+
+component_chats_list ..> store_chats
+component_chats_list ..> composable_use_bucket
+component_chats_list ..> composable_use_swal
+component_chats_list ..> component_chats_list_item : use
+
+component_chats_message ..> composable_use_swal
+component_chats_message ..> composable_use_bucket
+component_chats_message ..> interface_message
+component_chats_message ..> enum_message
+
+component_chats_messages ..> composable_use_default_avatar
+component_chats_messages ..> composable_use_swal
+component_chats_messages ..> composable_use_bucket
+component_chats_messages ..> composable_use_messages
+component_chats_messages ..> interface_profile
+component_chats_messages ..> interface_message
+component_chats_messages ..> component_chats_message : use
+component_chats_messages ..> component_chats_send_message : use
+
+component_chats_send_message ..> composable_use_chat
+component_chats_send_message ..> composable_use_messages
+component_chats_send_message ..> composable_use_swal
+component_chats_send_message ..> interface_message
+component_chats_send_message ..> enum_message
+component_chats_send_message ..> component_chats_upload_image : use
+component_chats_send_message ..> component_chats_emoji_picker : use
+
+component_chats_upload_image ..> composable_use_swal
+component_chats_upload_image ..> composable_use_bucket
+
+composable_use_admin ..> composable_use_bucket
+composable_use_admin ..> interface_chat_user
+composable_use_admin ..> interface_profile_with_total_messages
+composable_use_admin ..> exception_supabase
+
+composable_use_auth ..> type_oauth_provider
+composable_use_auth ..> exception_supabase_auth
+
+composable_use_bucket ..> exception_non_valid_image_type
+composable_use_bucket ..> exception_supabase
+
+composable_use_chat ..> interface_chat_user
+composable_use_chat ..> exception_supabase
+
+composable_use_messages ..> interface_message
+composable_use_messages ..> enum_message
+composable_use_messages ..> exception_supabase
+
+composable_use_profile ..> interface_chat_user
+composable_use_profile ..> interface_profile
+composable_use_profile ..> exception_supabase
+
+interface_chat ..> interface_user
+
+interface_message ..> enum_message
+
+interface_profile ..> enum_role
+
+interface_profile_with_total_messages ..|> interface_profile
+
+interface_user ..> interface_profile
+
+layout_auth ..> component_particles_bg : use
+
+layout_chats ..> component_chats_dropdown_menu : use
+layout_chats ..> component_chats_list : use
+layout_chats ..> component_chats_drag_drop_upload_image : use
+layout_chats ..> component_chats_find_new : use
+layout_chats ..> component_particles_bg : use
+
+middleware_empty_profile ..> store_profile
+
+middleware_is_admin ..> store_profile
+
+page_admin_index ..> composable_use_swal
+page_admin_index ..> composable_use_default_avatar
+page_admin_index ..> composable_use_admin
+page_admin_index ..> interface_profile
+page_admin_index ..> interface_profile_with_total_messages
+page_admin_index ..> middleware_authenticated
+page_admin_index ..> middleware_empty_profile
+page_admin_index ..> middleware_is_admin
+page_admin_index ..> component_admin_edit : use
+page_admin_index ..> component_admin_delete : use
+
+page_auth_sign_in ..> middleware_already_authenticated
+page_auth_sign_in ..> component_auth_form_sign_in : use
+page_auth_sign_in ..> component_auth_provider : use
+
+page_chats_id_messages ..> interface_profile
+page_chats_id_messages ..> middleware_authenticated
+page_chats_id_messages ..> middleware_empty_profile
+page_chats_id_messages ..> composable_use_profile
+page_chats_id_messages ..> composable_use_swal
+page_chats_id_messages ..> component_chats_messages : use
+
+page_chats_index ..> middleware_authenticated
+page_chats_index ..> middleware_empty_profile
+
+page_profile_index ..> middleware_authenticated
+page_profile_index ..> middleware_empty_profile
+page_profile_index ..> component_auth_form_profile : use
+page_profile_index ..> component_particles_bg : use
+
+page_profile_new ..> component_auth_form_profile : use
+page_profile_new ..> component_particles_bg : use
+
+page_index ..> component_particles_bg : use
+
+store_chats ..> interface_chat
+
+store_profile ..> interface_profile
+store_profile ..> enum_role
 
 @enduml

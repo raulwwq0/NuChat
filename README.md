@@ -113,3 +113,7 @@ These are the ports where each sub-project is expose **locally**:
 Since Supabase provide a lot of pre-made tables in their database, I'm going to represent only the ones that I create for this project but there are more under the hood.
 
 ![Database UML](./docs/images/uml/supabase.png)
+
+### Web Class Diagram
+
+![Web Class Diagram](./docs/images/uml/web_class_diagram.png)
