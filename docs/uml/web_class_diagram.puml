@@ -1,5 +1,6 @@
 @startuml web_class_diagram
 
+scale 0.5
 skinparam Linetype ortho
 
 package Web {
