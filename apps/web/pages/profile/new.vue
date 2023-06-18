@@ -3,6 +3,9 @@
         title: 'NuChat | Complete your profile',
         description: 'Create a new profile',
     });
+    definePageMeta({
+        middleware: ['valid-screen'],
+    });
 </script>
 
 <template>

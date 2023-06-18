@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     definePageMeta({
-        middleware: ['authenticated', 'empty-profile'],
+        middleware: ['authenticated', 'empty-profile', 'valid-screen'],
         layout: 'chats',
     });
     useSeoMeta({

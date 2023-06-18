@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     definePageMeta({
-        middleware: ['empty-profile', 'authenticated'],
+        middleware: ['empty-profile', 'authenticated', 'valid-screen'],
     });
 
     useServerSeoMeta({

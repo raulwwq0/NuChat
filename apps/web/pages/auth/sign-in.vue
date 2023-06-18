@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     definePageMeta({
-        middleware: ['already-authenticated'],
+        middleware: ['already-authenticated', 'valid-screen'],
     });
 
     useServerSeoMeta({

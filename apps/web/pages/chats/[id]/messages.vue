@@ -2,7 +2,7 @@
     import { Profile } from '~~/interfaces/profile.interface';
 
     definePageMeta({
-        middleware: ['authenticated', 'empty-profile'],
+        middleware: ['authenticated', 'empty-profile', 'valid-screen'],
         layout: 'chats',
     });
 

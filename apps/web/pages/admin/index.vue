@@ -5,7 +5,12 @@
     } from '~~/interfaces/profile.interface';
 
     definePageMeta({
-        middleware: ['authenticated', 'empty-profile', 'is-admin'],
+        middleware: [
+            'authenticated',
+            'empty-profile',
+            'is-admin',
+            'valid-screen',
+        ],
     });
 
     useServerSeoMeta({

@@ -3,6 +3,9 @@
         title: 'NuChat | Processing',
         description: 'Just a chat app built with Nuxt 3 and Supabase',
     });
+    definePageMeta({
+        middleware: ['valid-screen'],
+    });
     preloadRouteComponents('/chats');
     setTimeout(() => {
         navigateTo('/chats');
