@@ -9,6 +9,7 @@ export default defineNuxtConfig({
         '@nuxtjs/supabase',
         '@nuxtjs/robots',
         '@nuxtjs/fontaine',
+        '@nuxtjs/device',
         '@vueuse/nuxt',
         [
             '@pinia/nuxt',
@@ -47,6 +48,9 @@ export default defineNuxtConfig({
         },
     },
     css: ['@/assets/style/reset.scss'],
+    device: {
+        refreshOnResize: true,
+    },
     vite: {
         ssr: {
             noExternal: ['vuetify'],
